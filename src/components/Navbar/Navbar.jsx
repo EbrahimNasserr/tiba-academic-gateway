@@ -22,6 +22,7 @@ export default function Navbar() {
                 alt="logo"
                 width={50}
                 height={50}
+                loading="lazy"
               />
             </Link>
           </div>

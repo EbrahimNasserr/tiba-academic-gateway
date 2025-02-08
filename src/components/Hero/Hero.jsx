@@ -49,6 +49,7 @@ export default function Hero() {
                 alt="hero"
                 width={500}
                 height={500}
+                loading="lazy"
               />
             </div>
           </div>
