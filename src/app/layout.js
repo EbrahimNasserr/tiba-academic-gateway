@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -57,7 +58,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body style={{ fontFamily: poppins.style.fontFamily }}>
         <Navbar />
-        <main className="max-w-screen-xl mx-auto">{children}</main>
+        <main className="">{children}</main>
+        <Footer />
       </body>
     </html>
   );

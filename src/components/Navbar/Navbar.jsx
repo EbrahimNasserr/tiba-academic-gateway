@@ -11,8 +11,8 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="bg-[#FCF8F1] bg-opacity-30 max-w-screen-xl mx-auto">
-      <div className="px-4 mx-auto sm:px-6 lg:px-8 py-4">
+    <header className="max-w-screen-xl mx-auto mt-6">
+      <div className="custom-container">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <div className="flex-shrink-0">
             <Link href="/" title className="flex">
@@ -28,7 +28,7 @@ export default function Navbar() {
           </div>
           <button
             type="button"
-            className="inline-flex p-2 text-black transition-all duration-200 rounded-md lg:hidden focus:bg-gray-100 hover:bg-gray-100"
+            className="inline-flex p-2 text-primary transition-all duration-200 rounded-md lg:hidden focus:bg-gray-100 hover:bg-gray-100"
           >
             {/* Menu open: "hidden", Menu closed: "block" */}
             <svg
@@ -66,18 +66,12 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 key={link.name}
-                className="text-base text-black transition-all duration-200 hover:text-opacity-80"
+                className="text-base text-primary transition-all duration-200 hover:text-opacity-80"
               >
                 {link.name}
               </Link>
             ))}
           </div>
-          <button
-            className="hidden lg:inline-flex items-center justify-center px-5 py-2.5 text-base transition-all duration-200 hover:bg-yellow-300 hover:text-black focus:text-black focus:bg-yellow-300 font-semibold text-white bg-black rounded-full"
-            role="button"
-          >
-            Join Now
-          </button>
         </div>
       </div>
     </header>
