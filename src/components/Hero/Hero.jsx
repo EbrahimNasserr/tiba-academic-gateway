@@ -1,5 +1,4 @@
 import Image from "next/image";
-// import Preloader from "../Preloader/Preloader";
 import BlurText from "./BlurText/BlurText";
 export default function Hero() {
   return (
@@ -19,9 +18,9 @@ export default function Hero() {
                 delay={150}
                 animateBy="words"
                 direction="top"
-                className="mt-4 text-4xl font-bold text-primary lg:mt-8 sm:text-6xl xl:text-8xl"
+                className="mt-4 text-4xl font-bold lg:mt-8 sm:text-6xl xl:text-8xl"
               />
-              <p className="mt-4 text-base text-primary lg:mt-8 sm:text-xl">
+              <p className="mt-4 text-base lg:mt-8 sm:text-xl">
                 Grow your career fast with right mentor.
               </p>
             </div>
@@ -38,7 +37,6 @@ export default function Hero() {
           </div>
         </div>
       </section>
-      {/* <Preloader /> */}
     </div>
   );
 }

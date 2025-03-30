@@ -15,7 +15,7 @@ import {
   useRef,
   useState,
 } from "react";
-
+import DarkModeSwitch from "../LightModeToggle/Toggle";
 function DockItem({
   children,
   className = "",
@@ -44,8 +44,6 @@ function DockItem({
   );
   const size = useSpring(targetSize, spring);
 
-  
-
   return (
     <motion.div
       ref={ref}
@@ -58,7 +56,7 @@ function DockItem({
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      className={`relative inline-flex items-center justify-center rounded-full bg-[#060606] border-neutral-700 border-2 shadow-md ${className}`}
+      className={`relative inline-flex items-center justify-center rounded-full bg-[#060606] dark:bg-primary border-neutral-700 border-2 shadow-md ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
@@ -128,7 +126,7 @@ export default function BottomNav({
 
   return (
     <motion.div
-      style={{ height, scrollbarWidth: "none" }}
+      style={{ scrollbarWidth: "none" }}
       className="mx-2 flex max-w-full items-center"
     >
       <motion.div
@@ -160,6 +158,7 @@ export default function BottomNav({
             <DockLabel>{item.label}</DockLabel>
           </DockItem>
         ))}
+        <DarkModeSwitch />
       </motion.div>
     </motion.div>
   );

@@ -1180,6 +1180,7 @@ export default function InfiniteMenu({ items = [] }) {
           font-black
           [font-size:4rem]
           left-[1.6em]
+          text-primary
           top-1/2
           transform
           translate-x-[20%]
@@ -1207,6 +1208,7 @@ export default function InfiniteMenu({ items = [] }) {
           text-[1.5rem]
           top-1/2
           right-[1%]
+          text-primary
           transition-all
           ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
           hidden
@@ -1246,7 +1248,7 @@ export default function InfiniteMenu({ items = [] }) {
           }
         `}
           >
-            <p className="select-none relative text-[#060606] top-[2px] text-[26px]">
+            <p className="select-none relative top-[2px] text-[26px]">
               &#x2197;
             </p>
           </div>

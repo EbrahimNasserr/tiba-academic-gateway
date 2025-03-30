@@ -2,12 +2,24 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
+import BottomNav from "@/components/BottomNav/BottomNav";
+import { VscHome, VscArchive, VscAccount, VscSettingsGear } from 'react-icons/vsc';
+import NextThemeProvider from "./NextThemeProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
   weight: ["400", "500", "600", "700"],
 });
+
+
+
+const NavItems = [
+  { icon: <VscHome size={18} />, label: "Home" },
+  { icon: <VscArchive size={18} />, label: "Archive" },
+  { icon: <VscAccount size={18} />, label: "Profile" },
+  { icon: <VscSettingsGear size={18} />, label: "Settings" },
+];
 
 export const metadata = {
   title: "Tiba Academic Gateway - Connect, Learn, and Grow Together",
@@ -57,9 +69,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body style={{ fontFamily: poppins.style.fontFamily }}>
-        <Navbar />
-        <main className="">{children}</main>
-        <Footer />
+        <NextThemeProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <BottomNav
+            items={NavItems}
+            panelHeight={68}
+            baseItemSize={50}
+            magnification={70}
+          />
+        </NextThemeProvider>
       </body>
     </html>
   );

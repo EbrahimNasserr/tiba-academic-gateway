@@ -28,7 +28,7 @@ export default function Navbar() {
           </div>
           <button
             type="button"
-            className="inline-flex p-2 text-primary transition-all duration-200 rounded-md lg:hidden focus:bg-gray-100 hover:bg-gray-100"
+            className="inline-flex p-2 transition-all duration-200 rounded-md lg:hidden focus:bg-gray-100 hover:bg-gray-100"
           >
             {/* Menu open: "hidden", Menu closed: "block" */}
             <svg
@@ -66,7 +66,7 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 key={link.name}
-                className="text-base text-primary transition-all duration-200 hover:text-opacity-80"
+                className="text-base transition-all duration-200 hover:text-opacity-80"
               >
                 {link.name}
               </Link>

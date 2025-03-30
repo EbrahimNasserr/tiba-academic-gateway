@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#060606] text-primary;
+  @apply bg-[#060606] text-primary dark:bg-primary dark:text-[#060606];
 }
 
 .custom-container {

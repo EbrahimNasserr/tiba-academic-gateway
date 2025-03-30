@@ -1,8 +1,6 @@
 import Hero from "@/components/Hero/Hero";
 import { ScrollVelocity } from "@/components/ScrollVelocity/ScrollVelocity";
 import InfiniteMenu from "@/components/InfiniteMenu/InfiniteMenu";
-import BottomNav from '@/components/BottomNav/BottomNav';
-import { VscHome, VscArchive, VscAccount, VscSettingsGear } from 'react-icons/vsc';
 
 
 const items = [
@@ -45,13 +43,6 @@ const items = [
 ];
 
 
-const NavItems = [
-  { icon: <VscHome size={18} />, label: "Home" },
-  { icon: <VscArchive size={18} />, label: "Archive" },
-  { icon: <VscAccount size={18} />, label: "Profile" },
-  { icon: <VscSettingsGear size={18} />, label: "Settings" },
-];
-
 
 export default function Home() {
   return (
@@ -65,12 +56,6 @@ export default function Home() {
       <div className="h-[600px] relative max-w-[90%] mx-auto mt-24">
         <InfiniteMenu items={items} />
       </div>
-      <BottomNav
-        items={NavItems}
-        panelHeight={68}
-        baseItemSize={50}
-        magnification={70}
-      />
     </main>
   );
 }
