@@ -97,7 +97,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <p className="text-sm font-semibold tracking-widest text-primary uppercase">
+            <p className="text-sm font-semibold tracking-widest  uppercase">
               Company
             </p>
             <ul className="mt-6 space-y-4">
@@ -140,7 +140,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <p className="text-sm font-semibold tracking-widest text-primary uppercase">
+            <p className="text-sm font-semibold tracking-widest  uppercase">
               Help
             </p>
             <ul className="mt-6 space-y-4">

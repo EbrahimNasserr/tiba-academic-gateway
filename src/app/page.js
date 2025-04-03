@@ -3,6 +3,7 @@ import { ScrollVelocity } from "@/components/ScrollVelocity/ScrollVelocity";
 import InfiniteMenu from "@/components/InfiniteMenu/InfiniteMenu";
 import TiltedCard from "@/components/TiltedCard/TiltedCard";
 import Aboutsec from "@/components/ِAboutsec/Aboutsec";
+import Testimonial from "@/components/Testimomial/Testimonial";
 
 
 const items = [
@@ -64,6 +65,7 @@ export default function Home() {
         <div className="relative max-w-[90%] mx-auto mt-24">
         <TiltedCard/>
         </div>
+        <Testimonial/>
     </main>
   );
 }
