@@ -1,6 +1,8 @@
 import Hero from "@/components/Hero/Hero";
 import { ScrollVelocity } from "@/components/ScrollVelocity/ScrollVelocity";
 import InfiniteMenu from "@/components/InfiniteMenu/InfiniteMenu";
+import TiltedCard from "@/components/TiltedCard/TiltedCard";
+import Aboutsec from "@/components/ِAboutsec/Aboutsec";
 
 
 const items = [
@@ -55,7 +57,13 @@ export default function Home() {
       />
       <div className="h-[600px] relative max-w-[90%] mx-auto mt-24">
         <InfiniteMenu items={items} />
-      </div>
+        </div>
+        <div className="relative max-w-[90%] mx-auto mt-24">
+       <Aboutsec />
+        </div>
+        <div className="relative max-w-[90%] mx-auto mt-24">
+        <TiltedCard/>
+        </div>
     </main>
   );
 }
