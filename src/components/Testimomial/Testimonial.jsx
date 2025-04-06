@@ -14,8 +14,8 @@ export default function Testimonial() {
           <div className="w-full h-full max-w-5xl mx-auto rounded-3xl opacity-30 blur-lg filter" style={{background: 'linear-gradient(90deg, #44ff9a -0.55%, #44b0ff 22.86%, #8b44ff 48.36%, #ff6644 73.33%, #ebff70 99.34%)'}} />
         </div>
         <div className="relative grid max-w-lg grid-cols-1 gap-6 mx-auto md:max-w-none lg:gap-10 md:grid-cols-3">
-          <div className="flex flex-col overflow-hidden shadow-xl">
-            <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
+          <div className="flex flex-col overflow-hidden shadow-2xl">
+            <div className="flex flex-col justify-between flex-1 p-6  lg:py-8 lg:px-7">
               <div className="flex-1">
                 <div className="flex items-center">
                   <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -35,19 +35,19 @@ export default function Testimonial() {
                   </svg>
                 </div>
                 <blockquote className="flex-1 mt-8">
-                  <p className="text-lg leading-relaxed text-gray-900 font-pj">“This e-learning platform is a game-changer! The content is clear, interactive, and easy to follow. The quizzes and exercises really help reinforce key concepts. Highly recommend”</p>
+                  <p className="text-lg leading-relaxed  font-pj">“This e-learning platform is a game-changer! The content is clear, interactive, and easy to follow. The quizzes and exercises really help reinforce key concepts. Highly recommend”</p>
                 </blockquote>
               </div>
               <div className="flex items-center mt-8">
                 <img className="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://images.pexels.com/photos/3793238/pexels-photo-3793238.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt='people' />
                 <div className="ml-4">
-                  <p className="text-base font-bold text-gray-900 font-pj">Leslie Alexander</p>
+                  <p className="text-base font-bold  font-pj">Leslie Alexander</p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col overflow-hidden shadow-xl">
-            <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
+          <div className="flex flex-col overflow-hidden shadow-2xl">
+            <div className="flex flex-col justify-between flex-1 p-6  lg:py-8 lg:px-7">
               <div className="flex-1">
                 <div className="flex items-center">
                   <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -67,19 +67,19 @@ export default function Testimonial() {
                   </svg>
                 </div>
                 <blockquote className="flex-1 mt-8">
-                  <p className="text-lg leading-relaxed text-gray-900 font-pj">“The platform stands out with its simple interface and flexible learning options. It’s perfect for busy professionals like me. I love how I can learn at my own pace!”</p>
+                  <p className="text-lg leading-relaxed  font-pj">“The platform stands out with its simple interface and flexible learning options. It’s perfect for busy professionals like me. I love how I can learn at my own pace!”</p>
                 </blockquote>
               </div>
               <div className="flex items-center mt-8">
                 <img className="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://images.pexels.com/photos/1007066/pexels-photo-1007066.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt='people' />
                 <div className="ml-4">
-                  <p className="text-base font-bold text-gray-900 font-pj">Jacob Jones</p>
+                  <p className="text-base font-bold  font-pj">Jacob Jones</p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col overflow-hidden shadow-xl">
-            <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
+          <div className="flex flex-col overflow-hidden shadow-2xl">
+            <div className="flex flex-col justify-between flex-1 p-6  lg:py-8 lg:px-7">
               <div className="flex-1">
                 <div className="flex items-center">
                   <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -99,13 +99,13 @@ export default function Testimonial() {
                   </svg>
                 </div>
                 <blockquote className="flex-1 mt-8">
-                  <p className="text-lg leading-relaxed text-gray-900 font-pj">“I love the hands-on approach! The course is practical and fun, and testing my knowledge right away made learning so much more effective.”</p>
+                  <p className="text-lg leading-relaxed  font-pj">“I love the hands-on approach! The course is practical and fun, and testing my knowledge right away made learning so much more effective.”</p>
                 </blockquote>
               </div>
               <div className="flex items-center mt-8">
                 <img className="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://images.pexels.com/photos/3807735/pexels-photo-3807735.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt='people' />
                 <div className="ml-4">
-                  <p className="text-base font-bold text-gray-900 font-pj">Jenny Wilson</p>
+                  <p className="text-base font-bold  font-pj">Jenny Wilson</p>
                 </div>
               </div>
             </div>

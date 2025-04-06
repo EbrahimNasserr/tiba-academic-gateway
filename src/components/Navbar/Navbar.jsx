@@ -1,6 +1,8 @@
+
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../../public/logo.png";
+import logo from "../../../public/logoo.png";
+import CircularText from './Circular Text';
 
 export default function Navbar() {
   const links = [
@@ -15,16 +17,22 @@ export default function Navbar() {
       <div className="custom-container">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <div className="flex-shrink-0">
-            <Link href="/" title className="flex">
+            <Link href="/" title="logo" className="flex justify-center items-center">           
               <Image
                 className="w-auto"
                 src={logo}
                 alt="logo"
-                width={50}
-                height={50}
+                width={70}
+                height={70}
                 loading="lazy"
               />
-            </Link>
+               <CircularText
+          text="THEBES*ACADEMY*"
+             onHover="speedUp"
+                spinDuration={20}
+              className="custom-class absolute"
+/>
+            </Link>        
           </div>
           <button
             type="button"

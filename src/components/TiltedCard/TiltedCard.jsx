@@ -133,7 +133,7 @@ const TiltedCard = ({
 
 const App = () => {
   return <>
-      <h1 className="text-center text-3xl pb-10">Dive into your year</h1>
+      <h1 className="text-5xl font-semibold tracking-tight text-balance sm:text-7xl text-center pb-10">Dive into your year</h1>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 p-6">
      <Link href={""}>
      <TiltedCard

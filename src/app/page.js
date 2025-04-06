@@ -51,19 +51,19 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <ScrollVelocity
+      {/* <ScrollVelocity
         texts={["Educational Journey", "Skill Development"]}
         velocity={50}
         className="custom-scroll-text"
-      />
+      /> */}
       <div className="h-[600px] relative max-w-[90%] mx-auto mt-24">
         <InfiniteMenu items={items} />
         </div>
         <div className="relative max-w-[90%] mx-auto mt-24">
-       <Aboutsec />
-        </div>
-        <div className="relative max-w-[90%] mx-auto mt-24">
         <TiltedCard/>
+        </div>
+        <div className="relative max-w-[90%] mx-auto mt-24">       
+        <Aboutsec />
         </div>
         <Testimonial/>
     </main>

@@ -1110,7 +1110,7 @@ const defaultItems = [
   {
     image: "https://picsum.photos/900/900?grayscale",
     link: "https://google.com/",
-    title: "",
+    title: "true",
     description: "",
   },
 ];
