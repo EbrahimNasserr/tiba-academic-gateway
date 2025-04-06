@@ -22,8 +22,8 @@ export default function Navbar() {
                 className="w-auto"
                 src={logo}
                 alt="logo"
-                width={70}
-                height={70}
+                width={65}
+                height={65}
                 loading="lazy"
               />
                <CircularText
