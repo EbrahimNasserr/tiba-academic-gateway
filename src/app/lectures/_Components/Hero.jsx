@@ -1,20 +1,23 @@
-const Hero = () => {
-  return (
-    <section className="flex flex-col items-center justify-center h-[80vh]">
-      <div className="custom-container">
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-4xl font-bold">
-            Your Gateway to Academic Excellence
-          </h1>
-          <p className="text-lg text-gray-400 text-left w-full md:w-[60%] md:text-center mt-4 dark:text-gray-800">
-            Unlock a wealth of knowledge with our curated lectures for all four
-            academic levels. Whether you're starting your journey or advancing
-            your expertise, find the guidance and resources you need to succeed.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-};
+import Image from "next/image";
 
-export default Hero;
+export default function Hero() {
+  return (
+      <section className="relative h-[400px] flex items-center justify-center text-white  mb-16">
+        <Image
+          src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=2487&ixlib=rb-4.0.3"
+          alt="Lecture Hall"
+          fill
+          className="object-cover brightness-50"
+        />
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
+          <h1 className="text-5xl font-bold mb-6">Lectures for Every Level</h1>
+          <p className="text-xl mb-8">
+            Dive into a full archive of lecture videos organized by academic level. Whether you're in your first year or final year, we've got the content to keep you on track.
+          </p>
+          <button className="bg-white text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+            Start Watching
+          </button>
+        </div>
+      </section>
+  );
+}
