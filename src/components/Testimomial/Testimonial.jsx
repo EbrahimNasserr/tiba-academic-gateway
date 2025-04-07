@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 export default function Testimonial() {
   const testimonials = [
@@ -25,6 +26,20 @@ export default function Testimonial() {
     },
   ];
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const prev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+    );
+  };
+
+  const next = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   const StarRating = () => (
     <div className="flex items-center">
       {[...Array(5)].map((_, index) => (
@@ -50,7 +65,8 @@ export default function Testimonial() {
               Our happy Students say about us
             </h2>
           </div>
-          <div className="relative mt-10 md:order-2">
+
+          <div className="relative mt-10 w-full max-w-5xl">
             <div className="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6">
               <div
                 className="w-full h-full max-w-5xl mx-auto rounded-3xl opacity-30 blur-lg filter"
@@ -60,36 +76,63 @@ export default function Testimonial() {
                 }}
               />
             </div>
-            <div className="relative grid max-w-lg grid-cols-1 gap-6 mx-auto md:max-w-none lg:gap-10 md:grid-cols-3">
-              {testimonials.map((testimonial) => (
-                <div
-                  key={testimonial.id}
-                  className="flex flex-col overflow-hidden shadow-xl"
-                >
-                  <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
-                    <div className="flex-1">
-                      <StarRating />
-                      <blockquote className="flex-1 mt-8">
-                        <p className="text-lg leading-relaxed text-gray-900 font-pj">
-                          "{testimonial.text}"
-                        </p>
-                      </blockquote>
-                    </div>
-                    <div className="flex items-center mt-8">
-                      <img
-                        className="flex-shrink-0 object-cover rounded-full w-11 h-11"
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                      />
-                      <div className="ml-4">
-                        <p className="text-base font-bold text-gray-900 font-pj">
-                          {testimonial.name}
-                        </p>
-                      </div>
+
+            <div className="relative flex items-center justify-center">
+              {/* Desktop Arrows */}
+              <button
+                onClick={prev}
+                className="hidden md:flex absolute left-0 z-10 w-10 h-10 items-center justify-center rounded-full border border-gray-300 bg-white hover:bg-gray-100 transition"
+              >
+                ‹
+              </button>
+
+              <div className="w-full max-w-xl md:max-w-3xl px-4 sm:px-0">
+                <div className="flex flex-col justify-between flex-1 p-6 shadow-xl rounded-3xl  lg:py-8 lg:px-7">
+                  <div className="flex-1">
+                    <StarRating />
+                    <blockquote className="flex-1 mt-8">
+                      <p className="text-lg leading-relaxed text-gray-900 font-pj">
+                        "{testimonials[currentIndex].text}"
+                      </p>
+                    </blockquote>
+                  </div>
+                  <div className="flex items-center mt-8">
+                    <img
+                      className="flex-shrink-0 object-cover rounded-full w-11 h-11"
+                      src={testimonials[currentIndex].image}
+                      alt={testimonials[currentIndex].name}
+                    />
+                    <div className="ml-4">
+                      <p className="text-base font-bold text-gray-900 font-pj">
+                        {testimonials[currentIndex].name}
+                      </p>
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+
+              <button
+                onClick={next}
+                className="hidden md:flex absolute right-0 z-10 w-10 h-10 items-center justify-center rounded-full border border-gray-300 bg-white hover:bg-gray-100 transition"
+              >
+                ›
+              </button>
+            </div>
+
+            {/* Mobile Arrows Below */}
+            <div className="flex justify-center gap-4 mt-6 md:hidden">
+              <button
+                onClick={prev}
+                className="w-9 h-9 rounded-full border border-gray-300 hover:bg-gray-100 transition"
+              >
+                ‹
+              </button>
+              <button
+                onClick={next}
+                className="w-9 h-9 rounded-full border border-gray-300 hover:bg-gray-100 transition"
+              >
+                ›
+              </button>
             </div>
           </div>
         </div>

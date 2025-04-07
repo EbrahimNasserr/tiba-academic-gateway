@@ -1,8 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../../public/logo.png";
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const links = [
     { name: "Home", href: "/" },
     { name: "Courses", href: "/courses" },
@@ -26,13 +31,15 @@ export default function Navbar() {
               />
             </Link>
           </div>
+
+          {/* Mobile toggle button */}
           <button
             type="button"
+            onClick={() => setMenuOpen(!menuOpen)}
             className="inline-flex p-2 transition-all duration-200 rounded-md lg:hidden focus:bg-gray-100 hover:bg-gray-100"
           >
-            {/* Menu open: "hidden", Menu closed: "block" */}
             <svg
-              className="block w-6 h-6"
+              className={`${menuOpen ? "hidden" : "block"} w-6 h-6`}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -45,9 +52,8 @@ export default function Navbar() {
                 d="M4 8h16M4 16h16"
               />
             </svg>
-            {/* Menu open: "block", Menu closed: "hidden" */}
             <svg
-              className="hidden w-6 h-6"
+              className={`${menuOpen ? "block" : "hidden"} w-6 h-6`}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -61,6 +67,8 @@ export default function Navbar() {
               />
             </svg>
           </button>
+
+          {/* Desktop Links */}
           <div className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-10">
             {links.map((link) => (
               <Link
@@ -73,6 +81,22 @@ export default function Navbar() {
             ))}
           </div>
         </div>
+
+        {/* Mobile Menu Links */}
+        {menuOpen && (
+          <div className="mt-4 space-y-2 lg:hidden">
+            {links.map((link) => (
+              <Link
+                href={link.href}
+                key={link.name}
+                className="block text-base px-4 py-2 rounded hover:bg-gray-100 transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </header>
   );
