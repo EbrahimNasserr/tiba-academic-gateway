@@ -7,6 +7,11 @@ const nextConfig = {
                 hostname: "cdn.rareblocks.xyz",
                 pathname: "/collection/celebration/images/**",
             },
+            {
+                protocol: "https",
+                hostname: "images.unsplash.com",
+                pathname: "/**",
+            },
         ],
     },
 };

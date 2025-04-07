@@ -89,7 +89,7 @@ export default function Courses() {
                 <input
                   type="search"
                   id="default-search"
-                  className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-secondary focus:border-secondary dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-secondary dark:focus:border-secondary"
+                  className="block w-full p-4 ps-10 border text-white dark:text-black border-gray-300 rounded-lg bg-[#131313] dark:bg-white focus:ring-secondary focus:border-secondary"
                   placeholder="Search Courses..."
                   required
                 />

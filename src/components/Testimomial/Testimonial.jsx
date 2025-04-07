@@ -44,12 +44,9 @@ export default function Testimonial() {
   return (
     <section className="py-12 sm:py-16 lg:py-20">
       <div className="custom-container">
-        <h1 className="mb-5 text-center text-3xl font-bold sm:text-4xl xl:text-5xl font-pj">
-          Testimonial
-        </h1>
         <div className="flex flex-col items-center">
           <div className="text-center">
-            <h2 className="mt-4 font-medium text-pretty text-gray-500 text-2xl">
+            <h2 className="mt-4 font-medium text-pretty capitalize text-2xl">
               Our happy Students say about us
             </h2>
           </div>

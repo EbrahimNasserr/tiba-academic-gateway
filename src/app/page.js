@@ -5,7 +5,7 @@ import TiltedCard from "@/components/TiltedCard/TiltedCard";
 import Aboutsec from "@/components/ِAboutsec/Aboutsec";
 import Testimonial from "@/components/Testimomial/Testimonial";
 import Courses from "@/components/Courses/Courses";
-
+import Books from "@/components/Books/Books";
 const items = [
   {
     image: 'https://picsum.photos/300/300?grayscale',
@@ -56,12 +56,13 @@ export default function Home() {
         velocity={50}
         className="custom-scroll-text"
       /> */}
-      <div className="h-[600px] relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
+      {/* <div className="h-[600px] relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
         <InfiniteMenu items={items} />
-      </div>
+      </div> */}
       <Aboutsec />
       <Courses />
-      <div className="relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
+      <Books />
+      <div className=" custom-container py-12  sm:py-16 lg:py-20">
         <TiltedCard />
       </div>
       <Testimonial />

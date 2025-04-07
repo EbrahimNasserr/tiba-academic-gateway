@@ -20,7 +20,7 @@ export default function Aboutsec() {
           </div>
           <div className="mx-auto max-w-2xl py-0 sm:py-0 lg:py-0">
             <div className="text-center">
-              <h1 className="text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
+              <h1 className="text-5xl font-semibold tracking-tight text-balance sm:text-7xl capitalize">
                 About us
               </h1>
               <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">

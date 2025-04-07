@@ -4,7 +4,7 @@ export default function Card({ course }) {
   return (
     <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
       <a href="#">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 truncate">
+        <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 truncate">
           {course.title}
         </h5>
       </a>
