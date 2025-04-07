@@ -4,7 +4,7 @@ import InfiniteMenu from "@/components/InfiniteMenu/InfiniteMenu";
 import TiltedCard from "@/components/TiltedCard/TiltedCard";
 import Aboutsec from "@/components/ِAboutsec/Aboutsec";
 import Testimonial from "@/components/Testimomial/Testimonial";
-
+import Courses from "@/components/Courses/Courses";
 
 const items = [
   {
@@ -56,16 +56,15 @@ export default function Home() {
         velocity={50}
         className="custom-scroll-text"
       /> */}
-      <div className="h-[600px] relative max-w-[90%] mx-auto mt-24">
+      <div className="h-[600px] relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
         <InfiniteMenu items={items} />
-        </div>
-        <div className="relative max-w-[90%] mx-auto mt-24">
-        <TiltedCard/>
-        </div>
-        <div className="relative max-w-[90%] mx-auto mt-24">       
-        <Aboutsec />
-        </div>
-        <Testimonial/>
+      </div>
+      <Aboutsec />
+      <Courses />
+      <div className="relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
+        <TiltedCard />
+      </div>
+      <Testimonial />
     </main>
   );
 }

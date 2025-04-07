@@ -150,7 +150,7 @@ const App = () => {
         showMobileWarning={false}
         showTooltip={true}
         displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2">1st</p>}
+        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">1st</p>}
       /></Link>
       <TiltedCard
         imageSrc="https://images.pexels.com/photos/1462630/pexels-photo-1462630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -165,7 +165,7 @@ const App = () => {
         showMobileWarning={true}
         showTooltip={true}
         displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2">2nd</p>}
+        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">2nd</p>}
       />
       <TiltedCard
         imageSrc="https://images.pexels.com/photos/3764402/pexels-photo-3764402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -180,7 +180,7 @@ const App = () => {
         showMobileWarning={true}
         showTooltip={true}
         displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2">3rd</p>}
+        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">3rd</p>}
       />
       <TiltedCard
         imageSrc="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -195,7 +195,7 @@ const App = () => {
         showMobileWarning={false}
         showTooltip={true}
         displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2">4th</p>}
+        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">4th</p>}
       />
     </div>
   </>;
