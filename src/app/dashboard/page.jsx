@@ -81,13 +81,13 @@ export default function DoctorDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen  flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 fixed h-full">
+      <aside className="w-64  border-r border-gray-200 fixed h-full">
         <div className="p-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
-              <User className="text-white w-6 h-6" />
+              <User className=" w-6 h-6" />
             </div>
             <div>
               <h2 className="font-semibold">Dr. Sarah Johnson</h2>
@@ -100,7 +100,7 @@ export default function DoctorDashboard() {
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "upload"
                   ? "bg-blue-50 text-blue-600"
-                  : "hover:bg-gray-50"
+                  : "hover:bg-gray-50 hover:text-black"
               }`}
             >
               <Upload className="w-5 h-5" />
@@ -111,13 +111,13 @@ export default function DoctorDashboard() {
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "lectures"
                   ? "bg-blue-50 text-blue-600"
-                  : "hover:bg-gray-50"
+                  : "hover:bg-gray-50 hover:text-black"
               }`}
             >
               <BookOpen className="w-5 h-5" />
               My Lectures
             </button>
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50">
+            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 hover:text-black">
               <User className="w-5 h-5" />
               Edit Profile
             </button>
@@ -134,7 +134,7 @@ export default function DoctorDashboard() {
         {/* Notification */}
         {notification && (
           <div
-            className={`fixed top-4 right-4 flex items-center gap-2 px-4 py-2 rounded-lg text-white ${
+            className={`fixed top-4 right-4 flex items-center gap-2 px-4 py-2 rounded-lg  ${
               notification.type === "success" ? "bg-green-600" : "bg-red-600"
             }`}
           >
@@ -157,7 +157,7 @@ export default function DoctorDashboard() {
           <>
             <div className="mb-8">
               <h1 className="text-3xl font-bold mb-2">Upload New Lecture</h1>
-              <p className="text-gray-600">
+              <p className="">
                 Share your knowledge with students. Upload lectures, materials,
                 and resources.
               </p>
@@ -165,28 +165,28 @@ export default function DoctorDashboard() {
 
             <form
               onSubmit={handleUpload}
-              className="bg-white rounded-xl p-6 shadow-sm"
+              className=" rounded-xl p-6 shadow-sm"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2">
                     Lecture Title
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border bg-transparent text-black border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border bg-transparent  border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter lecture title"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2">
                     Academic Year
                   </label>
                   <div className="relative">
                     <select
                       value={selectedYear}
                       onChange={(e) => setSelectedYear(e.target.value)}
-                      className="w-full px-4 py-2 border bg-transparent text-black border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                      className="w-full px-4 py-2 border border-gray-200 bg-black dark:bg-white text-white dark:text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                     >
                       {["1st", "2nd", "3rd", "4th"].map((year) => (
                         <option key={year} value={year}>
@@ -194,23 +194,23 @@ export default function DoctorDashboard() {
                         </option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2  pointer-events-none" />
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2">
                     Subject
                   </label>
                   <div className="relative">
                     <select
                       value={selectedSubject}
                       onChange={(e) => setSelectedSubject(e.target.value)}
-                      className="w-full px-4 py-2 border bg-transparent text-black border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                      className="w-full px-4 py-2 border border-gray-200 bg-black dark:bg-white text-white dark:text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                     >
-                      <option value="">Select Subject</option>
+                      <option  value="">Select Subject</option>
                       {[
                         "Anatomy",
                         "Physiology",
@@ -222,18 +222,18 @@ export default function DoctorDashboard() {
                         </option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2  pointer-events-none" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2">
                     Content Type
                   </label>
                   <div className="relative">
                     <select
                       value={uploadType}
                       onChange={(e) => setUploadType(e.target.value)}
-                      className="w-full px-4 py-2 border bg-transparent text-black border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                      className="w-full px-4 py-2 border border-gray-200 bg-black dark:bg-white text-white dark:text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                     >
                       {["Video", "PDF", "Slides"].map((type) => (
                         <option key={type} value={type}>
@@ -241,23 +241,23 @@ export default function DoctorDashboard() {
                         </option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2  pointer-events-none" />
                   </div>
                 </div>
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium  mb-2">
                   Description
                 </label>
                 <textarea
-                  className="w-full px-4 py-2 border bg-transparent text-black border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
+                  className="w-full px-4 py-2 border bg-transparent  border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
                   placeholder="Enter lecture description"
                 />
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium  mb-2">
                   Upload File
                 </label>
                 <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
@@ -271,11 +271,11 @@ export default function DoctorDashboard() {
                     htmlFor="file-upload"
                     className="cursor-pointer flex flex-col items-center"
                   >
-                    <Upload className="w-12 h-12 text-gray-400 mb-4" />
-                    <span className="text-gray-600">
+                    <Upload className="w-12 h-12  mb-4" />
+                    <span className="">
                       Click to upload or drag and drop
                     </span>
-                    <span className="text-sm text-gray-500 mt-1">
+                    <span className="text-sm  mt-1">
                       Supported formats: MP4, PDF, PPT
                     </span>
                   </label>
@@ -284,7 +284,7 @@ export default function DoctorDashboard() {
 
               {uploadProgress > 0 && (
                 <div className="mb-6">
-                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-2  rounded-full overflow-hidden">
                     <div
                       className="h-full bg-blue-600 transition-all duration-300"
                       style={{ width: `${uploadProgress}%` }}
@@ -317,7 +317,7 @@ export default function DoctorDashboard() {
               {lectures.map((lecture) => (
                 <div
                   key={lecture.id}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden"
+                  className=" border rounded-xl shadow-sm overflow-hidden"
                 >
                   <div className="p-6">
                     <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
@@ -327,10 +327,10 @@ export default function DoctorDashboard() {
                     <h3 className="text-xl font-semibold mb-2">
                       {lecture.title}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-4">
+                    <p className=" text-sm mb-4">
                       {lecture.description}
                     </p>
-                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                    <div className="flex items-center gap-4 text-sm  mb-4">
                       <span>{lecture.year} Year</span>
                       <span>{lecture.subject}</span>
                     </div>
