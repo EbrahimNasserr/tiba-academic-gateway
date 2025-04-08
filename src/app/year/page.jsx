@@ -56,7 +56,7 @@ export default function YearPage() {
   const [selectedYear, setSelectedYear] = useState("1");
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen py-12 ">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,7 +72,7 @@ export default function YearPage() {
               <button
                 key={year}
                 onClick={() => setSelectedYear(year)}
-                className={`px-6 py-3 rounded-lg transition-colors ${
+                className={`md:px-6 py-3 rounded-lg transition-colors px-3  ${
                   selectedYear === year
                     ? "bg-white text-blue-600"
                     : "bg-blue-700 text-white hover:bg-blue-600"
@@ -89,7 +89,7 @@ export default function YearPage() {
         {/* Courses Section */}
         <section className="mb-16">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold">Your Lectures</h2>
+            <h2 className="text-2xl md:3xl font-bold">Your Lectures</h2>
             <Link
               href="/lectures"
               className="flex items-center text-blue-600 hover:text-blue-700"
