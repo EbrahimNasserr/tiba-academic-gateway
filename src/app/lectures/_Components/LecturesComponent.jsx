@@ -3,7 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Clock, Download, Play, Search, TrendingUp } from "lucide-react";
 import Select from "react-select";
-
+import Link from "next/link";
 const sortOptions = [
   { value: "recent", label: "Most Recent" },
   { value: "views", label: "Most Viewed" },
@@ -136,8 +136,9 @@ const LecturesComponent = () => {
           {/* Lectures Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredLectures.map((lecture) => (
-              <div
+              <Link
                 key={lecture.id}
+                href={`/lectures/${lecture.id}`}
                 className="bg-white rounded-xl shadow-sm overflow-hidden"
               >
                 <div className="relative h-48">
@@ -180,7 +181,7 @@ const LecturesComponent = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

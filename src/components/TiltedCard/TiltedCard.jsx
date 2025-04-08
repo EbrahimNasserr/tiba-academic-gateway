@@ -73,132 +73,153 @@ const TiltedCard = ({
     rotateFigcaption.set(0);
   }
 
-  return <>
-    <figure
-      ref={ref}
-      className="relative w-full h-full [perspective:800px] flex flex-col items-center justify-center"
-      style={{
-        height: containerHeight,
-        width: containerWidth,
-      }}
-      onMouseMove={handleMouse}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >     
-      <motion.div
-        className="relative [transform-style:preserve-3d]"
+  return (
+    <>
+      <figure
+        ref={ref}
+        className="relative w-full h-full [perspective:800px] flex flex-col items-center justify-center"
         style={{
-          width: imageWidth,
-          height: imageHeight,
-          rotateX,
-          rotateY,
-          scale,
+          height: containerHeight,
+          width: containerWidth,
         }}
+        onMouseMove={handleMouse}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <motion.img
-          src={imageSrc}
-          alt={altText}
-          className="absolute top-0 left-0 object-cover rounded-[15px] will-change-transform [transform:translateZ(0)]"
+        <motion.div
+          className="relative [transform-style:preserve-3d]"
           style={{
             width: imageWidth,
             height: imageHeight,
-          }}
-        />
-
-        {displayOverlayContent && overlayContent && (
-          <motion.div
-            className="absolute top-0 left-0 z-[2] will-change-transform [transform:translateZ(30px)]"
-          >
-            {overlayContent}
-          </motion.div>
-        )}
-      </motion.div>
-
-      {showTooltip && (
-        <motion.figcaption
-          className="pointer-events-none absolute left-0 top-0 rounded-[4px] bg-white px-[10px] py-[4px] text-[10px] text-[#2d2d2d] opacity-0 z-[3] hidden sm:block"
-          style={{
-            x,
-            y,
-            opacity,
-            rotate: rotateFigcaption,
+            rotateX,
+            rotateY,
+            scale,
           }}
         >
-          {captionText}
-        </motion.figcaption>
-      )}
-    </figure>
-  </>;
+          <motion.img
+            src={imageSrc}
+            alt={altText}
+            className="absolute top-0 left-0 object-cover rounded-[15px] will-change-transform [transform:translateZ(0)]"
+            style={{
+              width: imageWidth,
+              height: imageHeight,
+            }}
+          />
+
+          {displayOverlayContent && overlayContent && (
+            <motion.div className="absolute top-0 left-0 z-[2] will-change-transform [transform:translateZ(30px)]">
+              {overlayContent}
+            </motion.div>
+          )}
+        </motion.div>
+
+        {showTooltip && (
+          <motion.figcaption
+            className="pointer-events-none absolute left-0 top-0 rounded-[4px] bg-white px-[10px] py-[4px] text-[10px] text-[#2d2d2d] opacity-0 z-[3] hidden sm:block"
+            style={{
+              x,
+              y,
+              opacity,
+              rotate: rotateFigcaption,
+            }}
+          >
+            {captionText}
+          </motion.figcaption>
+        )}
+      </figure>
+    </>
+  );
 };
 
 const App = () => {
-  return <>
-      <h1 className="text-3xl font-bold tracking-tight mb-8 capitalize">Dive into your year</h1>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 p-6">
-     <Link href={""}>
-     <TiltedCard
-        className=""
-        imageSrc="https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg"
-        altText="First year"
-        captionText="First year"
-        // containerHeight="300px"
-        // containerWidth="300px"
-        // imageHeight="300px"
-        // imageWidth="300px"
-        scaleOnHover={1.1}
-        rotateAmplitude={12}
-        showMobileWarning={false}
-        showTooltip={true}
-        displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">1st</p>}
-      /></Link>
-      <TiltedCard
-        imageSrc="https://images.pexels.com/photos/1462630/pexels-photo-1462630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        altText="Second year"
-        captionText="Second year"
-        // containerHeight="300px"
-        // containerWidth="300px"
-        // imageHeight="300px"
-        // imageWidth="300px"
-        scaleOnHover={1.2}
-        rotateAmplitude={14}
-        showMobileWarning={true}
-        showTooltip={true}
-        displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">2nd</p>}
-      />
-      <TiltedCard
-        imageSrc="https://images.pexels.com/photos/3764402/pexels-photo-3764402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        altText="Third year"
-        captionText="Third year"
-        // containerHeight="300px"
-        // containerWidth="300px"
-        // imageHeight="300px"
-        // imageWidth="300px"
-        scaleOnHover={1.1}
-        rotateAmplitude={16}
-        showMobileWarning={true}
-        showTooltip={true}
-        displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">3rd</p>}
-      />
-      <TiltedCard
-        imageSrc="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        altText="Senior year"
-        captionText="Senior year"
-        // containerHeight="300px"
-        // containerWidth="300px"
-        // imageHeight="300px"
-        // imageWidth="300px"
-        scaleOnHover={1.1}
-        rotateAmplitude={12}
-        showMobileWarning={false}
-        showTooltip={true}
-        displayOverlayContent={true}
-        overlayContent={<p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">4th</p>}
-      />
-    </div>
-  </>;
+  return (
+    <>
+      <h1 className="text-3xl font-bold tracking-tight mb-8 capitalize">
+        Dive into your year
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 p-6">
+        <Link href={"/year"}>
+          <TiltedCard
+            className=""
+            imageSrc="https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg"
+            altText="First year"
+            captionText="First year"
+            // containerHeight="300px"
+            // containerWidth="300px"
+            // imageHeight="300px"
+            // imageWidth="300px"
+            scaleOnHover={1.1}
+            rotateAmplitude={12}
+            showMobileWarning={false}
+            showTooltip={true}
+            displayOverlayContent={true}
+            overlayContent={
+              <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
+                1st
+              </p>
+            }
+          />
+        </Link>
+        <TiltedCard
+          imageSrc="https://images.pexels.com/photos/1462630/pexels-photo-1462630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          altText="Second year"
+          captionText="Second year"
+          // containerHeight="300px"
+          // containerWidth="300px"
+          // imageHeight="300px"
+          // imageWidth="300px"
+          scaleOnHover={1.2}
+          rotateAmplitude={14}
+          showMobileWarning={true}
+          showTooltip={true}
+          displayOverlayContent={true}
+          overlayContent={
+            <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
+              2nd
+            </p>
+          }
+        />
+        <TiltedCard
+          imageSrc="https://images.pexels.com/photos/3764402/pexels-photo-3764402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          altText="Third year"
+          captionText="Third year"
+          // containerHeight="300px"
+          // containerWidth="300px"
+          // imageHeight="300px"
+          // imageWidth="300px"
+          scaleOnHover={1.1}
+          rotateAmplitude={16}
+          showMobileWarning={true}
+          showTooltip={true}
+          displayOverlayContent={true}
+          overlayContent={
+            <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
+              3rd
+            </p>
+          }
+        />
+        <TiltedCard
+          imageSrc="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          altText="Senior year"
+          captionText="Senior year"
+          // containerHeight="300px"
+          // containerWidth="300px"
+          // imageHeight="300px"
+          // imageWidth="300px"
+          scaleOnHover={1.1}
+          rotateAmplitude={12}
+          showMobileWarning={false}
+          showTooltip={true}
+          displayOverlayContent={true}
+          overlayContent={
+            <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
+              4th
+            </p>
+          }
+        />
+      </div>
+    </>
+  );
 };
 
 export default App;
