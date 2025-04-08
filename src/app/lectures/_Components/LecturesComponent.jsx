@@ -61,7 +61,7 @@ const LecturesComponent = () => {
           {/* Year Filter */}
           <div className="mb-12">
             {/* Mobile Dropdown */}
-            <div className="md:hidden mb-4">
+            {/* <div className="md:hidden mb-4">
               <Select
                 value={yearOptions.find(
                   (option) => option.value === selectedYear
@@ -73,10 +73,10 @@ const LecturesComponent = () => {
                 styles={customStyles}
                 isSearchable={false}
               />
-            </div>
+            </div> */}
 
             {/* Desktop Button Group */}
-            <div className="hidden md:flex gap-4">
+            <div className="hidden gap-2 md:flex">
               {["1st", "2nd", "3rd", "4th"].map((year) => (
                 <button
                   key={year}
@@ -105,14 +105,31 @@ const LecturesComponent = () => {
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-white"
               />
             </div>
-            <Select
+           <div className=" flex gap-2">
+           <Select
               value={sortOptions.find((option) => option.value === sortBy)}
               onChange={(selectedOption) => setSortBy(selectedOption.value)}
               options={sortOptions}
               styles={customStyles}
               isSearchable={false}
             />
+
+              <div className="md:hidden mb-4">
+              <Select
+                value={yearOptions.find(
+                  (option) => option.value === selectedYear
+                )}
+                onChange={(selectedOption) =>
+                  setSelectedYear(selectedOption.value)
+                }
+                options={yearOptions}
+                styles={customStyles}
+                isSearchable={false}
+              />
+            </div>
+           </div>
           </div>
+          
 
           {/* Subject Tabs */}
           <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
@@ -139,7 +156,7 @@ const LecturesComponent = () => {
               <Link
                 key={lecture.id}
                 href={`/lectures/${lecture.id}`}
-                className="bg-white rounded-xl shadow-sm overflow-hidden"
+                className=" border rounded-xl shadow-sm overflow-hidden"
               >
                 <div className="relative h-48">
                   <Image
@@ -164,11 +181,11 @@ const LecturesComponent = () => {
                   <h3 className="text-xl font-semibold mb-2">
                     {lecture.title}
                   </h3>
-                  <div className="flex items-center gap-2 text-gray-600 mb-2">
+                  <div className="flex items-center gap-2  mb-2">
                     <Clock className="w-4 h-4" />
                     <span>{lecture.duration} mins</span>
                   </div>
-                  <p className="text-gray-600 mb-4">👨‍🏫 {lecture.instructor}</p>
+                  <p className=" mb-4">👨‍🏫 {lecture.instructor}</p>
                   <div className="flex gap-2">
                     <button className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors">
                       <Play className="w-4 h-4" />

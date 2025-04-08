@@ -1,5 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import SwiperCore from "swiper";
+import { Autoplay, EffectFade } from "swiper/modules";
+
+SwiperCore.use([Autoplay, EffectFade]);
+
 
 export default function Testimonial() {
   const testimonials = [
@@ -81,7 +90,7 @@ export default function Testimonial() {
               {/* Desktop Arrows */}
               <button
                 onClick={prev}
-                className="hidden md:flex absolute left-0 z-10 w-10 h-10 items-center justify-center rounded-full border border-gray-300 bg-white hover:bg-gray-100 transition"
+                className="hidden md:flex absolute left-0 z-10 w-10 h-10 items-center justify-center rounded-full border border-gray-300 hover:bg-gray-100 transition"
               >
                 ‹
               </button>
@@ -91,7 +100,7 @@ export default function Testimonial() {
                   <div className="flex-1">
                     <StarRating />
                     <blockquote className="flex-1 mt-8">
-                      <p className="text-lg leading-relaxed text-gray-900 font-pj">
+                      <p className="text-lg leading-relaxed  font-pj">
                         "{testimonials[currentIndex].text}"
                       </p>
                     </blockquote>
@@ -103,7 +112,7 @@ export default function Testimonial() {
                       alt={testimonials[currentIndex].name}
                     />
                     <div className="ml-4">
-                      <p className="text-base font-bold text-gray-900 font-pj">
+                      <p className="text-base font-bold  font-pj">
                         {testimonials[currentIndex].name}
                       </p>
                     </div>
@@ -113,7 +122,7 @@ export default function Testimonial() {
 
               <button
                 onClick={next}
-                className="hidden md:flex absolute right-0 z-10 w-10 h-10 items-center justify-center rounded-full border border-gray-300 bg-white hover:bg-gray-100 transition"
+                className="hidden md:flex absolute right-0 z-10 w-10 h-10 items-center justify-center rounded-full border border-gray-300  hover:bg-gray-100 transition"
               >
                 ›
               </button>
@@ -140,3 +149,10 @@ export default function Testimonial() {
     </section>
   );
 }
+
+
+
+
+
+
+

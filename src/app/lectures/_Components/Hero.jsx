@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-      <section className="relative h-[400px] flex items-center justify-center text-white  mb-16">
+      <section className="relative h-[400px] my-6 flex items-center justify-center text-white  mb-16">
         <Image
           src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=2487&ixlib=rb-4.0.3"
           alt="Lecture Hall"

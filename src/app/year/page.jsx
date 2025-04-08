@@ -89,10 +89,10 @@ export default function YearPage() {
         {/* Courses Section */}
         <section className="mb-16">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl md:3xl font-bold">Your Lectures</h2>
+            <h2 className="text-2xl md:3xl lg:text-3xl font-bold">Your Lectures</h2>
             <Link
               href="/lectures"
-              className="flex items-center text-blue-600 hover:text-blue-700"
+              className="flex text-sm md:text-lg items-center text-blue-600 hover:text-blue-700"
             >
               View All Lectures
               <ChevronRight className="h-5 w-5 ml-1" />
@@ -130,10 +130,10 @@ export default function YearPage() {
         {/* Books Section */}
         <section className="mb-16">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold">Recommended Books</h2>
+            <h2 className="text-xl md:3xl lg:text-3xl font-bold">Recommended Books</h2>
             <Link
               href="/books"
-              className="flex items-center text-blue-600 hover:text-blue-700"
+              className="flex text-sm md:text-lg items-center text-blue-600 hover:text-blue-700"
             >
               View All Books
               <ChevronRight className="h-5 w-5 ml-1" />
@@ -166,7 +166,7 @@ export default function YearPage() {
 
         {/* Additional Resources */}
         <section>
-          <h2 className="text-3xl font-bold mb-8">Year-Specific Resources</h2>
+          <h2 className="text-2xl md:3xl lg:text-3xl text-center md:text-start font-bold mb-8">Year-Specific Resources</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link
               href="/study-guides"

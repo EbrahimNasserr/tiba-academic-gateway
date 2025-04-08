@@ -33,7 +33,7 @@ export default function CoursesPage() {
     });
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[500px] flex items-center justify-center text-white">
         <Image
@@ -58,16 +58,20 @@ export default function CoursesPage() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Benefits Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {benefits.map((benefit, index) => (
-            <div key={index} className="bg-white p-6 rounded-xl shadow-sm">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                {benefit.icon}
-              </div>
-              <h3 className="font-semibold mb-2">{benefit.title}</h3>
-              <p className="text-gray-600 text-sm">{benefit.description}</p>
-            </div>
-          ))}
-        </div>
+  {benefits.map((benefit, index) => (
+    <div
+      key={index}
+      className="border hover:bg-blue-500 duration-300 p-6 rounded-xl shadow-sm flex flex-col items-center md:items-start text-center"
+    >
+      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+        {benefit.icon}
+      </div>
+      <h3 className="font-semibold mb-2">{benefit.title}</h3>
+      <p className=" text-center md:text-start text-sm">{benefit.description}</p>
+    </div>
+  ))}
+</div>
+
 
         {/* Year Filter */}
         <div className="flex gap-4 mb-12 overflow-x-auto pb-4">
@@ -89,19 +93,19 @@ export default function CoursesPage() {
         {/* Search and Sort Bar */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2  text-gray-400" />
             <input
               type="text"
               placeholder="Search courses..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-3 border bg-white text-black border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-3 border border-gray-200 rounded-xl bg-white"
+            className="px-4 py-3 border border-gray-200 rounded-xl bg-white text-black"
           >
             <option value="recent">Most Recent</option>
             <option value="popular">Most Popular</option>
@@ -171,7 +175,7 @@ export default function CoursesPage() {
 
 function CourseCard({ course }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all">
+    <div className="bg-white text-black rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-all">
       <div className="relative h-48">
         <Image
           src={course.thumbnail}

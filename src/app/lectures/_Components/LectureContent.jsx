@@ -146,8 +146,8 @@ export default function LectureContent() {
             {/* Download Materials */}
             <div className=" rounded-lg shadow-md p-6">
               <h3 className="text-xl font-semibold mb-4">Course Materials</h3>
-              <button className="w-full flex items-center justify-center px-4 py-2 bg-blue-600  rounded-lg hover:bg-blue-700 transition-colors">
-                <Download className="h-5 w-5 mr-2" />
+              <button className="w-full flex items-center justify-center px-4 py-2 text-white  bg-blue-600  rounded-lg hover:bg-blue-700 transition-colors">
+                <Download className="h-5 w-5 mr-2 " />
                 Download Lecture Notes
               </button>
             </div>
