@@ -32,6 +32,21 @@ const customStyles = {
     backgroundColor: state.isSelected ? "#060606" : "#fff",
   }),
 };
+const ncustomStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    border: "2px solid #060606",
+    borderRadius: "10px",
+    // padding: "10px",
+    width: "140px",
+    height: "40px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: state.isSelected ? "#fff" : "#060606",
+    backgroundColor: state.isSelected ? "#060606" : "#fff",
+  }),
+};
 
 const LecturesComponent = () => {
   const [selectedYear, setSelectedYear] = useState("1st");
@@ -114,7 +129,7 @@ const LecturesComponent = () => {
               isSearchable={false}
             />
 
-              <div className="md:hidden mb-4">
+              <div className="md:hidden ">
               <Select
                 value={yearOptions.find(
                   (option) => option.value === selectedYear
@@ -123,8 +138,9 @@ const LecturesComponent = () => {
                   setSelectedYear(selectedOption.value)
                 }
                 options={yearOptions}
-                styles={customStyles}
+                styles={ncustomStyles}
                 isSearchable={false}
+                
               />
             </div>
            </div>
