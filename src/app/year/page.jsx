@@ -140,7 +140,7 @@ export default function YearPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {yearData[selectedYear]?.books.map((book) => (
               <div
                 key={book.id}
