@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function ForSD() {
   return (
-    <section className="px-6 py-16">
+    <section className="px-6 py-12 sm:py-16 lg:py-20">
     <h2 className="text-xl md:text-2xl xl:text-4xl font-semibold leading-5 md:leading-6 xl:leading-9 text-center mb-12 ">For Students & Doctors</h2>
     <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
       {/* Students Card */}
@@ -21,7 +21,7 @@ export default function ForSD() {
       </div>
   
       {/* Doctors Card */}
-      <div className=" hover:shadow-xl transition-shadow rounded-2xl p-8 border border-gray-100">
+      <div className=" hover:shadow-xl transition-shadow rounded-2xl p-8 border border-gray-100 ">
         <div className="flex items-center gap-4 mb-4">
           <div className="bg-green-100 text-green-600 p-3 rounded-full text-2xl">
             🧑‍🏫

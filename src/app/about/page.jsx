@@ -18,7 +18,7 @@ export default function About() {
       {/* Why Choose Tiba */}
      <WhyTiba/>
       {/* Our Vision */}
-      <section className="px-6 py-16">
+      <section className="px-6 py-12  sm:py-16 lg:py-20">
   <div className="max-w-4xl mx-auto text-center">
     <h2 className="text-3xl font-bold  mb-6">
       Our <span className="text-blue-600">Vision</span>
@@ -29,7 +29,7 @@ export default function About() {
   </div>
 </section>
       {/* Contact / CTA */}
-      <section className="px-6 py-16 text-center">
+      <section className="px-6 py-12  sm:py-16 lg:py-20 text-center">
         <h2 className="text-2xl font-semibold mb-4">Have questions or suggestions?</h2>
         <p className="mb-2">📧 Reach out to us: <a href="mailto:your-email@example.com" className="text-blue-600 underline">your-email@example.com</a></p>
         <p>📍 Location: Tiba College Campus</p>

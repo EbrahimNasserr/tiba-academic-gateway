@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function WhyTiba() {
   return (
-    <section className="px-6 py-16  max-w-6xl mx-auto">
+    <section className="px-6 py-12  sm:py-16 lg:py-20  max-w-6xl mx-auto">
     <h2 className="text-3xl font-bold text-center mb-10">
       Why Choose <span className="text-blue-600">Tiba Academic Gateway?</span>
     </h2>

@@ -56,7 +56,7 @@ export default function YearPage() {
   const [selectedYear, setSelectedYear] = useState("1");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -103,18 +103,18 @@ export default function YearPage() {
             {yearData[selectedYear]?.lectures.map((lecture) => (
               <div
                 key={lecture.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                className=" border rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
                 <h3 className="text-xl font-semibold mb-2">{lecture.name}</h3>
-                <div className="flex items-center text-gray-600 mb-2">
+                <div className="flex items-center  mb-2">
                   <Users className="h-4 w-4 mr-2" />
                   {lecture.instructor}
                 </div>
-                <div className="flex items-center text-gray-600 mb-4">
+                <div className="flex items-center  mb-4">
                   <Calendar className="h-4 w-4 mr-2" />
                   {lecture.startDate} - {lecture.endDate}
                 </div>
-                <p className="text-gray-600 mb-4">{lecture.description}</p>
+                <p className=" mb-4">{lecture.description}</p>
                 <Link
                   href={`/lectures/${lecture.id}`}
                   className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -144,7 +144,7 @@ export default function YearPage() {
             {yearData[selectedYear]?.books.map((book) => (
               <div
                 key={book.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                className="border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <img
                   src={book.coverUrl}
@@ -152,8 +152,8 @@ export default function YearPage() {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="font-semibold mb-1">{book.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{book.author}</p>
+                  <h3 className="font-semibold ">{book.title}</h3>
+                  <p className=" text-sm mb-4">{book.author}</p>
                   <button className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                     <Book className="h-5 w-5 mr-2" />
                     View Book
@@ -170,12 +170,12 @@ export default function YearPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link
               href="/study-guides"
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex items-center"
+              className="border rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex items-center"
             >
               <GraduationCap className="h-8 w-8 text-blue-600 mr-4" />
               <div>
                 <h3 className="font-semibold mb-1">Study Guides</h3>
-                <p className="text-gray-600">
+                <p className="">
                   Access comprehensive study materials
                 </p>
               </div>
@@ -183,23 +183,23 @@ export default function YearPage() {
 
             <Link
               href="/practice-quizzes"
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex items-center"
+              className="border rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex items-center"
             >
               <Clock className="h-8 w-8 text-blue-600 mr-4" />
               <div>
                 <h3 className="font-semibold mb-1">Practice Quizzes</h3>
-                <p className="text-gray-600">Test your knowledge</p>
+                <p className="">Test your knowledge</p>
               </div>
             </Link>
 
             <Link
               href="/study-groups"
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex items-center"
+              className="border rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex items-center"
             >
               <Users className="h-8 w-8 text-blue-600 mr-4" />
               <div>
                 <h3 className="font-semibold mb-1">Study Groups</h3>
-                <p className="text-gray-600">Join or create study groups</p>
+                <p className="">Join or create study groups</p>
               </div>
             </Link>
           </div>

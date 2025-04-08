@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function WhatWeOffer() {
   return (
-    <section className="px-6 py-12 max-w-6xl mx-auto">
+    <section className="px-6 py-12  sm:py-16 lg:py-20 max-w-6xl mx-auto">
     <h2 className="text-xl md:text-2xl xl:text-4xl font-semibold leading-5 md:leading-6 xl:leading-9 text-center mb-10">What We Offer</h2>
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 text-center">
       <div className="shadow border rounded-lg p-6 hover:shadow-xl duration-200 transition-all">
