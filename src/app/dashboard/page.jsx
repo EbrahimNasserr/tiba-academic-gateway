@@ -24,6 +24,8 @@ export default function DoctorDashboard() {
   const [uploadType, setUploadType] = useState("Video");
   const [notification, setNotification] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [lectureFile, setLectureFile] = useState(null);
+  const [bookFile, setBookFile] = useState(null);
   const [lectures, setLectures] = useState([
     {
       id: "1",
@@ -34,6 +36,8 @@ export default function DoctorDashboard() {
       description: "Comprehensive introduction to human physiology systems.",
       uploadDate: "2025-04-07",
       fileUrl: "https://example.com/lecture1.mp4",
+      fileName: "Introduction to Physiology.mp4",
+      bookName: "Physiology for Beginners.pdf",
     },
     {
       id: "2",
@@ -44,11 +48,30 @@ export default function DoctorDashboard() {
       description: "Fundamental concepts of cellular biology and structures.",
       uploadDate: "2025-04-06",
       fileUrl: "https://example.com/lecture2.pdf",
+      fileName: "Cellular Biology Basics.pdf",
+      bookName: "Biology for Beginners.pdf",
+    },
+  ]);
+  const [uploadedLecture, setUploadedLecture] = useState([
+    {
+      title: "",
+      year: "",
+      subject: "",
+      type: "",
+      url: "",
+      file: null,
+      fileName: "",
+      book: null,
+      bookName: "",
     },
   ]);
 
   const handleUpload = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const file = formData.get("file");
+    const book = formData.get("book");
+
     // Simulate upload progress
     let progress = 0;
     const interval = setInterval(() => {
@@ -64,6 +87,37 @@ export default function DoctorDashboard() {
         setUploadProgress(0);
       }
     }, 500);
+
+    const newLecture = {
+      title: formData.get("title") || "",
+      year: formData.get("year") || "",
+      subject: formData.get("subject") || "",
+      type: formData.get("type") || "",
+      url: formData.get("url") || "",
+      file: file,
+      fileName: file ? file.name : "",
+      book: book,
+      bookName: book ? book.name : "",
+    };
+
+    setUploadedLecture([...uploadedLecture, newLecture]);
+    console.log("Uploaded Lecture:", {
+      ...newLecture,
+      file: file
+        ? {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+          }
+        : null,
+      book: book
+        ? {
+            name: book.name,
+            type: book.type,
+            size: book.size,
+          }
+        : null,
+    });
   };
 
   const handleDelete = (id) => {
@@ -163,10 +217,7 @@ export default function DoctorDashboard() {
               </p>
             </div>
 
-            <form
-              onSubmit={handleUpload}
-              className=" rounded-xl p-6 shadow-sm"
-            >
+            <form onSubmit={handleUpload} className=" rounded-xl p-6 shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="block text-sm font-medium  mb-2">
@@ -174,7 +225,8 @@ export default function DoctorDashboard() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border bg-transparent  border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    name="title"
+                    className="w-full px-4 py-2 border bg-transparent border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter lecture title"
                   />
                 </div>
@@ -184,6 +236,7 @@ export default function DoctorDashboard() {
                   </label>
                   <div className="relative">
                     <select
+                      name="year"
                       value={selectedYear}
                       onChange={(e) => setSelectedYear(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-200 bg-black dark:bg-white text-white dark:text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
@@ -206,11 +259,12 @@ export default function DoctorDashboard() {
                   </label>
                   <div className="relative">
                     <select
+                      name="subject"
                       value={selectedSubject}
                       onChange={(e) => setSelectedSubject(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-200 bg-black dark:bg-white text-white dark:text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                     >
-                      <option  value="">Select Subject</option>
+                      <option value="">Select Subject</option>
                       {[
                         "Anatomy",
                         "Physiology",
@@ -231,6 +285,7 @@ export default function DoctorDashboard() {
                   </label>
                   <div className="relative">
                     <select
+                      name="type"
                       value={uploadType}
                       onChange={(e) => setUploadType(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-200 bg-black dark:bg-white text-white dark:text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
@@ -257,29 +312,89 @@ export default function DoctorDashboard() {
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium  mb-2">
+                <label className="block text-sm font-medium mb-2">
+                  Related Course URL / YouTube Link
+                </label>
+                <input
+                  type="url"
+                  name="url"
+                  className="w-full px-4 py-2 border bg-transparent border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter course URL or YouTube link"
+                />
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-2">
                   Upload File
                 </label>
                 <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
                   <input
                     type="file"
+                    name="file"
                     className="hidden"
                     id="file-upload"
                     accept=".pdf,.ppt,.pptx,.mp4"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setLectureFile(file);
+                    }}
                   />
                   <label
                     htmlFor="file-upload"
                     className="cursor-pointer flex flex-col items-center"
                   >
-                    <Upload className="w-12 h-12  mb-4" />
-                    <span className="">
-                      Click to upload or drag and drop
-                    </span>
-                    <span className="text-sm  mt-1">
+                    <Upload className="w-12 h-12 mb-4" />
+                    <span className="">Click to upload or drag and drop</span>
+                    <span className="text-sm mt-1">
                       Supported formats: MP4, PDF, PPT
                     </span>
                   </label>
                 </div>
+                {lectureFile && (
+                  <div className="mt-2">
+                    <span className="text-sm">
+                      Selected file: {lectureFile.name} (
+                      {(lectureFile.size / 1024 / 1024).toFixed(2)} MB)
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-2">
+                  Upload Related Book
+                </label>
+                <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
+                  <input
+                    type="file"
+                    name="book"
+                    className="hidden"
+                    id="book-upload"
+                    accept=".pdf,.doc,.docx"
+                    onChange={(e) => {
+                      const book = e.target.files[0];
+                      setBookFile(book);
+                    }}
+                  />
+                  <label
+                    htmlFor="book-upload"
+                    className="cursor-pointer flex flex-col items-center"
+                  >
+                    <BookOpen className="w-12 h-12 mb-4" />
+                    <span className="">Click to upload or drag and drop</span>
+                    <span className="text-sm mt-1">
+                      Supported formats: PDF, DOC, DOCX
+                    </span>
+                  </label>
+                </div>
+                {bookFile && (
+                  <div className="mt-2">
+                    <span className="text-sm">
+                      Selected book: {bookFile.name} (
+                      {(bookFile.size / 1024 / 1024).toFixed(2)} MB)
+                    </span>
+                  </div>
+                )}
               </div>
 
               {uploadProgress > 0 && (
@@ -317,7 +432,7 @@ export default function DoctorDashboard() {
               {lectures.map((lecture) => (
                 <div
                   key={lecture.id}
-                  className=" border rounded-xl shadow-sm overflow-hidden"
+                  className="border rounded-xl shadow-sm overflow-hidden"
                 >
                   <div className="p-6">
                     <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
@@ -327,12 +442,36 @@ export default function DoctorDashboard() {
                     <h3 className="text-xl font-semibold mb-2">
                       {lecture.title}
                     </h3>
-                    <p className=" text-sm mb-4">
-                      {lecture.description}
-                    </p>
-                    <div className="flex items-center gap-4 text-sm  mb-4">
+                    <p className="text-sm mb-4">{lecture.description}</p>
+                    <div className="flex items-center gap-4 text-sm mb-4">
                       <span>{lecture.year} Year</span>
                       <span>{lecture.subject}</span>
+                    </div>
+                    <div className="flex flex-col gap-2 mb-4">
+                      {lecture.fileName && (
+                        <div className="flex items-center gap-2 text-sm">
+                          <FileText className="w-4 h-4" />
+                          <span>Lecture: {lecture.fileName}</span>
+                        </div>
+                      )}
+                      {lecture.bookName && (
+                        <div className="flex items-center gap-2 text-sm">
+                          <BookOpen className="w-4 h-4" />
+                          <span>Book: {lecture.bookName}</span>
+                        </div>
+                      )}
+                      {lecture.url && (
+                        <div className="flex items-center gap-2 text-sm">
+                          <a
+                            href={lecture.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                          >
+                            Related Course Link
+                          </a>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-sm text-gray-500">
