@@ -1,7 +1,13 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  fetchYears,
+  selectAllYears,
+  selectYearsStatus,
+} from "@/redux/features/yearsSlice";
 
 const springValues = {
   damping: 30,
@@ -132,91 +138,68 @@ const TiltedCard = ({
 };
 
 const App = () => {
+  const dispatch = useAppDispatch();
+  const years = useAppSelector(selectAllYears);
+  const status = useAppSelector(selectYearsStatus);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchYears());
+    }
+  }, [status, dispatch]);
+
+  if (status === "loading" || status === "idle") {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (status === "failed") {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <p className="text-red-500">
+          Failed to load years data. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
+  // Only render content when data is successfully loaded
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tight mb-8 capitalize">
         Dive into your year
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 p-6">
-        <Link href={"/year"}>
-          <TiltedCard
-            className=""
-            imageSrc="https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg"
-            altText="First year"
-            captionText="First year"
-            // containerHeight="300px"
-            // containerWidth="300px"
-            // imageHeight="300px"
-            // imageWidth="300px"
-            scaleOnHover={1.1}
-            rotateAmplitude={12}
-            showMobileWarning={false}
-            showTooltip={true}
-            displayOverlayContent={true}
-            overlayContent={
-              <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
-                1st
-              </p>
-            }
-          />
-        </Link>
-        <TiltedCard
-          imageSrc="https://images.pexels.com/photos/1462630/pexels-photo-1462630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          altText="Second year"
-          captionText="Second year"
-          // containerHeight="300px"
-          // containerWidth="300px"
-          // imageHeight="300px"
-          // imageWidth="300px"
-          scaleOnHover={1.2}
-          rotateAmplitude={14}
-          showMobileWarning={true}
-          showTooltip={true}
-          displayOverlayContent={true}
-          overlayContent={
-            <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
-              2nd
-            </p>
-          }
-        />
-        <TiltedCard
-          imageSrc="https://images.pexels.com/photos/3764402/pexels-photo-3764402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          altText="Third year"
-          captionText="Third year"
-          // containerHeight="300px"
-          // containerWidth="300px"
-          // imageHeight="300px"
-          // imageWidth="300px"
-          scaleOnHover={1.1}
-          rotateAmplitude={16}
-          showMobileWarning={true}
-          showTooltip={true}
-          displayOverlayContent={true}
-          overlayContent={
-            <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
-              3rd
-            </p>
-          }
-        />
-        <TiltedCard
-          imageSrc="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          altText="Senior year"
-          captionText="Senior year"
-          // containerHeight="300px"
-          // containerWidth="300px"
-          // imageHeight="300px"
-          // imageWidth="300px"
-          scaleOnHover={1.1}
-          rotateAmplitude={12}
-          showMobileWarning={false}
-          showTooltip={true}
-          displayOverlayContent={true}
-          overlayContent={
-            <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
-              4th
-            </p>
-          }
-        />
+        {years.map((year, index) => (
+          <Link key={year.id} href={"/year"}>
+            <TiltedCard
+              className=""
+              imageSrc={year.image}
+              altText={year.name}
+              captionText={year.name}
+              scaleOnHover={1.1}
+              rotateAmplitude={12 + index * 2}
+              showMobileWarning={false}
+              showTooltip={true}
+              displayOverlayContent={true}
+              overlayContent={
+                <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
+                  {year.id}
+                  {index === 0
+                    ? "st"
+                    : index === 1
+                    ? "nd"
+                    : index === 2
+                    ? "rd"
+                    : "th"}
+                </p>
+              }
+            />
+          </Link>
+        ))}
       </div>
     </>
   );

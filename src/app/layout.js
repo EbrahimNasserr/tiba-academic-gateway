@@ -5,6 +5,7 @@ import Footer from "@/components/Footer/Footer";
 import BottomNav from "@/components/BottomNav/BottomNav";
 import { VscHome, VscArchive, VscAccount, VscSettingsGear } from 'react-icons/vsc';
 import NextThemeProvider from "./NextThemeProvider";
+import ReduxProvider from "@/redux/ReduxProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -69,17 +70,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body style={{ fontFamily: poppins.style.fontFamily }}>
-        <NextThemeProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <BottomNav
-            items={NavItems}
-            panelHeight={68}
-            baseItemSize={50}
-            magnification={70}
-          />
-        </NextThemeProvider>
+        <ReduxProvider>
+          <NextThemeProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            <BottomNav
+              items={NavItems}
+              panelHeight={68}
+              baseItemSize={50}
+              magnification={70}
+            />
+          </NextThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
