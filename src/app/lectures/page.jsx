@@ -1,10 +1,10 @@
 import Hero from "./_Components/Hero";
-import LecturesComponent from "./_Components/LecturesComponent";
+import SubjectHero from "./_Components/SubjectHero";
 export default function Lectures() {
   return (
     <main>
       <Hero />
-      <LecturesComponent />
+      <SubjectHero />
     </main>
   );
 }

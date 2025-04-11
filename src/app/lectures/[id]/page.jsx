@@ -1,8 +1,8 @@
-import LectureContent from "../_Components/LectureContent";
+import SubjectContent from "../_Components/SubjectContent";
 const page = () => {
   return (
     <main>
-      <LectureContent />
+      <SubjectContent />
     </main>
   );
 };
