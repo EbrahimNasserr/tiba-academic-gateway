@@ -48,7 +48,7 @@ const ncustomStyles = {
   }),
 };
 
-const SubjectHero = () => {
+const LectureHero = () => {
   const [selectedYear, setSelectedYear] = useState("1st");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("recent");
@@ -335,4 +335,4 @@ const lectures = [
   },
 ];
 
-export default LecturesComponent;
+export default LectureHero;

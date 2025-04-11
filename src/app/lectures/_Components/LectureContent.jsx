@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export default function SubjectContent() {
+export default function LectureContent() {
   const [comments, setComments] = useState([
     {
       id: 1,
