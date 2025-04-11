@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Page() {
-  const [isSignUp, setIsSignUp] = useState(false); // State to toggle between Sign In and Sign Up
 
   return (
     <>
@@ -16,7 +15,7 @@ export default function Page() {
           <div className="w-full border rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl">
-                {isSignUp ? 'Create an account' : 'Sign in to your account'}
+                Sign in to your account
               </h1>
               <form className="space-y-4 md:space-y-6" action="#">
                 <div>
@@ -25,7 +24,7 @@ export default function Page() {
                     type="email"
                     name="email"
                     id="email"
-                    className="border bg-gray-50 border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    className="border bg-gray-50 text-black border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="name@company.com"
                     required
                   />
@@ -37,7 +36,7 @@ export default function Page() {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    className="bg-gray-50 border text-black border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     required
                   />
                 </div>
@@ -45,33 +44,8 @@ export default function Page() {
                   type="submit"
                   className="w-full border hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 >
-                  {isSignUp ? 'Sign up' : 'Sign in'}
-                </button>
-                <p className="text-sm font-light">
-                  {isSignUp ? (
-                    <>
-                      Already have an account?{' '}
-                      <a
-                        href="#"
-                        onClick={() => setIsSignUp(false)}
-                        className="font-medium text-primary-600 hover:underline"
-                      >
-                        Sign in
-                      </a>
-                    </>
-                  ) : (
-                    <>
-                      Don’t have an account yet?{' '}
-                      <a
-                        href="#"
-                        onClick={() => setIsSignUp(true)}
-                        className="font-medium text-primary-600 hover:underline"
-                      >
-                        Sign up
-                      </a>
-                    </>
-                  )}
-                </p>
+                  Sign in
+                </button> 
               </form>
             </div>
           </div>
