@@ -16,6 +16,7 @@ import {
   useState,
 } from "react";
 import DarkModeSwitch from "../LightModeToggle/Toggle";
+import Link from "next/link";
 function DockItem({
   children,
   className = "",
@@ -124,7 +125,7 @@ export default function BottomNav({
   const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
   const height = useSpring(heightRow, spring);
 
-  return (
+  return <>
     <motion.div
       style={{ scrollbarWidth: "none" }}
       className="mx-2 flex max-w-full items-center"
@@ -143,23 +144,33 @@ export default function BottomNav({
         role="toolbar"
         aria-label="Application dock"
       >
-        {items.map((item, index) => (
-          <DockItem
-            key={index}
-            onClick={item.onClick}
-            className={item.className}
-            mouseX={mouseX}
-            spring={spring}
-            distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}
-          >
-            <DockIcon>{item.icon}</DockIcon>
-            <DockLabel>{item.label}</DockLabel>
-          </DockItem>
-        ))}
+        {items.map((item, index) => {
+  const content = (
+    <DockItem
+      key={index}
+      onClick={item.onClick}
+      className={item.className}
+      mouseX={mouseX}
+      spring={spring}
+      distance={distance}
+      magnification={magnification}
+      baseItemSize={baseItemSize}
+    >
+      <DockIcon>{item.icon}</DockIcon>
+      <DockLabel>{item.label}</DockLabel>
+    </DockItem>
+  );
+
+  return item.link ? (
+    <Link key={index} href={item.link}>
+      {content}
+    </Link>
+  ) : (
+    content
+  );
+})}
         <DarkModeSwitch />
       </motion.div>
     </motion.div>
-  );
+    </>
 }

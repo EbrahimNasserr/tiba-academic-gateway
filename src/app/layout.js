@@ -3,9 +3,10 @@ import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import BottomNav from "@/components/BottomNav/BottomNav";
-import { VscHome, VscArchive, VscAccount, VscSettingsGear } from 'react-icons/vsc';
 import NextThemeProvider from "./NextThemeProvider";
 import ReduxProvider from "@/redux/ReduxProvider";
+import Link from "next/link";
+import { Book, BookOpenCheck, House, Info } from "lucide-react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -14,12 +15,11 @@ const poppins = Poppins({
 });
 
 
-
 const NavItems = [
-  { icon: <VscHome size={18} />, label: "Home" },
-  { icon: <VscArchive size={18} />, label: "Archive" },
-  { icon: <VscAccount size={18} />, label: "Profile" },
-  { icon: <VscSettingsGear size={18} />, label: "Settings" },
+  { icon: <House size={20} />, label: "Home" , link: "/"},
+  { icon: <BookOpenCheck size={20} />, label: "Courses" , link: "/courses" },
+  { icon: <Book size={20} />, label: "Subjects" , link: "/subjects" },
+  { icon: <Info size={20} />, label: "About us" , link: "/about" },
 ];
 
 export const metadata = {
@@ -76,10 +76,10 @@ export default function RootLayout({ children }) {
             <main>{children}</main>
             <Footer />
             <BottomNav
-              items={NavItems}
+              items={NavItems}        
               panelHeight={68}
               baseItemSize={50}
-              magnification={70}
+              magnification={70}             
             />
           </NextThemeProvider>
         </ReduxProvider>

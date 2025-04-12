@@ -32,7 +32,7 @@ export default function Books() {
     },
   ];
   return (
-    <section className="py-16 dark:bg-[#f5f5f5]">
+    <section className="py-16 ">
       <div className="custom-container">
         <h2 className="text-3xl font-bold tracking-tight mb-8">
           Academic Books

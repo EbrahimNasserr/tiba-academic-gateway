@@ -56,7 +56,7 @@ export default function Courses() {
             <h2 className="text-3xl font-bold tracking-tight">
               Featured Courses
             </h2>
-            <p className="text-gray-500 text-lg font-medium mt-2">
+            <p className=" text-lg font-medium mt-2">
               Explore our wide range of academic courses
             </p>
           </div>

@@ -141,7 +141,7 @@ export default function DoctorDashboard() {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content */}
-      <main className="ml-64 flex-1 p-8">
+      <main className="lg:ml-64 flex-1 p-8">
         {activeTab !== "subjects" && (
           <Notification
             notification={notification}
