@@ -25,7 +25,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
           </div>
           <nav className="space-y-2">
             <button
-              onClick={() => setActiveTab("upload")}
+              onClick={() => {setActiveTab("upload"); setIsSidebarOpen(false)}}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "upload"
                   ? "bg-blue-50 text-blue-600"
@@ -36,7 +36,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               Upload Lecture
             </button>
             <button
-              onClick={() => setActiveTab("lectures")}
+              onClick={() => {setActiveTab("lectures"); setIsSidebarOpen(false)}}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "lectures"
                   ? "bg-blue-50 text-blue-600"
@@ -47,7 +47,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               My Lectures
             </button>
             <button
-              onClick={() => setActiveTab("subjects")}
+              onClick={() => {setActiveTab("subjects"); setIsSidebarOpen(false)}}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "subjects"
                   ? "bg-blue-50 text-blue-600"
@@ -57,7 +57,13 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <Book className="w-5 h-5" />
               Subjects
             </button>
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 hover:text-black">
+            <button 
+            onClick={() => {setActiveTab("profile"); setIsSidebarOpen(false)}}
+            className= {`w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 hover:text-black ${
+              activeTab === "profile"
+                ? "bg-blue-50 text-blue-600"
+                : "hover:bg-gray-50 hover:text-black"
+            }`}>
               <User className="w-5 h-5" />
               Edit Profile
             </button>
