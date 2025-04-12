@@ -84,12 +84,12 @@ export default function Navbar() {
 
         {/* Mobile Menu Links */}
         {menuOpen && (
-          <div className="mt-4 space-y-2 lg:hidden">
+          <div className="mt-4 space-y-2 lg:hidden absolute right-0 bg-[#060606] w-full z-40 text-center dark:bg-white">
             {links.map((link) => (
               <Link
                 href={link.href}
                 key={link.name}
-                className="block text-base px-4 py-2 rounded hover:bg-gray-100 transition"
+                className="block text-base px-4 py-2 rounded hover:bg-gray-300 transition"
                 onClick={() => setMenuOpen(false)}
               >
                 {link.name}
