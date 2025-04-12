@@ -2,12 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  fetchYears,
-  selectAllYears,
-  selectYearsStatus,
-} from "@/redux/features/yearsSlice";
+import { useGetYearsQuery } from "@/redux/api/apiSlice";
 
 const springValues = {
   damping: 30,
@@ -138,17 +133,9 @@ const TiltedCard = ({
 };
 
 const App = () => {
-  const dispatch = useAppDispatch();
-  const years = useAppSelector(selectAllYears);
-  const status = useAppSelector(selectYearsStatus);
+  const { data: years = [], isLoading, isError, error } = useGetYearsQuery();
 
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchYears());
-    }
-  }, [status, dispatch]);
-
-  if (status === "loading" || status === "idle") {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
@@ -156,7 +143,7 @@ const App = () => {
     );
   }
 
-  if (status === "failed") {
+  if (isError) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <p className="text-red-500">

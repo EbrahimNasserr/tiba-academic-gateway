@@ -1,98 +1,41 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Book, Edit2, Trash2, Plus, Loader2 } from "lucide-react";
 import YearSelector from "@/components/YearSelector/YearSelector";
 import {
-  fetchSubjects,
-  createSubject,
-  updateSubject,
-  deleteSubject,
-  selectAllSubjects,
-  selectSubjectsStatus,
-  selectCreateStatus,
-  selectUpdateStatus,
-  selectDeleteStatus,
-  selectSubjectsError,
-  resetSubjectsStatus,
-} from "@/redux/features/subjectsSlice";
+  useGetSubjectsQuery,
+  useCreateSubjectMutation,
+  useUpdateSubjectMutation,
+  useDeleteSubjectMutation,
+} from "@/redux/api/apiSlice";
 
 export default function SubjectsManager() {
-  const dispatch = useAppDispatch();
-
-  const subjects = useAppSelector(selectAllSubjects);
-  const status = useAppSelector(selectSubjectsStatus);
-  const createStatus = useAppSelector(selectCreateStatus);
-  const updateStatus = useAppSelector(selectUpdateStatus);
-  const deleteStatus = useAppSelector(selectDeleteStatus);
-  const error = useAppSelector(selectSubjectsError);
-
   const [newSubjectName, setNewSubjectName] = useState("");
   const [newSubjectYear, setNewSubjectYear] = useState("1");
   const [editingSubject, setEditingSubject] = useState(null);
   const [notification, setNotification] = useState(null);
 
-  // Fetch subjects when component mounts
+  // RTK Query hooks
+  const {
+    data: subjects = [],
+    isLoading: isLoadingSubjects,
+    isError: isErrorSubjects,
+    error: subjectsError,
+  } = useGetSubjectsQuery({});
+  const [createSubject, { isLoading: isCreating }] = useCreateSubjectMutation();
+  const [updateSubject, { isLoading: isUpdating }] = useUpdateSubjectMutation();
+  const [deleteSubject, { isLoading: isDeleting }] = useDeleteSubjectMutation();
+
+  // Monitor mutation results and show notifications
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchSubjects());
-    }
-  }, [status, dispatch]);
-
-  // Monitor status changes and show notifications
-  useEffect(() => {
-    if (createStatus === "succeeded") {
-      setNotification({
-        type: "success",
-        message: "Subject added successfully!",
-      });
-      setNewSubjectName("");
-      dispatch(resetSubjectsStatus());
-    } else if (createStatus === "failed") {
-      setNotification({
-        type: "error",
-        message: `Failed to add subject: ${error}`,
-      });
-      dispatch(resetSubjectsStatus());
-    }
-
-    if (updateStatus === "succeeded") {
-      setNotification({
-        type: "success",
-        message: "Subject updated successfully!",
-      });
-      setEditingSubject(null);
-      dispatch(resetSubjectsStatus());
-    } else if (updateStatus === "failed") {
-      setNotification({
-        type: "error",
-        message: `Failed to update subject: ${error}`,
-      });
-      dispatch(resetSubjectsStatus());
-    }
-
-    if (deleteStatus === "succeeded") {
-      setNotification({
-        type: "success",
-        message: "Subject deleted successfully!",
-      });
-      dispatch(resetSubjectsStatus());
-    } else if (deleteStatus === "failed") {
-      setNotification({
-        type: "error",
-        message: `Failed to delete subject: ${error}`,
-      });
-      dispatch(resetSubjectsStatus());
-    }
-
     if (notification) {
       const timer = setTimeout(() => setNotification(null), 3000);
       return () => clearTimeout(timer);
     }
-  }, [createStatus, updateStatus, deleteStatus, error, notification, dispatch]);
+  }, [notification]);
 
-  const handleAddSubject = (e) => {
+  const handleAddSubject = async (e) => {
     e.preventDefault();
     if (!newSubjectName.trim()) {
       setNotification({
@@ -102,15 +45,26 @@ export default function SubjectsManager() {
       return;
     }
 
-    dispatch(
-      createSubject({
+    try {
+      await createSubject({
         name: newSubjectName,
         year_id: newSubjectYear,
-      })
-    );
+      }).unwrap();
+
+      setNotification({
+        type: "success",
+        message: "Subject added successfully!",
+      });
+      setNewSubjectName("");
+    } catch (error) {
+      setNotification({
+        type: "error",
+        message: `Failed to add subject: ${error.message || "Unknown error"}`,
+      });
+    }
   };
 
-  const handleUpdateSubject = (e) => {
+  const handleUpdateSubject = async (e) => {
     e.preventDefault();
     if (!editingSubject || !editingSubject.name.trim()) {
       setNotification({
@@ -120,20 +74,45 @@ export default function SubjectsManager() {
       return;
     }
 
-    dispatch(
-      updateSubject({
+    try {
+      await updateSubject({
         id: editingSubject.id,
-        subjectData: {
-          name: editingSubject.name,
-          year_id: editingSubject.year,
-        },
-      })
-    );
+        name: editingSubject.name,
+        year_id: editingSubject.year,
+      }).unwrap();
+
+      setNotification({
+        type: "success",
+        message: "Subject updated successfully!",
+      });
+      setEditingSubject(null);
+    } catch (error) {
+      setNotification({
+        type: "error",
+        message: `Failed to update subject: ${
+          error.message || "Unknown error"
+        }`,
+      });
+    }
   };
 
-  const handleDeleteSubject = (id) => {
+  const handleDeleteSubject = async (id) => {
     if (window.confirm("Are you sure you want to delete this subject?")) {
-      dispatch(deleteSubject(id));
+      try {
+        await deleteSubject(id).unwrap();
+
+        setNotification({
+          type: "success",
+          message: "Subject deleted successfully!",
+        });
+      } catch (error) {
+        setNotification({
+          type: "error",
+          message: `Failed to delete subject: ${
+            error.message || "Unknown error"
+          }`,
+        });
+      }
     }
   };
 
@@ -149,7 +128,7 @@ export default function SubjectsManager() {
     setEditingSubject(null);
   };
 
-  if (status === "loading") {
+  if (isLoadingSubjects) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
@@ -158,12 +137,14 @@ export default function SubjectsManager() {
     );
   }
 
-  if (status === "failed") {
+  if (isErrorSubjects) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-500 mb-4">Error loading subjects: {error}</p>
+        <p className="text-red-500 mb-4">
+          Error loading subjects: {subjectsError?.message || "Unknown error"}
+        </p>
         <button
-          onClick={() => dispatch(fetchSubjects())}
+          onClick={() => refetch()}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg"
         >
           Try Again
@@ -236,22 +217,17 @@ export default function SubjectsManager() {
               <div className="flex gap-2">
                 <button
                   type="submit"
-                  disabled={
-                    createStatus === "loading" || updateStatus === "loading"
-                  }
+                  disabled={isCreating || isUpdating}
                   className={`flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 ${
-                    createStatus === "loading" || updateStatus === "loading"
+                    isCreating || isUpdating
                       ? "opacity-70 cursor-not-allowed"
                       : ""
                   }`}
                 >
-                  {createStatus === "loading" || updateStatus === "loading" ? (
+                  {isCreating || isUpdating ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : editingSubject ? (
-                    <>
-                      <Edit2 className="w-4 h-4" />
-                      Update Subject
-                    </>
+                    "Update Subject"
                   ) : (
                     <>
                       <Plus className="w-4 h-4" />
@@ -263,7 +239,7 @@ export default function SubjectsManager() {
                   <button
                     type="button"
                     onClick={cancelEditing}
-                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                    className="py-3 px-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     Cancel
                   </button>
@@ -275,50 +251,46 @@ export default function SubjectsManager() {
 
         {/* Subject List */}
         <div className="md:col-span-2">
-          <div className="border rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Subject List</h2>
-            <div className="space-y-4">
+          <div className="border rounded-xl shadow-sm overflow-hidden">
+            <h2 className="text-xl font-semibold p-6 border-b">Subject List</h2>
+            <div className="divide-y">
               {subjects.length === 0 ? (
-                <p className="text-center py-4 text-gray-500">
-                  No subjects added yet
-                </p>
+                <div className="p-6 text-center text-gray-500">
+                  No subjects found. Add your first subject!
+                </div>
               ) : (
                 subjects.map((subject) => (
                   <div
                     key={subject.id}
-                    className="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors"
+                    className="px-6 py-4 flex items-center justify-between"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
-                        <Book className="w-5 h-5" />
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                        <Book className="w-5 h-5 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="font-medium">{subject.name}</h3>
                         <p className="text-sm text-gray-500">
-                          Year {subject.year_id || subject.year}
+                          Year {subject.year_id}
                         </p>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => startEditing(subject)}
-                        className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                        className="p-2 text-gray-500 hover:text-blue-600 rounded-lg hover:bg-gray-100 transition-colors"
                       >
-                        <Edit2 className="w-4 h-4" />
+                        <Edit2 className="w-5 h-5" />
                       </button>
                       <button
                         onClick={() => handleDeleteSubject(subject.id)}
-                        disabled={deleteStatus === "loading"}
-                        className={`p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors ${
-                          deleteStatus === "loading"
-                            ? "opacity-70 cursor-not-allowed"
-                            : ""
-                        }`}
+                        disabled={isDeleting}
+                        className="p-2 text-gray-500 hover:text-red-600 rounded-lg hover:bg-gray-100 transition-colors"
                       >
-                        {deleteStatus === "loading" ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                        {isDeleting ? (
+                          <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-5 h-5" />
                         )}
                       </button>
                     </div>

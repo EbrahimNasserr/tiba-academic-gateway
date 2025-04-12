@@ -2,13 +2,7 @@
 
 import { Upload, BookOpen, ChevronDown } from "lucide-react";
 import YearSelector from "@/components/YearSelector/YearSelector";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  fetchSubjects,
-  selectAllSubjects,
-  selectSubjectsStatus,
-} from "@/redux/features/subjectsSlice";
-import { useEffect } from "react";
+import { useGetSubjectsQuery } from "@/redux/api/apiSlice";
 
 export default function UploadLecture({
   handleUpload,
@@ -24,15 +18,9 @@ export default function UploadLecture({
   bookFile,
   setBookFile,
 }) {
-  const dispatch = useAppDispatch();
-  const subjects = useAppSelector(selectAllSubjects);
-  const status = useAppSelector(selectSubjectsStatus);
+  // Use RTK Query to fetch subjects
+  const { data: subjects = [], isLoading } = useGetSubjectsQuery({});
 
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchSubjects());
-    }
-  }, [dispatch, status]);
   return (
     <>
       <div className="mb-8">
@@ -74,11 +62,17 @@ export default function UploadLecture({
                 onChange={(e) => setSelectedSubject(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-200 bg-black dark:bg-white text-white dark:text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
               >
-                {subjects.map((subject) => (
-                  <option key={subject.id} value={subject.id}>
-                    {subject.name}
-                  </option>
-                ))}
+                {isLoading ? (
+                  <option>Loading subjects...</option>
+                ) : subjects.length === 0 ? (
+                  <option>No subjects available</option>
+                ) : (
+                  subjects.map((subject) => (
+                    <option key={subject.id} value={subject.id}>
+                      {subject.name}
+                    </option>
+                  ))
+                )}
               </select>
               <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
             </div>

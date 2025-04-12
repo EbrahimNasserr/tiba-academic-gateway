@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Calendar,
   Clock,
@@ -12,29 +12,28 @@ import {
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
-  fetchLectureById,
-  selectCurrentLecture,
-  selectCurrentLectureStatus,
-  selectCurrentLectureError,
-  selectAllLectures,
-  selectLecturesStatus,
-  selectLecturesError,
-  fetchLectures,
-} from "../../../redux/features/lecturesSlice";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+  useGetLectureByIdQuery,
+  useGetLecturesQuery,
+} from "../../../redux/api/apiSlice";
 
 export default function LectureContent() {
   const params = useParams();
-  const dispatch = useAppDispatch();
-  // current lecture
-  const lecture = useAppSelector(selectCurrentLecture);
-  const lectureStatus = useAppSelector(selectCurrentLectureStatus);
-  const lectureError = useAppSelector(selectCurrentLectureError);
 
-  // all lectures
-  const AllLectures = useAppSelector(selectAllLectures);
-  const AllLecturesStatus = useAppSelector(selectLecturesStatus);
-  const AllLecturesError = useAppSelector(selectLecturesError);
+  // Get current lecture
+  const {
+    data: lecture,
+    isLoading: isLectureLoading,
+    isError: isLectureError,
+    error: lectureError,
+  } = useGetLectureByIdQuery(params.id);
+
+  // Get all lectures for related lectures
+  const {
+    data: AllLectures = [],
+    isLoading: isAllLecturesLoading,
+    isError: isAllLecturesError,
+    error: allLecturesError,
+  } = useGetLecturesQuery({});
 
   const [comments, setComments] = useState([
     {
@@ -47,16 +46,7 @@ export default function LectureContent() {
   ]);
   const [newComment, setNewComment] = useState("");
 
-  useEffect(() => {
-    if (params.id) {
-      dispatch(fetchLectureById(params.id));
-    }
-
-    // Fetch all lectures for related lectures section
-    dispatch(fetchLectures({}));
-  }, [dispatch, params.id]);
-
-  if (lectureStatus === "loading" || AllLecturesStatus === "loading") {
+  if (isLectureLoading || isAllLecturesLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         Loading...
@@ -64,10 +54,10 @@ export default function LectureContent() {
     );
   }
 
-  if (lectureStatus === "failed" || AllLecturesStatus === "failed") {
+  if (isLectureError || isAllLecturesError) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        Error: {lectureError || AllLecturesError}
+        Error: {lectureError?.message || allLecturesError?.message}
       </div>
     );
   }
@@ -142,11 +132,6 @@ export default function LectureContent() {
             {/* Video Player */}
             <div className="aspect-w-16 aspect-h-9 mb-8">
               {videoUrl ? (
-                // <video
-                //   className="w-full h-[400px] rounded-lg shadow-lg"
-                //   src={videoUrl}
-                //   controls
-                // ></video>
                 <iframe
                   className="w-full h-[400px] rounded-lg shadow-lg"
                   src="https://www.youtube.com/embed/Y-x0efG1seA"
@@ -233,26 +218,6 @@ export default function LectureContent() {
                 </div>
               </div>
             )}
-
-            {/* Remove this section or replace with actual data */}
-            {/* <div className="rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-semibold mb-4">Related courses</h3>
-              <div className="space-y-3">
-                {[
-                  "Muscular System Overview",
-                  "Bone Development and Growth",
-                  "Joint Types and Movement",
-                ].map((lecture, index) => (
-                  <Link
-                    key={index}
-                    href={`/lectures/${index + 1}`}
-                    className="block p-3 border rounded-lg hover:bg-gray-500 transition-colors"
-                  >
-                    {lecture}
-                  </Link>
-                ))}
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

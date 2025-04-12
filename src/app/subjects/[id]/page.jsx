@@ -1,26 +1,22 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import {
-  fetchLectures,
-  selectAllLectures,
-  selectLecturesStatus,
-} from "../../../redux/features/lecturesSlice";
+import { useGetLecturesQuery } from "../../../redux/api/apiSlice";
 import Image from "next/image";
 import { Clock, Download, Play, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const LecturesPage = () => {
   const { id } = useParams();
-  const dispatch = useAppDispatch();
-  const lectures = useAppSelector(selectAllLectures);
-  const status = useAppSelector(selectLecturesStatus);
   const [selectedYear, setSelectedYear] = useState("1");
-
-  useEffect(() => {
-    dispatch(fetchLectures({ subject_id: id, year_id: selectedYear }));
-  }, [dispatch, id, selectedYear]);
+  const {
+    data: lectures,
+    isLoading,
+    isSuccess,
+  } = useGetLecturesQuery({
+    subject_id: id,
+    year_id: selectedYear,
+  });
 
   return (
     <section className="py-12">
@@ -63,13 +59,13 @@ const LecturesPage = () => {
           </div>
         </div>
 
-        {status === "loading" && (
+        {isLoading && (
           <div className="flex justify-center my-12">
             <div className="animate-spin h-8 w-8 border-4 border-secondary rounded-full border-t-transparent"></div>
           </div>
         )}
 
-        {status === "succeeded" && lectures.length === 0 && (
+        {isSuccess && lectures.length === 0 && (
           <div className="text-center py-16">
             <p className="text-xl text-gray-500">
               No lectures found for this subject.
@@ -78,7 +74,7 @@ const LecturesPage = () => {
         )}
 
         {/* Lectures Grid */}
-        {status === "succeeded" && lectures.length > 0 && (
+        {isSuccess && lectures.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {lectures.map((lecture) => (
               <Link

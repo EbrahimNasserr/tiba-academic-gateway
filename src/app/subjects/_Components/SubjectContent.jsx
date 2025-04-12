@@ -1,16 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Book, Clock, Search } from "lucide-react";
 import Select from "react-select";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import {
-  fetchSubjects,
-  selectAllSubjects,
-  selectSubjectsStatus,
-} from "../../../redux/features/subjectsSlice";
-
+import { useGetSubjectsQuery } from "../../../redux/api/apiSlice";
+import YearSelector from "@/components/YearSelector/YearSelector";
 const sortOptions = [
   { value: "recent", label: "Most Recent" },
   { value: "az", label: "A-Z" },
@@ -57,13 +52,14 @@ const SubjectContent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("recent");
 
-  const dispatch = useAppDispatch();
-  const subjects = useAppSelector(selectAllSubjects);
-  const status = useAppSelector(selectSubjectsStatus);
-
-  useEffect(() => {
-    dispatch(fetchSubjects({ q: searchQuery, year_id: selectedYear }));
-  }, [dispatch, selectedYear, searchQuery]);
+  const {
+    data: subjects = [],
+    isLoading,
+    isSuccess,
+  } = useGetSubjectsQuery({
+    q: searchQuery,
+    year_id: selectedYear,
+  });
 
   // Sort subjects based on selected sort option
   const sortedSubjects = [...subjects].sort((a, b) => {
@@ -79,26 +75,6 @@ const SubjectContent = () => {
     <section className="pb-16">
       <div className="custom-container">
         <div className="">
-          {/* Year Filter */}
-          <div className="mb-12">
-            {/* Desktop Button Group */}
-            <div className="hidden gap-2 md:flex">
-              {yearOptions.map((year) => (
-                <button
-                  key={year.value}
-                  onClick={() => setSelectedYear(year.value)}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                    selectedYear === year.value
-                      ? "bg-secondary text-white"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
-                  }`}
-                >
-                  {year.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Search and Sort Bar */}
           <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="relative flex-1">
@@ -111,39 +87,22 @@ const SubjectContent = () => {
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-white"
               />
             </div>
-            <div className="flex gap-2">
-              <Select
-                value={sortOptions.find((option) => option.value === sortBy)}
-                onChange={(selectedOption) => setSortBy(selectedOption.value)}
-                options={sortOptions}
-                styles={customStyles}
-                isSearchable={false}
+            <div className="flex gap-2 w-full md:w-1/4">
+              <YearSelector
+                value={selectedYear}
+                onChange={setSelectedYear}
               />
-
-              <div className="md:hidden">
-                <Select
-                  value={yearOptions.find(
-                    (option) => option.value === selectedYear
-                  )}
-                  onChange={(selectedOption) =>
-                    setSelectedYear(selectedOption.value)
-                  }
-                  options={yearOptions}
-                  styles={ncustomStyles}
-                  isSearchable={false}
-                />
-              </div>
             </div>
           </div>
 
           {/* Subjects List (if any) */}
-          {status === "loading" && (
+          {isLoading && (
             <div className="flex justify-center my-12">
               <div className="animate-spin h-8 w-8 border-4 border-secondary rounded-full border-t-transparent"></div>
             </div>
           )}
 
-          {status === "succeeded" && subjects.length === 0 && (
+          {isSuccess && subjects.length === 0 && (
             <div className="text-center py-16">
               <p className="text-xl text-gray-500">
                 No subjects found for this year.
@@ -152,7 +111,7 @@ const SubjectContent = () => {
           )}
 
           {/* Subjects Grid */}
-          {status === "succeeded" && subjects.length > 0 && (
+          {isSuccess && subjects.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {sortedSubjects.map((subject) => (
                 <Link

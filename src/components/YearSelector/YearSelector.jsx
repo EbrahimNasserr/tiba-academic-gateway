@@ -1,20 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { ChevronDown } from "lucide-react";
-import {
-  fetchYears,
-  selectAllYears,
-  selectYearsStatus,
-  selectYearsError,
-} from "@/redux/features/yearsSlice";
+import { useGetYearsQuery } from "@/redux/api/apiSlice";
 
 export default function YearSelector({ value, onChange, className = "" }) {
-  const dispatch = useDispatch();
-  const years = useSelector(selectAllYears);
-  const status = useSelector(selectYearsStatus);
-  const error = useSelector(selectYearsError);
+  const { data: years = [], isLoading, isError, error } = useGetYearsQuery();
 
   // Default years as fallback
   const defaultYears = [
@@ -24,15 +14,8 @@ export default function YearSelector({ value, onChange, className = "" }) {
     { id: 4, name: "Year 4" },
   ];
 
-  useEffect(() => {
-    // Only fetch if we haven't already loaded or failed
-    if (status === "idle") {
-      dispatch(fetchYears());
-    }
-  }, [status, dispatch]);
-
   // Show loading state
-  if (status === "loading") {
+  if (isLoading) {
     return (
       <div className="relative">
         <select
@@ -47,7 +30,7 @@ export default function YearSelector({ value, onChange, className = "" }) {
   }
 
   // Log error but use fallback years
-  if (status === "failed" && error) {
+  if (isError && error) {
     console.warn("Error loading years:", error);
   }
 
@@ -55,7 +38,7 @@ export default function YearSelector({ value, onChange, className = "" }) {
   const yearsToDisplay = years && years.length > 0 ? years : defaultYears;
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <select
         name="year"
         value={value}

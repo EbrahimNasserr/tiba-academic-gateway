@@ -1,22 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import yearsReducer from './features/yearsSlice';
 import themeReducer from './features/themeSlice';
-import subjectsReducer from './features/subjectsSlice';
-import lecturesReducer from './features/lecturesSlice';
+import { apiSlice } from './api/apiSlice';
 
 export const store = configureStore({
     reducer: {
-        years: yearsReducer,
         theme: themeReducer,
-        subjects: subjectsReducer,
-        lectures: lecturesReducer,
-        // Add additional reducers here as they are created
+        [apiSlice.reducerPath]: apiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }),
+        }).concat(apiSlice.middleware),
 });
-
-// Export hooks for use in functional components
-export * from './hooks'; 
