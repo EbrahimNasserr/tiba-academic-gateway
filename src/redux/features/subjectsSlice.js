@@ -6,9 +6,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_APP_URL || 'http://127.0.0.1:8000/ap
 // Async thunk for fetching all subjects
 export const fetchSubjects = createAsyncThunk(
     'subjects/fetchSubjects',
-    async (_, { rejectWithValue }) => {
+    async ({ q, year_id }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${API_URL}/subjects`);
+            const response = await fetch(`${API_URL}/subjects?q=${q}&year_id=${year_id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch subjects');
             }

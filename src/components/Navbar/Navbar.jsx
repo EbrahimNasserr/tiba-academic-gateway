@@ -20,7 +20,7 @@ export default function Navbar() {
       <div className="custom-container">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <div className="flex-shrink-0">
-            <Link href="/" title className="flex">
+            <Link href="/" title="Tiba Academic Gateway" className="flex">
               <Image
                 className="w-auto"
                 src={logo}
