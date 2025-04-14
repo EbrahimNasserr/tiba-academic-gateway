@@ -20,7 +20,8 @@ export default function Card({ course }) {
         <p className="">{course.instructor}</p>
       </div>
       <a
-        href="#"
+        href={course.link}
+        target="_blank"
         className="flex justify-center items-center px-3 py-2 text-sm font-medium text-center border  hover:bg-gray-500 transition-all duration-300 rounded-lg"
       >
         Read more
