@@ -16,7 +16,7 @@ export const apiSlice = createApi({
             return headers;
         }
     }),
-    tagTypes: ['Lectures', 'Subjects', 'Years'],
+    tagTypes: ['Lectures', 'Subjects', 'Years', 'Doctors'],
     endpoints: (builder) => ({
         // Years endpoints
         getYears: builder.query({
@@ -62,6 +62,54 @@ export const apiSlice = createApi({
         getLectureById: builder.query({
             query: (id) => `/lectures/${id}`,
             providesTags: (result, error, id) => [{ type: 'Lectures', id }]
+        }),
+        createLecture: builder.mutation({
+            query: (lectureData) => ({
+                url: '/lectures',
+                method: 'POST',
+                body: lectureData
+            }),
+            invalidatesTags: ['Lectures']
+        }),
+        deleteLecture: builder.mutation({
+            query: (id) => ({
+                url: `/lectures/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Lectures']
+        }),
+
+        // Doctors endpoints
+        getDoctors: builder.query({
+            query: ({ q = '' }) => `/doctors?q=${q}`,
+            providesTags: ['Doctors']
+        }),
+        getDoctorById: builder.query({
+            query: (id) => `/doctors/${id}`,
+            providesTags: (result, error, id) => [{ type: 'Doctors', id }]
+        }),
+        createDoctor: builder.mutation({
+            query: (doctorData) => ({
+                url: '/doctors',
+                method: 'POST',
+                body: doctorData
+            }),
+            invalidatesTags: ['Doctors']
+        }),
+        updateDoctor: builder.mutation({
+            query: ({ id, ...doctorData }) => ({
+                url: `/doctors/${id}`,
+                method: 'PUT',
+                body: doctorData
+            }),
+            invalidatesTags: ['Doctors']
+        }),
+        deleteDoctor: builder.mutation({
+            query: (id) => ({
+                url: `/doctors/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Doctors']
         })
     })
 });
@@ -79,5 +127,14 @@ export const {
 
     // Lectures hooks
     useGetLecturesQuery,
-    useGetLectureByIdQuery
+    useGetLectureByIdQuery,
+    useCreateLectureMutation,
+    useDeleteLectureMutation,
+
+    // Doctors hooks
+    useGetDoctorsQuery,
+    useGetDoctorByIdQuery,
+    useCreateDoctorMutation,
+    useUpdateDoctorMutation,
+    useDeleteDoctorMutation
 } = apiSlice; 

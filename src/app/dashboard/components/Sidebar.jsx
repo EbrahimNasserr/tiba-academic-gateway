@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, Upload, User, LogOut, Book, ChevronRight, ChevronLeft } from "lucide-react";
+import {
+  BookOpen,
+  Upload,
+  User,
+  LogOut,
+  Book,
+  ChevronRight,
+  ChevronLeft,
+  UserPlus,
+} from "lucide-react";
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -25,7 +34,10 @@ export default function Sidebar({ activeTab, setActiveTab }) {
           </div>
           <nav className="space-y-2">
             <button
-              onClick={() => {setActiveTab("upload"); setIsSidebarOpen(false)}}
+              onClick={() => {
+                setActiveTab("upload");
+                setIsSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "upload"
                   ? "bg-blue-50 text-blue-600"
@@ -36,7 +48,10 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               Upload Lecture
             </button>
             <button
-              onClick={() => {setActiveTab("lectures"); setIsSidebarOpen(false)}}
+              onClick={() => {
+                setActiveTab("lectures");
+                setIsSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "lectures"
                   ? "bg-blue-50 text-blue-600"
@@ -47,7 +62,10 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               My Lectures
             </button>
             <button
-              onClick={() => {setActiveTab("subjects"); setIsSidebarOpen(false)}}
+              onClick={() => {
+                setActiveTab("subjects");
+                setIsSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === "subjects"
                   ? "bg-blue-50 text-blue-600"
@@ -57,13 +75,31 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <Book className="w-5 h-5" />
               Subjects
             </button>
-            <button 
-            onClick={() => {setActiveTab("profile"); setIsSidebarOpen(false)}}
-            className= {`w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 hover:text-black ${
-              activeTab === "profile"
-                ? "bg-blue-50 text-blue-600"
-                : "hover:bg-gray-50 hover:text-black"
-            }`}>
+            <button
+              onClick={() => {
+                setActiveTab("doctors");
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                activeTab === "doctors"
+                  ? "bg-blue-50 text-blue-600"
+                  : "hover:bg-gray-50 hover:text-black"
+              }`}
+            >
+              <UserPlus className="w-5 h-5" />
+              Doctors
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab("profile");
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 hover:text-black ${
+                activeTab === "profile"
+                  ? "bg-blue-50 text-blue-600"
+                  : "hover:bg-gray-50 hover:text-black"
+              }`}
+            >
               <User className="w-5 h-5" />
               Edit Profile
             </button>
