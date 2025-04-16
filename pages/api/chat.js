@@ -19,6 +19,7 @@ export default async function handler(req, res) {
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
+        { role: 'system', content: 'You are a helpful assistant and your name is Tiba Helper.' },
         { role: 'user', content: message },
       ],
     });
