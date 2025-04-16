@@ -7,6 +7,7 @@ import NextThemeProvider from "./NextThemeProvider";
 import ReduxProvider from "@/redux/ReduxProvider";
 import Link from "next/link";
 import { Book, BookOpenCheck, House, Info } from "lucide-react";
+import Chatbot from "@/components/chatbot/chatbot";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -73,6 +74,7 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
           <NextThemeProvider>
             <Navbar />
+            <Chatbot />
             <main>{children}</main>
             <Footer />
             <BottomNav
