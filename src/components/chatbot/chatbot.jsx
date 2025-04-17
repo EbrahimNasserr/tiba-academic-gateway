@@ -46,14 +46,14 @@ export default function Chatbot() {
       {/* Chatbot Button */}
       <div
         onClick={handleOpenChat}
-        className="fixed bottom-28 z-50 md:bottom-4 right-4 bg-blue-700 text-white p-4 rounded-full cursor-pointer shadow-lg"
+        className="fixed bottom-20 z-50 md:bottom-4 right-4 bg-blue-700 text-white p-4 rounded-full cursor-pointer shadow-lg"
       >
         <Bot />
       </div>
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-28 right-4 w-80 h-96 bg-gray-100 border border-gray-300 rounded-lg shadow-lg overflow-hidden z-50">
+        <div className="fixed bottom-20 right-4 w-80 h-96 bg-gray-100 border border-gray-300 rounded-lg shadow-lg overflow-hidden z-50">
           <div className="flex flex-col h-full">
             
             {/* Header */}
