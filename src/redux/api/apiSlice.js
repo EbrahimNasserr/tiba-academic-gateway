@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Get the API URL from environment variables
-const API_URL = process.env.NEXT_PUBLIC_API_APP_URL || 'http://127.0.0.1:8000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_APP_URL;
 
 export const apiSlice = createApi({
     reducerPath: 'api',
@@ -9,7 +9,7 @@ export const apiSlice = createApi({
         baseUrl: API_URL,
         prepareHeaders: (headers) => {
             // Add auth token for secured endpoints if available
-            const token = '1|WpkEey6ZQXW7H9VQFRGWk2k739pWrjXq7SRI0t3I5436dd6f';
+            const token = '1|l1d5yICEz0VMQ4se6oTnw20bC91yklzGwsyb6vHJc4c35dbf';
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
             }
