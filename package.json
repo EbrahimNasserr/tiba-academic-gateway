@@ -19,8 +19,12 @@
     "next": "15.1.6",
     "next-themes": "^0.4.6",
     "ogl": "^1.0.11",
+<<<<<<< HEAD
     "openai": "^4.94.0",
     "pdf-parse": "^1.1.1",
+=======
+    "openai": "^4.95.0",
+>>>>>>> cfb6ce690c79f1ac79d442521dd7d40295e6573e
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
