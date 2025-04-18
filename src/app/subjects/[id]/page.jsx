@@ -84,9 +84,11 @@ const LecturesPage = () => {
               >
                 <div className="relative h-48">
                   <Image
-                    src={lecture.image}
+                    src={`${process.env.NEXT_PUBLIC_API_APP_URL_IMAGE}${lecture.image}`}
                     alt={lecture.name}
                     fill
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover"
                   />
                 </div>

@@ -77,8 +77,7 @@ export default function LectureContent() {
       : [];
 
   // Get the full URL for video, PDF, and image
-  const API_BASE_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_APP_URL_IMAGE;
   const videoUrl = lecture.video ? `${API_BASE_URL}${lecture.video}` : null;
   const pdfUrl = lecture.pdf ? `${API_BASE_URL}${lecture.pdf}` : null;
   const imageUrl = lecture.image ? `${API_BASE_URL}${lecture.image}` : null;
@@ -134,7 +133,7 @@ export default function LectureContent() {
               {videoUrl ? (
                 <iframe
                   className="w-full h-[400px] rounded-lg shadow-lg"
-                  src="https://www.youtube.com/embed/Y-x0efG1seA"
+                  src={videoUrl}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
@@ -148,7 +147,7 @@ export default function LectureContent() {
               ) : (
                 <iframe
                   className="w-full h-[400px] rounded-lg shadow-lg"
-                  src="https://www.youtube.com/embed/Y-x0efG1seA"
+                  src={videoUrl}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>

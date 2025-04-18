@@ -22,6 +22,11 @@ const nextConfig = {
                 hostname: "yt3.googleusercontent.com",
                 pathname: "/**",
             },
+            {
+                protocol: "https",
+                hostname: "tiba-gateway.brsoft-eg.com",
+                pathname: "/**",
+            },
         ],
     },
 };

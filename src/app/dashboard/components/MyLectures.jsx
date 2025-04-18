@@ -12,6 +12,7 @@ import {
   Clock,
 } from "lucide-react";
 import { useGetLecturesQuery } from "../../../redux/api/apiSlice";
+import Image from "next/image";
 
 export default function MyLectures({
   handleDelete,
@@ -71,16 +72,20 @@ export default function MyLectures({
             key={lecture.id}
             className="border rounded-xl shadow-sm overflow-hidden"
           >
-            <div className="p-6">
-              {lecture.image && (
-                <div className="mb-4">
-                  <img
-                    src={lecture.image}
-                    alt={lecture.name || lecture.title}
-                    className="w-full h-40 object-cover rounded-lg"
-                  />
-                </div>
-              )}
+            {lecture.image && (
+              <div className="mb-4">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_API_APP_URL_IMAGE}${lecture.image}`}
+                  alt={lecture.name || lecture.title}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  width={150}
+                  height={150}
+                  className="w-full h-40 object-cover rounded-lg"
+                />
+              </div>
+            )}
+            <div className="p-6 pt-0">
               <h3 className="text-xl font-semibold mb-2">
                 {lecture.name || lecture.title}
               </h3>
