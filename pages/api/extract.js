@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   const form = formidable({
-    uploadDir: './tmp',
+    uploadDir: '/tmp', // ✅ must use /tmp on Vercel
     keepExtensions: true,
   });
 
@@ -25,14 +25,17 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Error parsing form' });
     }
 
+    if (!files.pdf) {
+      return res.status(400).json({ error: 'No PDF uploaded' });
+    }
+
     try {
-      const pdfPath = files.pdf[0].filepath; // important — files.pdf is an array now
+      const pdfFile = files.pdf;
+      const pdfPath = Array.isArray(pdfFile) ? pdfFile[0].filepath : pdfFile.filepath;
       const pdfBuffer = fs.readFileSync(pdfPath);
       const data = await pdfParse(pdfBuffer);
 
-      const text = data.text;
-
-      res.status(200).json({ text });
+      res.status(200).json({ text: data.text });
 
     } catch (error) {
       console.error('PDF extraction error:', error);
