@@ -8,6 +8,7 @@ import ReduxProvider from "@/redux/ReduxProvider";
 import Link from "next/link";
 import { Book, BookOpenCheck, House, Info } from "lucide-react";
 import Chatbot from "@/components/chatbot/chatbot";
+import AudioDescription from "@/components/AudioDescription/AudioDescription";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -17,10 +18,10 @@ const poppins = Poppins({
 
 
 const NavItems = [
-  { icon: <House size={20} />, label: "Home" , link: "/"},
-  { icon: <BookOpenCheck size={20} />, label: "Courses" , link: "/courses" },
-  { icon: <Book size={20} />, label: "Subjects" , link: "/subjects" },
-  { icon: <Info size={20} />, label: "About us" , link: "/about" },
+  { icon: <House size={20} />, label: "Home", link: "/" },
+  { icon: <BookOpenCheck size={20} />, label: "Courses", link: "/courses" },
+  { icon: <Book size={20} />, label: "Subjects", link: "/subjects" },
+  { icon: <Info size={20} />, label: "About us", link: "/about" },
 ];
 
 export const metadata = {
@@ -75,13 +76,14 @@ export default function RootLayout({ children }) {
           <NextThemeProvider>
             <Navbar />
             <Chatbot />
+            <AudioDescription />
             <main>{children}</main>
             <Footer />
             <BottomNav
-              items={NavItems}        
+              items={NavItems}
               panelHeight={68}
               baseItemSize={50}
-              magnification={70}             
+              magnification={70}
             />
           </NextThemeProvider>
         </ReduxProvider>
