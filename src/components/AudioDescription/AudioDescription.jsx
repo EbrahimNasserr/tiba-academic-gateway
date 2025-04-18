@@ -60,6 +60,9 @@ const AudioDescription = () => {
       setIsPlaying(false);
     };
 
+    // Log for debugging
+    console.log("AudioDescription: Speaking text:", text);
+
     // Speak the text
     window.speechSynthesis.speak(utterance);
   };
@@ -101,15 +104,37 @@ const AudioDescription = () => {
     }
   };
 
+  // Handle custom event for voice commands
+  const handleVoiceCommand = (event) => {
+    console.log("AudioDescription: Received readPageContent event");
+    const text = getPageDescription();
+    setAudioContent(text);
+    speakDescription(text);
+  };
+
   useEffect(() => {
+    // Log for debugging
+    console.log("AudioDescription: Setting up event listeners");
+
+    // Function to handle the custom event
+    const voiceCommandHandler = () => {
+      console.log("AudioDescription: Voice command event received");
+      handleVoiceCommand();
+    };
+
     // Add event listeners
     document.addEventListener("click", handleScreenClick);
     document.addEventListener("keydown", handleKeyDown);
+
+    // Use addEventListener with named function for better reliability
+    document.addEventListener("readPageContent", voiceCommandHandler);
 
     // Clean up
     return () => {
       document.removeEventListener("click", handleScreenClick);
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("readPageContent", voiceCommandHandler);
+
       if (window.speechSynthesis.speaking) {
         window.speechSynthesis.cancel();
       }

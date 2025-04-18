@@ -9,6 +9,8 @@ import Link from "next/link";
 import { Book, BookOpenCheck, House, Info } from "lucide-react";
 import Chatbot from "@/components/chatbot/chatbot";
 import AudioDescription from "@/components/AudioDescription/AudioDescription";
+import VoiceRecognition from "@/components/VoiceRecognition/VoiceRecognition";
+import Script from "next/script";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -71,12 +73,44 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <Script id="voice-command-setup" strategy="beforeInteractive">
+          {`
+          window.tibaVoiceActions = {
+            readPageContent: function() {
+              console.log("Global: Triggering read page content");
+              const event = new CustomEvent('readPageContent');
+              document.dispatchEvent(event);
+              return true;
+            },
+            navigateTo: function(path) {
+              console.log("Global: Navigating to", path);
+              window.location.href = path;
+              return true;
+            },
+            setDarkMode: function(isDark) {
+              console.log("Global: Setting dark mode to", isDark);
+              if (isDark) {
+                document.documentElement.classList.add('dark');
+              } else {
+                document.documentElement.classList.remove('dark');
+              }
+              return true;
+            }
+          };
+          document.addEventListener('readPageContent', function() {
+            console.log("Global: readPageContent event received");
+          });
+          `}
+        </Script>
+      </head>
       <body style={{ fontFamily: poppins.style.fontFamily }}>
         <ReduxProvider>
           <NextThemeProvider>
             <Navbar />
             <Chatbot />
             <AudioDescription />
+            <VoiceRecognition />
             <main>{children}</main>
             <Footer />
             <BottomNav

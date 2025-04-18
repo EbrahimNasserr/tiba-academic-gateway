@@ -20,6 +20,29 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Accessibility Features
+
+This project includes several accessibility features to make the website more usable for all users:
+
+### Audio Description
+
+- **Screen Click**: Click anywhere on the screen to hear an audio description of the current page
+- **Keyboard Shortcut**: Press `Alt+A` to trigger the audio description
+- **Accessibility Button**: Use the accessibility button in the bottom-right corner to access audio features
+
+### Voice Control
+
+- **Voice Commands**: Click the microphone button to activate voice recognition
+- **Navigation**: Navigate through the site using voice commands like "Go to home" or "Go to courses"
+- **Content Reading**: Ask the system to read the current page with "Read page" or "Describe page"
+- **Theme Control**: Change between light and dark mode with voice commands
+
+For more details on available voice commands, see the documentation in `src/components/VoiceRecognition/README.md`.
+
+## Browser Compatibility
+
+The voice and audio features require a modern browser with support for the Web Speech API. Best compatibility is with Chrome, Edge, and Safari. Firefox has limited support.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
