@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   const form = formidable({
-    uploadDir: './public/uploads',
+    uploadDir: './tmp',
     keepExtensions: true,
   });
 
