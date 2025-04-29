@@ -295,7 +295,7 @@ export default function UploadLecture({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium mb-2">
               Content Type
             </label>
@@ -314,7 +314,7 @@ export default function UploadLecture({
               </select>
               <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="mb-6">

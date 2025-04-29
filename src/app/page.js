@@ -52,14 +52,14 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      {/* <ScrollVelocity
+      <ScrollVelocity
         texts={["Educational Journey", "Skill Development"]}
         velocity={50}
         className="custom-scroll-text"
-      /> */}
-      {/* <div className="h-[600px] relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
+      />
+      <div className="h-[600px] relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
         <InfiniteMenu items={items} />
-      </div> */}
+      </div>
       <Aboutsec />
       <Courses />
       <Books />
