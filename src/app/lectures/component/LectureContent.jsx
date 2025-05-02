@@ -45,6 +45,9 @@ export default function LectureContent() {
     },
   ]);
   const [newComment, setNewComment] = useState("");
+  const [summaryText, setSummaryText] = useState("");
+  const [summarizing, setSummarizing] = useState(false);
+  const [extractedText, setExtractedText] = useState("");
 
   if (isLectureLoading || isAllLecturesLoading) {
     return (
@@ -81,6 +84,49 @@ export default function LectureContent() {
   const videoUrl = lecture.video ? `${API_BASE_URL}${lecture.video}` : null;
   const pdfUrl = lecture.pdf ? `${API_BASE_URL}${lecture.pdf}` : null;
   const imageUrl = lecture.image ? `${API_BASE_URL}${lecture.image}` : null;
+
+  // Summarize function (assuming API endpoint for extracting text from PDF)
+  const handleSummarize = async () => {
+    if (!pdfUrl) return alert("No lecture notes available to summarize.");
+
+    setSummarizing(true);
+
+    try {
+      // First, extract text from PDF (you'll need an API endpoint for this)
+      const extractRes = await fetch("/api/extract", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pdfUrl }),
+      });
+
+      const extractData = await extractRes.json();
+
+      if (extractData.text) {
+        setExtractedText(extractData.text);
+        const res = await fetch("/api/summarize", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: extractData.text }),
+        });
+
+        const data = await res.json();
+        setSummarizing(false);
+
+        if (data.summary) {
+          setSummaryText(data.summary);
+        } else {
+          alert("Failed to summarize");
+        }
+      } else {
+        setSummarizing(false);
+        alert("Failed to extract text from lecture notes");
+      }
+    } catch (error) {
+      setSummarizing(false);
+      alert("An error occurred while summarizing");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="min-h-screen ">
@@ -180,6 +226,16 @@ export default function LectureContent() {
                 </li>
               </ul>
             </div>
+
+            {/* Summary Display */}
+            {summaryText && (
+              <div className="rounded-lg shadow-md p-6 mb-8">
+                <h2 className="text-2xl font-semibold mb-4">
+                  Summarized Lecture Notes
+                </h2>
+                <p className="whitespace-pre-wrap">{summaryText}</p>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -192,11 +248,18 @@ export default function LectureContent() {
                   href={pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center px-4 py-2 text-white bg-secondary rounded-lg hover:bg-secondary transition-colors"
+                  className="w-full flex items-center justify-center px-4 py-2 text-white bg-secondary rounded-lg hover:bg-secondary transition-colors mb-2"
                 >
                   <Download className="h-5 w-5 mr-2" />
                   Download Lecture Notes
                 </a>
+                <button
+                  onClick={handleSummarize}
+                  disabled={summarizing || !pdfUrl}
+                  className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+                >
+                  {summarizing ? "Summarizing..." : "Summarize Notes"}
+                </button>
               </div>
             )}
 
