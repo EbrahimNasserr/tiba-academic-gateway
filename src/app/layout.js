@@ -109,8 +109,8 @@ export default function RootLayout({ children }) {
           <NextThemeProvider>
             <Navbar />
             <Chatbot />
-            <AudioDescription />
-            <VoiceRecognition />
+            {/* <AudioDescription /> */}
+            {/* <VoiceRecognition /> */}
             <main>{children}</main>
             <Footer />
             <BottomNav
