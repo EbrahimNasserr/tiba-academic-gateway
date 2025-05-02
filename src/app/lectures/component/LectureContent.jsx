@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -17,13 +16,8 @@ import {
   useGetLecturesQuery,
 } from "../../../redux/api/apiSlice";
 
-
-
-
 export default function LectureContent() {
   const params = useParams();
-  const [summaryText, setSummaryText] = useState("");
-  const [summarizing, setSummarizing] = useState(false); 
 
   // Get current lecture
   const {
@@ -88,51 +82,6 @@ export default function LectureContent() {
   const pdfUrl = lecture.pdf ? `${API_BASE_URL}${lecture.pdf}` : null;
   const imageUrl = lecture.image ? `${API_BASE_URL}${lecture.image}` : null;
 
-  // pdf 
-  const handleSummarizePDF = async () => {
-    if (!pdfUrl) return alert("No PDF available to summarize.");
-  
-    setSummarizing(true);
-  
-    try {
-      // Step 1: Fetch PDF as blob and create form data
-      const pdfBlob = await fetch(pdfUrl).then(res => res.blob());
-      const formData = new FormData();
-      formData.append("pdf", pdfBlob, "lecture.pdf");
-  
-      // Step 2: Extract text from PDF
-      const extractRes = await fetch("/api/extract", {
-        method: "POST",
-        body: formData,
-      });
-      const extractData = await extractRes.json();
-  
-      if (!extractData.text) {
-        setSummarizing(false);
-        return alert("Failed to extract text from PDF.");
-      }
-  
-      // Step 3: Summarize extracted text
-      const summarizeRes = await fetch("/api/summarize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: extractData.text }),
-      });
-      const summaryData = await summarizeRes.json();
-  
-      if (summaryData.summary) {
-        setSummaryText(summaryData.summary);
-      } else {
-        alert("Failed to summarize text.");
-      }
-    } catch (error) {
-      alert("An error occurred during summarization.");
-      console.error(error);
-    }
-  
-    setSummarizing(false);
-  };
-///////////////////////////////////////  // 
   return (
     <div className="min-h-screen ">
       {/* Hero Section */}
@@ -237,33 +186,19 @@ export default function LectureContent() {
           <div className="space-y-6">
             {/* Download Materials */}
             {pdfUrl && (
-  <div className="rounded-lg shadow-md p-6 space-y-4">
-    <h3 className="text-xl font-semibold">Course Materials</h3>
-    <a
-      href={pdfUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-full flex items-center justify-center px-4 py-2 text-white bg-secondary rounded-lg hover:bg-secondary transition-colors"
-    >
-      <Download className="h-5 w-5 mr-2" />
-      Download Lecture Notes
-    </a>
-    <button
-      onClick={handleSummarizePDF}
-      className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-    >
-      {summarizing ? "Summarizing..." : "Summarize PDF"}
-    </button>
-
-    {summaryText && (
-      <div className="mt-4 p-4 bg-gray-100 border rounded whitespace-pre-wrap">
-        <h4 className="font-semibold mb-2">Summary:</h4>
-        <p>{summaryText}</p>
-      </div>
-    )}
-  </div>
-)}
-
+              <div className="rounded-lg shadow-md p-6">
+                <h3 className="text-xl font-semibold mb-4">Course Materials</h3>
+                <a
+                  href={pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center px-4 py-2 text-white bg-secondary rounded-lg hover:bg-secondary transition-colors"
+                >
+                  <Download className="h-5 w-5 mr-2" />
+                  Download Lecture Notes
+                </a>
+              </div>
+            )}
 
             {/* Related Lectures */}
             {relatedLectures.length > 0 && (
