@@ -100,6 +100,8 @@ export default function LectureContent() {
       });
 
       const extractData = await extractRes.json();
+      console.log("Extract API response:", extractData);
+
 
       if (extractData.text) {
         setExtractedText(extractData.text);
