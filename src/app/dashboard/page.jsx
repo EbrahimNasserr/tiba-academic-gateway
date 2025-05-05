@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Notification from "./components/Notification";
 import UploadLecture from "./components/UploadLecture";
@@ -8,8 +8,10 @@ import MyLectures from "./components/MyLectures";
 import SubjectsManager from "./components/SubjectsManager";
 import DoctorsManager from "./components/DoctorsManager";
 import { useDeleteLectureMutation } from "../../redux/api/apiSlice";
+import { useRouter } from 'next/navigation';
 
 export default function DoctorDashboard() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("upload");
   const [selectedYear, setSelectedYear] = useState("1");
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -18,6 +20,16 @@ export default function DoctorDashboard() {
   const [lectureFile, setLectureFile] = useState(null);
   const [bookFile, setBookFile] = useState(null);
 
+
+
+  // Check if the user is logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    }
+  }, [router]);
+  
   // Delete lecture mutation
   const [deleteLecture, { isLoading: isDeleting }] = useDeleteLectureMutation();
 

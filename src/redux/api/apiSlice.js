@@ -110,7 +110,20 @@ export const apiSlice = createApi({
                 method: 'DELETE'
             }),
             invalidatesTags: ['Doctors']
-        })
+        }),
+        // Login endpoint
+        login: builder.mutation({
+            query: ({ email, password }) => {
+              const formData = new FormData();
+              formData.append('email', email);
+              formData.append('password', password);
+              return {
+                url: '/login',
+                method: 'POST',
+                body: formData
+              };
+            },
+          })
     })
 });
 
@@ -136,5 +149,7 @@ export const {
     useGetDoctorByIdQuery,
     useCreateDoctorMutation,
     useUpdateDoctorMutation,
-    useDeleteDoctorMutation
+    useDeleteDoctorMutation,
+    // authentications
+    useLoginMutation
 } = apiSlice; 

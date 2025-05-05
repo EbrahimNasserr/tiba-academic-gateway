@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 import {
   BookOpen,
   Upload,
@@ -14,6 +15,12 @@ import {
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const router = useRouter();
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    router.push('/login'); 
+    };
+
 
   return (
     <div>
@@ -103,7 +110,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <User className="w-5 h-5" />
               Edit Profile
             </button>
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 text-red-600">
+            <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 text-red-600">
               <LogOut className="w-5 h-5" />
               Logout
             </button>
