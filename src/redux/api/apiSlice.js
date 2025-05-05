@@ -9,7 +9,8 @@ export const apiSlice = createApi({
         baseUrl: API_URL,
         prepareHeaders: (headers) => {
             // Add auth token for secured endpoints if available
-            const token = '1|l1d5yICEz0VMQ4se6oTnw20bC91yklzGwsyb6vHJc4c35dbf';
+            // '1|l1d5yICEz0VMQ4se6oTnw20bC91yklzGwsyb6vHJc4c35dbf'
+            const token = localStorage.getItem('token');
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
             }
