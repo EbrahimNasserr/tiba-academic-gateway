@@ -1,5 +1,5 @@
 "use client";
-
+import { useSelector } from 'react-redux';
 import { useState ,useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Notification from "./components/Notification";
@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 
 export default function DoctorDashboard() {
   const router = useRouter();
+  const token = useSelector((state) => state.auth.token);
   const [activeTab, setActiveTab] = useState("upload");
   const [selectedYear, setSelectedYear] = useState("1");
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -24,8 +25,8 @@ export default function DoctorDashboard() {
 
   // Check if the user is logged in
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    const localtoken = localStorage.getItem('token');
+    if (!token && !localtoken) {
       router.push('/login');
     }
   }, [router]);

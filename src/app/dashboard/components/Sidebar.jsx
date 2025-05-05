@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
+import {clearToken} from '../../../redux/api/loginSlice'; // Adjust the import path as necessary
 import {
   BookOpen,
   Upload,
@@ -18,6 +19,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem('token'); 
+    clearToken(); 
     router.push('/login'); 
     };
 

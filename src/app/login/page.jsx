@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLoginMutation } from '../../redux/api/apiSlice'; // Adjust path if needed
+import { useLoginMutation } from '../../redux/api/loginSlice'; // Ensure the path is correct and the API slice is properly configured
 
 export default function Page() {
   const [email, setEmail] = useState('');
@@ -17,12 +17,11 @@ export default function Page() {
     setLoginError(null); 
 
     try {
-      const result = await login({ email, password }).unwrap();
-      localStorage.setItem('token', result.token); 
+      await login({ email, password }).unwrap();
       router.push('/dashboard');
     } catch (err) {
-      const message = err?.data?.message || 'Invalid credentials or server error';
-      setLoginError(message); 
+      const message = err?.data?.message || err?.error || 'Invalid credentials or server error';
+      setLoginError(message);
     }
   };
 

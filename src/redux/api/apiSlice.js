@@ -111,19 +111,6 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Doctors']
         }),
-        // Login endpoint
-        login: builder.mutation({
-            query: ({ email, password }) => {
-              const formData = new FormData();
-              formData.append('email', email);
-              formData.append('password', password);
-              return {
-                url: '/login',
-                method: 'POST',
-                body: formData
-              };
-            },
-          })
     })
 });
 
@@ -150,6 +137,4 @@ export const {
     useCreateDoctorMutation,
     useUpdateDoctorMutation,
     useDeleteDoctorMutation,
-    // authentications
-    useLoginMutation
 } = apiSlice; 
