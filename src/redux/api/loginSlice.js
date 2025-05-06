@@ -35,10 +35,20 @@ export const loginSlice = createApi({
         }
       },
     }),
+    ////////////////// logout mutation
+    logout: builder.mutation({
+      query: () => ({
+        url: '/logout',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('token') : ''}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = loginSlice;
+export const { useLoginMutation,useLogoutMutation  } = loginSlice;
 
 
 ////////////////////////////////////////////slice to manage the token state

@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-import {clearToken} from '../../../redux/api/loginSlice'; // Adjust the import path as necessary
+import {clearToken} from '../../../redux/api/loginSlice';
+import { useDispatch } from "react-redux";
+import { useLogoutMutation } from '../../../redux/api/loginSlice';
+
 import {
   BookOpen,
   Upload,
@@ -17,12 +20,19 @@ import {
 export default function Sidebar({ activeTab, setActiveTab }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
-  const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    clearToken(); 
-    router.push('/login'); 
-    };
-
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+    } catch (err) {
+      console.error('Logout API failed:', err);
+    } finally {
+      localStorage.removeItem('token');
+      dispatch(clearToken());
+      router.push('/login');
+    }
+  };
 
   return (
     <div>
