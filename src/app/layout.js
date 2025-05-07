@@ -5,7 +5,6 @@ import Footer from "@/components/Footer/Footer";
 import BottomNav from "@/components/BottomNav/BottomNav";
 import NextThemeProvider from "./NextThemeProvider";
 import ReduxProvider from "@/redux/ReduxProvider";
-import Link from "next/link";
 import { Book, BookOpenCheck, House, Info } from "lucide-react";
 import Chatbot from "@/components/chatbot/chatbot";
 import AudioDescription from "@/components/AudioDescription/AudioDescription";
@@ -110,7 +109,7 @@ export default function RootLayout({ children }) {
             <Navbar />
             <Chatbot />
             {/* <AudioDescription /> */}
-            {/* <VoiceRecognition /> */}
+            <VoiceRecognition />
             <main>{children}</main>
             <Footer />
             <BottomNav

@@ -1,14 +1,15 @@
 "use client";
-import { useSelector } from 'react-redux';
-import { useState ,useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Notification from "./components/Notification";
 import UploadLecture from "./components/UploadLecture";
 import MyLectures from "./components/MyLectures";
 import SubjectsManager from "./components/SubjectsManager";
 import DoctorsManager from "./components/DoctorsManager";
+import AdminsManager from "./components/AdminsManager";
 import { useDeleteLectureMutation } from "../../redux/api/apiSlice";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function DoctorDashboard() {
   const router = useRouter();
@@ -21,16 +22,14 @@ export default function DoctorDashboard() {
   const [lectureFile, setLectureFile] = useState(null);
   const [bookFile, setBookFile] = useState(null);
 
-
-
   // Check if the user is logged in
   useEffect(() => {
-    const localtoken = localStorage.getItem('token');
+    const localtoken = localStorage.getItem("token");
     if (!token && !localtoken) {
-      router.push('/login');
+      router.push("/login");
     }
   }, [router]);
-  
+
   // Delete lecture mutation
   const [deleteLecture, { isLoading: isDeleting }] = useDeleteLectureMutation();
 
@@ -68,12 +67,14 @@ export default function DoctorDashboard() {
 
       {/* Main Content */}
       <main className="lg:ml-64 flex-1 p-8">
-        {activeTab !== "subjects" && activeTab !== "doctors" && (
-          <Notification
-            notification={notification}
-            setNotification={setNotification}
-          />
-        )}
+        {activeTab !== "subjects" &&
+          activeTab !== "doctors" &&
+          activeTab !== "admins" && (
+            <Notification
+              notification={notification}
+              setNotification={setNotification}
+            />
+          )}
 
         {activeTab === "upload" ? (
           <UploadLecture
@@ -93,6 +94,8 @@ export default function DoctorDashboard() {
           <SubjectsManager />
         ) : activeTab === "doctors" ? (
           <DoctorsManager />
+        ) : activeTab === "admins" ? (
+          <AdminsManager />
         ) : (
           <MyLectures
             handleDelete={handleDelete}

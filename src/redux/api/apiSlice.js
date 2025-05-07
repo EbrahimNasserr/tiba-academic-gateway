@@ -17,7 +17,7 @@ export const apiSlice = createApi({
             return headers;
         }
     }),
-    tagTypes: ['Lectures', 'Subjects', 'Years', 'Doctors'],
+    tagTypes: ['Lectures', 'Subjects', 'Years', 'Doctors', 'Admins'],
     endpoints: (builder) => ({
         // Years endpoints
         getYears: builder.query({
@@ -112,6 +112,39 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Doctors']
         }),
+
+        // Admins endpoints
+        getAdmins: builder.query({
+            query: ({ q = '' }) => `/users?q=${q}`,
+            providesTags: ['Admins']
+        }),
+        getAdminById: builder.query({
+            query: (id) => `/users/${id}`,
+            providesTags: (result, error, id) => [{ type: 'Admins', id }]
+        }),
+        createAdmin: builder.mutation({
+            query: (adminData) => ({
+                url: '/users',
+                method: 'POST',
+                body: adminData
+            }),
+            invalidatesTags: ['Admins']
+        }),
+        updateAdmin: builder.mutation({
+            query: ({ id, ...adminData }) => ({
+                url: `/users/${id}`,
+                method: 'PUT',
+                body: adminData
+            }),
+            invalidatesTags: ['Admins']
+        }),
+        deleteAdmin: builder.mutation({
+            query: (id) => ({
+                url: `/users/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Admins']
+        }),
     })
 });
 
@@ -138,4 +171,11 @@ export const {
     useCreateDoctorMutation,
     useUpdateDoctorMutation,
     useDeleteDoctorMutation,
+
+    // Admins hooks
+    useGetAdminsQuery,
+    useGetAdminByIdQuery,
+    useCreateAdminMutation,
+    useUpdateAdminMutation,
+    useDeleteAdminMutation,
 } = apiSlice; 

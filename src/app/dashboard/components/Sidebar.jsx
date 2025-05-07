@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
-import {clearToken} from '../../../redux/api/loginSlice';
-import { useDispatch } from "react-redux";
-import { useLogoutMutation } from '../../../redux/api/loginSlice';
+import { useRouter } from "next/navigation";
+import { clearToken } from "../../../redux/api/loginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "../../../redux/api/loginSlice";
 
 import {
   BookOpen,
@@ -15,6 +15,7 @@ import {
   ChevronRight,
   ChevronLeft,
   UserPlus,
+  Shield,
 } from "lucide-react";
 
 export default function Sidebar({ activeTab, setActiveTab }) {
@@ -22,15 +23,16 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
+  const user = useSelector((state) => state.auth.user);
   const handleLogout = async () => {
     try {
       await logout().unwrap();
     } catch (err) {
-      console.error('Logout API failed:', err);
+      console.error("Logout API failed:", err);
     } finally {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       dispatch(clearToken());
-      router.push('/login');
+      router.push("/login");
     }
   };
 
@@ -47,7 +49,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <User className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-semibold">Dr. Sarah Johnson</h2>
+              <h2 className="font-semibold">Dr. {user.name}</h2>
               <p className="text-sm text-gray-600">Cardiologist</p>
             </div>
           </div>
@@ -110,6 +112,20 @@ export default function Sidebar({ activeTab, setActiveTab }) {
             </button>
             <button
               onClick={() => {
+                setActiveTab("admins");
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                activeTab === "admins"
+                  ? "bg-blue-50 text-blue-600"
+                  : "hover:bg-gray-50 hover:text-black"
+              }`}
+            >
+              <Shield className="w-5 h-5" />
+              Admins
+            </button>
+            <button
+              onClick={() => {
                 setActiveTab("profile");
                 setIsSidebarOpen(false);
               }}
@@ -122,7 +138,10 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <User className="w-5 h-5" />
               Edit Profile
             </button>
-            <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 text-red-600">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 text-red-600"
+            >
               <LogOut className="w-5 h-5" />
               Logout
             </button>

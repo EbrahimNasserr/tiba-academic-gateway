@@ -4,6 +4,7 @@ import { createAction, createSlice } from '@reduxjs/toolkit';
 
 // Create an action to set the token
 export const setToken = createAction('auth/setToken');
+export const setUser = createAction('auth/setUser');
 
 const API_URL = process.env.NEXT_PUBLIC_API_APP_URL;
 
@@ -29,6 +30,7 @@ export const loginSlice = createApi({
           const { data } = await queryFulfilled;
           const token = data.token; 
           dispatch(setToken(token));
+          dispatch(setUser(data.user));
           localStorage.setItem('token', token);
         } catch (error) {
           console.error('Login failed:', error);
@@ -56,10 +58,14 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
+    user: null,
   },
   reducers: {
     clearToken: (state) => {
       state.token = null;
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
