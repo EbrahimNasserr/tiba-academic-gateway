@@ -28,10 +28,12 @@ export const loginSlice = createApi({
       async onQueryStarted({ email, password }, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const token = data.token; 
+          const token = data.token;
           dispatch(setToken(token));
           dispatch(setUser(data.user));
           localStorage.setItem('token', token);
+          // Store user data as JSON string
+          localStorage.setItem('user', JSON.stringify(data.user));
         } catch (error) {
           console.error('Login failed:', error);
         }
@@ -46,23 +48,31 @@ export const loginSlice = createApi({
           Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('token') : ''}`,
         },
       }),
+      async onQueryStarted(_, { dispatch }) {
+        dispatch(clearToken());
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
+      },
     }),
   }),
 });
 
-export const { useLoginMutation,useLogoutMutation  } = loginSlice;
+export const { useLoginMutation, useLogoutMutation } = loginSlice;
 
 
 ////////////////////////////////////////////slice to manage the token state
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
+    token: null,
     user: null,
   },
   reducers: {
     clearToken: (state) => {
       state.token = null;
+      state.user = null;
     },
     setUser: (state, action) => {
       state.user = action.payload;
@@ -72,8 +82,34 @@ const authSlice = createSlice({
     builder.addCase(setToken, (state, action) => {
       state.token = action.payload;
     });
+    builder.addCase(setUser, (state, action) => {
+      state.user = action.payload;
+    });
   },
 });
+
+// Function to initialize auth state from localStorage
+// Call this function after store is created
+export const initializeAuthState = (store) => {
+  if (typeof window !== 'undefined') {
+    // Get token from localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
+      store.dispatch(setToken(token));
+    }
+
+    // Get user from localStorage
+    try {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const user = JSON.parse(userData);
+        store.dispatch(setUser(user));
+      }
+    } catch (error) {
+      console.error('Failed to parse user data from localStorage:', error);
+    }
+  }
+};
 
 export const { clearToken } = authSlice.actions;
 export const authReducer = authSlice.reducer;

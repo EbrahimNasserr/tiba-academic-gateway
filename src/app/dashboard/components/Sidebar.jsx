@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { clearToken } from "../../../redux/api/loginSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +24,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
   const user = useSelector((state) => state.auth.user);
+
   const handleLogout = async () => {
     try {
       await logout().unwrap();
@@ -31,9 +32,24 @@ export default function Sidebar({ activeTab, setActiveTab }) {
       console.error("Logout API failed:", err);
     } finally {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       dispatch(clearToken());
       router.push("/login");
     }
+  };
+
+  // Get user name safely
+  const getUserName = () => {
+    if (!user) return "User";
+    if (typeof user === "string") {
+      try {
+        const parsedUser = JSON.parse(user);
+        return parsedUser.name || "User";
+      } catch (e) {
+        return "User";
+      }
+    }
+    return user.name || "User";
   };
 
   return (
@@ -49,7 +65,9 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <User className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-semibold">Dr.</h2>
+              <h2 className="font-semibold">
+                {user ? `Dr. ${getUserName()}` : "Loading..."}
+              </h2>
               <p className="text-sm text-gray-600">Cardiologist</p>
             </div>
           </div>
