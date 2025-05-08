@@ -49,7 +49,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <User className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-semibold">Dr. {user.name}</h2>
+              <h2 className="font-semibold">Dr.</h2>
               <p className="text-sm text-gray-600">Cardiologist</p>
             </div>
           </div>
