@@ -10,8 +10,10 @@ import DoctorsManager from "./components/DoctorsManager";
 import AdminsManager from "./components/AdminsManager";
 import { useDeleteLectureMutation } from "../../redux/api/apiSlice";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
-export default function DoctorDashboard() {
+// Create a client-only version of the component to avoid SSR issues
+const DashboardContent = () => {
   const router = useRouter();
   const token = useSelector((state) => state.auth.token);
   const [activeTab, setActiveTab] = useState("upload");
@@ -28,7 +30,7 @@ export default function DoctorDashboard() {
     if (!token && !localtoken) {
       router.push("/login");
     }
-  }, [router]);
+  }, [router, token]);
 
   // Delete lecture mutation
   const [deleteLecture, { isLoading: isDeleting }] = useDeleteLectureMutation();
@@ -106,4 +108,13 @@ export default function DoctorDashboard() {
       </main>
     </div>
   );
+};
+
+// Use dynamic import with ssr disabled for the main component
+const DoctorDashboard = dynamic(() => Promise.resolve(DashboardContent), {
+  ssr: false,
+});
+
+export default function Page() {
+  return <DoctorDashboard />;
 }
