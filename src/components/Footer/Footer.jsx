@@ -27,7 +27,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-secondary focus:bg-secondary"
                 >
                   <svg
@@ -43,7 +42,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-secondary focus:bg-secondary"
                 >
                   <svg
@@ -59,7 +57,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-secondary focus:bg-secondary"
                 >
                   <svg
@@ -77,7 +74,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex items-center justify-center text-white transition-all duration-200 bg-gray-800 rounded-full w-7 h-7 hover:bg-secondary focus:bg-secondary"
                 >
                   <svg
@@ -104,7 +100,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   About
@@ -113,7 +108,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   Features
@@ -122,7 +116,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   Works
@@ -131,7 +124,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   Career
@@ -147,7 +139,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   Customer Support
@@ -156,7 +147,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   Delivery Details
@@ -165,7 +155,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   Terms &amp; Conditions
@@ -174,7 +163,6 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  title
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   Privacy Policy
