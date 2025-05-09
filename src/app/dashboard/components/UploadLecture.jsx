@@ -78,11 +78,22 @@ export default function UploadLecture({
       setIsCreatingLecture(false);
       return;
     }
+    // Check if file type is valid (PDF, video, or audio)
+    const validFileTypes = [
+      'application/pdf',
+      'video/mp4',
+      'video/webm',
+      'video/ogg',
+      'audio/mpeg',
+      'audio/wav',
+      'audio/ogg',
+      'audio/mp4'
+    ];
 
-    if (!lectureFile || !(lectureFile.type === "application/pdf")) {
+    if ((!lectureFile || !validFileTypes.includes(lectureFile.type)) && uploadType === "PDF") {
       setNotification({
         type: "error",
-        message: "Please upload a PDF file",
+        message: "Invalid file type. Please upload a PDF, video, or audio file",
       });
       setIsSubmitting(false);
       setIsCreatingLecture(false);
@@ -350,7 +361,7 @@ export default function UploadLecture({
               name="file"
               className="hidden"
               id="file-upload"
-              accept=".pdf"
+              accept=".pdf,video/*,audio/*"
               onChange={(e) => {
                 const file = e.target.files[0];
                 setLectureFile(file);
@@ -361,8 +372,8 @@ export default function UploadLecture({
               className="cursor-pointer flex flex-col items-center"
             >
               <Upload className="w-12 h-12 mb-4" />
-              <span className="">Click to upload PDF file (required)</span>
-              <span className="text-sm mt-1">Supported format: PDF</span>
+              <span className="">Click to upload file (required)</span>
+              <span className="text-sm mt-1">Supported formats: PDF, Video, Audio</span>
             </label>
           </div>
           {lectureFile && (
