@@ -45,10 +45,9 @@ export default function YearPage() {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-secondary to-secondary text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">Medical Education Resources</h1>
+          <h1 className="text-4xl font-bold mb-4">Computer Science Resources</h1>
           <p className="text-xl text-white/90 mb-8">
-            Access comprehensive study materials, lectures, and resources for your medical education journey.
-          </p>
+          Unlock a wealth of study materials, expert lectures, and curated resources to elevate your tech education journey. </p>
 
           {/* Year Selection */}
           <div className="flex space-x-4">
@@ -111,13 +110,6 @@ export default function YearPage() {
         <section className="mb-16">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl md:3xl lg:text-3xl font-bold">Recommended Books</h2>
-            <Link
-              href="/books"
-              className="flex text-sm md:text-lg items-center text-secondary hover:text-secondary/80"
-            >
-              View All Books
-              <ChevronRight className="h-5 w-5 ml-1" />
-            </Link>
           </div>
 
           {isLoadingBooks ? (
