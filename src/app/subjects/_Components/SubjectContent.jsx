@@ -116,7 +116,7 @@ const SubjectContent = () => {
               {sortedSubjects.map((subject) => (
                 <Link
                   key={subject.id}
-                  href={`/subjects/${subject.id}`}
+                  href={`/subjects/${subject.id}?year=${selectedYear}`}
                   className="border rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
                 >
                   <div className="p-6">

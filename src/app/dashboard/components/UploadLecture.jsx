@@ -18,8 +18,8 @@ export default function UploadLecture({
   setUploadType,
   lectureFile,
   setLectureFile,
-  bookFile,
-  setBookFile,
+  pdf,
+  setPdf,
   setNotification,
 }) {
   // Local state for form handling
@@ -183,8 +183,8 @@ export default function UploadLecture({
         }
       }
 
-      if (bookFile) {
-        formData.append("book", bookFile);
+      if (pdf) {
+        formData.append("pdf", pdf);
       }
 
       // Call API to create lecture using RTK Query
@@ -195,7 +195,7 @@ export default function UploadLecture({
       setDescription("");
       setExternalLink("");
       setLectureFile(null);
-      setBookFile(null);
+      setPdf(null);
       setLectureThumbnail(null);
       setVideoDuration("");
 
@@ -354,14 +354,14 @@ export default function UploadLecture({
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-2">Upload Pdf</label>
+          <label className="block text-sm font-medium mb-2">Upload Video</label>
           <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
             <input
               type="file"
               name="file"
               className="hidden"
               id="file-upload"
-              accept=".pdf,video/*,audio/*"
+              accept="video/*,audio/*"
               onChange={(e) => {
                 const file = e.target.files[0];
                 setLectureFile(file);
@@ -440,22 +440,22 @@ export default function UploadLecture({
 
         <div className="mb-6">
           <label className="block text-sm font-medium mb-2">
-            Upload Related Book
+            Upload PDF
           </label>
           <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
             <input
               type="file"
-              name="book"
+              name="pdf"
               className="hidden"
-              id="book-upload"
+              id="pdf"
               accept=".pdf,.doc,.docx"
               onChange={(e) => {
-                const book = e.target.files[0];
-                setBookFile(book);
+                const pdf = e.target.files[0];
+                setPdf(pdf);
               }}
             />
             <label
-              htmlFor="book-upload"
+              htmlFor="pdf"
               className="cursor-pointer flex flex-col items-center"
             >
               <BookOpen className="w-12 h-12 mb-4" />
@@ -465,11 +465,11 @@ export default function UploadLecture({
               </span>
             </label>
           </div>
-          {bookFile && (
+          {pdf && (
             <div className="mt-2">
               <span className="text-sm">
-                Selected book: {bookFile.name} (
-                {(bookFile.size / 1024 / 1024).toFixed(2)} MB)
+                Selected pdf: {pdf.name} (
+                {(pdf.size / 1024 / 1024).toFixed(2)} MB)
               </span>
             </div>
           )}

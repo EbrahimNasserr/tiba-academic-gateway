@@ -21,7 +21,7 @@ const DashboardContent = () => {
   const [uploadType, setUploadType] = useState("Video");
   const [notification, setNotification] = useState(null);
   const [lectureFile, setLectureFile] = useState(null);
-  const [bookFile, setBookFile] = useState(null);
+  const [pdf, setPdf] = useState(null);
 
   // Check if the user is logged in
   useEffect(() => {
@@ -87,8 +87,8 @@ const DashboardContent = () => {
             setUploadType={setUploadType}
             lectureFile={lectureFile}
             setLectureFile={setLectureFile}
-            bookFile={bookFile}
-            setBookFile={setBookFile}
+            pdf={pdf}
+            setPdf={setPdf}
             setNotification={setNotification}
           />
         ) : activeTab === "subjects" ? (

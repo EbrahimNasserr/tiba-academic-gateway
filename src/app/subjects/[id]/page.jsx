@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import { useGetLecturesQuery } from "../../../redux/api/apiSlice";
 import Image from "next/image";
 import { Clock, Download, Play, ArrowLeft } from "lucide-react";
@@ -8,14 +8,15 @@ import Link from "next/link";
 
 const LecturesPage = () => {
   const { id } = useParams();
-  const [selectedYear, setSelectedYear] = useState("1");
+  const searchParams = useSearchParams();
+  const year = searchParams.get('year') || "1";
   const {
     data: lectures,
     isLoading,
     isSuccess,
   } = useGetLecturesQuery({
     subject_id: id,
-    year_id: selectedYear,
+    year_id: year,
   });
 
   return (
@@ -33,31 +34,10 @@ const LecturesPage = () => {
 
         <h1 className="text-3xl font-bold mb-8">Available Lectures</h1>
 
-        {/* Year Filter */}
-        <div className="mb-8">
-          <div className="flex gap-2">
-            {["1", "2", "3", "4"].map((year) => (
-              <button
-                key={year}
-                onClick={() => setSelectedYear(year)}
-                className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                  selectedYear === year
-                    ? "bg-secondary text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-50"
-                }`}
-              >
-                {year === "1"
-                  ? "1st"
-                  : year === "2"
-                  ? "2nd"
-                  : year === "3"
-                  ? "3rd"
-                  : "4th"}{" "}
-                Year
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Year Display */}
+        <h2 className="text-2xl font-semibold mb-6">
+          {year === "1" ? "1st" : year === "2" ? "2nd" : year === "3" ? "3rd" : "4th"} Year Lectures
+        </h2>
 
         {isLoading && (
           <div className="flex justify-center my-12">
@@ -77,28 +57,34 @@ const LecturesPage = () => {
         {isSuccess && lectures.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {lectures.map((lecture) => (
-              <Link
+              <div
                 key={lecture.id}
-                href={`/lectures/${lecture.id}`}
                 className="border rounded-xl shadow-sm overflow-hidden"
               >
-                <div className="relative h-48">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_API_APP_URL_IMAGE}${lecture.image}`}
-                    alt={lecture.name}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{lecture.name}</h3>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Clock className="w-4 h-4" />
-                    <span>{lecture.video_duration}</span>
+                <Link
+                  href={`/lectures/${lecture.id}`}
+                  className="block"
+                >
+                  <div className="relative h-48">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_API_APP_URL_IMAGE}${lecture.image}`}
+                      alt={lecture.name}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover"
+                    />
                   </div>
-                  <p className="mb-4 line-clamp-2">{lecture.description}</p>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">{lecture.name}</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Clock className="w-4 h-4" />
+                      <span>{lecture.video_duration}</span>
+                    </div>
+                    <p className="mb-4 line-clamp-2">{lecture.description}</p>
+                  </div>
+                </Link>
+                <div className="px-6 pb-6">
                   <div className="flex gap-2">
                     {lecture.video && (
                       <Link
@@ -123,7 +109,7 @@ const LecturesPage = () => {
                     )}
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
