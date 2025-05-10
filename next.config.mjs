@@ -27,6 +27,11 @@ const nextConfig = {
                 hostname: "tiba-gateway.brsoft-eg.com",
                 pathname: "/**",
             },
+            {
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
+                pathname: "/**",
+            },
         ],
     },
 };
