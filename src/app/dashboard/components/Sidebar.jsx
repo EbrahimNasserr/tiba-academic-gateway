@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   UserPlus,
   Shield,
+  FileText,
 } from "lucide-react";
 
 export default function Sidebar({ activeTab, setActiveTab }) {
@@ -85,6 +86,20 @@ export default function Sidebar({ activeTab, setActiveTab }) {
             >
               <Upload className="w-5 h-5" />
               Upload Lecture
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab("uploadBooks");
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                activeTab === "uploadBooks"
+                  ? "bg-blue-50 text-blue-600"
+                  : "hover:bg-gray-50 hover:text-black"
+              }`}
+            >
+              <FileText className="w-5 h-5" />
+              Upload Books
             </button>
             <button
               onClick={() => {

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Notification from "./components/Notification";
 import UploadLecture from "./components/UploadLecture";
+import UploadBooks from "./components/UploadBooks";
 import MyLectures from "./components/MyLectures";
 import SubjectsManager from "./components/SubjectsManager";
 import DoctorsManager from "./components/DoctorsManager";
@@ -91,6 +92,8 @@ const DashboardContent = () => {
             setPdf={setPdf}
             setNotification={setNotification}
           />
+        ) : activeTab === "uploadBooks" ? (
+          <UploadBooks setNotification={setNotification} />
         ) : activeTab === "subjects" ? (
           <SubjectsManager />
         ) : activeTab === "doctors" ? (

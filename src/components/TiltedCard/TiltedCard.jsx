@@ -161,7 +161,7 @@ const App = () => {
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 p-6">
         {years.map((year, index) => (
-          <Link key={year.id} href={"/year"}>
+          <Link key={year.id} href={`/year?year=${year.id}`}>
             <TiltedCard
               className=""
               imageSrc={year.image}

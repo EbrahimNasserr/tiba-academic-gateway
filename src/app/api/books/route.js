@@ -1,107 +1,102 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
 
+// Initialize Google Drive client with service account
+const auth = new google.auth.GoogleAuth({
+  credentials: {
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY
+      ?.split('\\n')
+      .join('\n')
+      .replace(/"/g, ''),
+  },
+  scopes: ['https://www.googleapis.com/auth/drive'],
+});
+
+const drive = google.drive({
+  version: 'v3',
+  auth,
+});
+
+// Helper function to find folder by name
+async function findFolder(folderName, parentId = null) {
+  const query = parentId
+    ? `name = '${folderName}' and mimeType = 'application/vnd.google-apps.folder' and '${parentId}' in parents and trashed = false`
+    : `name = '${folderName}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`;
+
+  const response = await drive.files.list({
+    q: query,
+    fields: "files(id, name)",
+  });
+
+  return response.data.files[0];
+}
+
+// GET /api/books - Fetch books
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const year = searchParams.get('year');
 
-    // Get the main folder ID from the environment variable
+    // Get the main folder ID from environment variable
     const mainFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
-
-    // Log the folder ID (first few characters for security)
-    console.log('Folder ID (first 10 chars):', mainFolderId?.substring(0, 10));
-
-    // Initialize the Google Drive API client with API key
-    const drive = google.drive({
-      version: 'v3',
-      params: {
-        key: process.env.GOOGLE_API_KEY
-      }
-    });
-
-    // First, verify we can access the main folder
-    try {
-      const mainFolder = await drive.files.get({
-        fileId: mainFolderId,
-        fields: 'id, name, mimeType'
-      });
-      console.log('Main folder found:', mainFolder.data.name);
-    } catch (folderError) {
-      console.error('Error accessing main folder:', {
-        message: folderError.message,
-        code: folderError.code
-      });
-      throw new Error(`Cannot access main folder: ${folderError.message}`);
+    if (!mainFolderId) {
+      throw new Error('GOOGLE_DRIVE_FOLDER_ID is not configured');
     }
 
     let books = [];
 
     if (year) {
-      // If year is specified, first find the year folder
-      const yearFolders = await drive.files.list({
-        q: `'${mainFolderId}' in parents and mimeType = 'application/vnd.google-apps.folder' and name contains 'Year ${year}'`,
-        fields: 'files(id, name)',
+      // Find year folder
+      const yearFolder = await findFolder(`Year ${year}`, mainFolderId);
+      if (!yearFolder) {
+        throw new Error(`Year ${year} folder not found`);
+      }
+
+      // Get PDFs from year folder
+      const response = await drive.files.list({
+        q: `'${yearFolder.id}' in parents and mimeType contains 'pdf'`,
+        fields: 'files(id, name, mimeType, webViewLink, thumbnailLink)',
+        orderBy: 'name',
       });
 
-      console.log('Year folders found:', yearFolders.data.files.length);
+      // Process books with thumbnails
+      books = await Promise.all(response.data.files.map(async (file) => {
+        try {
+          const thumbnail = await drive.files.get({
+            fileId: file.id,
+            fields: 'thumbnailLink',
+          });
 
-      if (yearFolders.data.files.length > 0) {
-        const yearFolderId = yearFolders.data.files[0].id;
-        console.log('Using year folder:', yearFolders.data.files[0].name);
-        
-        // Get PDFs from the year folder
-        const response = await drive.files.list({
-          q: `'${yearFolderId}' in parents and mimeType contains 'pdf'`,
-          fields: 'files(id, name, mimeType, webViewLink, thumbnailLink)',
-          orderBy: 'name',
-        });
-        
-        // Process each book to include thumbnail
-        books = await Promise.all(response.data.files.map(async (file) => {
-          try {
-            // Get thumbnail for the file
-            const thumbnail = await drive.files.get({
-              fileId: file.id,
-              fields: 'thumbnailLink',
-            });
-
-            return {
-              ...file,
-              thumbnailUrl: thumbnail.data.thumbnailLink || null
-            };
-          } catch (error) {
-            console.error(`Error getting thumbnail for ${file.name}:`, error);
-            return {
-              ...file,
-              thumbnailUrl: null
-            };
-          }
-        }));
-
-        console.log('PDFs found in year folder:', books.length);
-      }
+          return {
+            ...file,
+            thumbnailUrl: thumbnail.data.thumbnailLink || null
+          };
+        } catch (error) {
+          console.error(`Error getting thumbnail for ${file.name}:`, error);
+          return {
+            ...file,
+            thumbnailUrl: null
+          };
+        }
+      }));
     } else {
-      // If no year specified, get all PDFs from all year folders
+      // Get all year folders
       const yearFolders = await drive.files.list({
         q: `'${mainFolderId}' in parents and mimeType = 'application/vnd.google-apps.folder'`,
         fields: 'files(id, name)',
       });
 
-      console.log('All year folders found:', yearFolders.data.files.length);
-
+      // Get PDFs from all year folders
       for (const folder of yearFolders.data.files) {
-        console.log('Checking folder:', folder.name);
         const response = await drive.files.list({
           q: `'${folder.id}' in parents and mimeType contains 'pdf'`,
           fields: 'files(id, name, mimeType, webViewLink, thumbnailLink)',
           orderBy: 'name',
         });
-        
-        // Process each book to include thumbnail
+
         const folderBooks = await Promise.all(response.data.files.map(async (file) => {
           try {
-            // Get thumbnail for the file
             const thumbnail = await drive.files.get({
               fileId: file.id,
               fields: 'thumbnailLink',
@@ -121,25 +116,150 @@ export async function GET(request) {
         }));
 
         books = [...books, ...folderBooks];
-        console.log('PDFs found in', folder.name + ':', folderBooks.length);
       }
     }
 
     return NextResponse.json(books);
   } catch (error) {
-    // Enhanced error logging
-    console.error('Error details:', {
+    console.error('Error fetching books:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch books', details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+// POST /api/books - Upload a new book
+export async function POST(request) {
+  try {
+    console.log('Starting file upload process...');
+    
+    const formData = await request.formData();
+    const file = formData.get("file");
+    const year = formData.get("year");
+
+    console.log('Received form data:', { 
+      fileName: file?.name,
+      fileType: file?.type,
+      year: year 
+    });
+
+    if (!file) {
+      console.error('No file provided in request');
+      return NextResponse.json(
+        { message: "No file provided" },
+        { status: 400 }
+      );
+    }
+
+    if (!year) {
+      console.error('No year provided in request');
+      return NextResponse.json(
+        { message: "Year is required" },
+        { status: 400 }
+      );
+    }
+
+    // Get the main folder ID from environment variable
+    const mainFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
+    if (!mainFolderId) {
+      console.error('GOOGLE_DRIVE_FOLDER_ID is not configured');
+      return NextResponse.json(
+        { message: "GOOGLE_DRIVE_FOLDER_ID is not configured" },
+        { status: 500 }
+      );
+    }
+
+    console.log('Finding year folder...');
+    // Find year folder
+    const yearFolder = await findFolder(`Year ${year}`, mainFolderId);
+    if (!yearFolder) {
+      console.error(`Year ${year} folder not found`);
+      return NextResponse.json(
+        { message: `Year ${year} folder not found` },
+        { status: 404 }
+      );
+    }
+
+    console.log('Converting file to buffer...');
+    // Convert file to buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    console.log('Uploading file to Google Drive...');
+    // Create a readable stream from the buffer
+    const { Readable } = require('stream');
+    const stream = Readable.from(buffer);
+
+    // Upload file to Google Drive
+    const uploadResponse = await drive.files.create({
+      requestBody: {
+        name: file.name,
+        mimeType: file.type,
+        parents: [yearFolder.id],
+      },
+      media: {
+        mimeType: file.type,
+        body: stream,
+      },
+      fields: "id, name, webViewLink, mimeType",
+    });
+
+    console.log('File uploaded successfully:', uploadResponse.data.id);
+    return NextResponse.json({
+      message: "Book uploaded successfully",
+      file: uploadResponse.data,
+    });
+  } catch (error) {
+    console.error("Error uploading book:", {
       message: error.message,
-      code: error.code,
-      status: error.status,
+      stack: error.stack,
       response: error.response?.data
     });
     
+    // Check if it's a Google API error
+    if (error.response?.data) {
+      return NextResponse.json(
+        { 
+          message: "Google Drive API error",
+          details: error.response.data
+        },
+        { status: error.response.status || 500 }
+      );
+    }
+
     return NextResponse.json(
       { 
-        error: 'Failed to fetch books',
-        details: error.message
+        message: "Failed to upload book",
+        details: error.message 
       },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/books - Delete a book
+export async function DELETE(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "Book ID is required" },
+        { status: 400 }
+      );
+    }
+
+    await drive.files.delete({
+      fileId: id,
+    });
+
+    return NextResponse.json({ message: "Book deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting book:", error);
+    return NextResponse.json(
+      { message: error.message || "Failed to delete book" },
       { status: 500 }
     );
   }

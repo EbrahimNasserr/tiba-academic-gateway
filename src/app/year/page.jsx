@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   Book,
   Calendar,
@@ -19,12 +20,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBooks } from "../../redux/features/bookSlice";
 
 export default function YearPage() {
-  const [selectedYear, setSelectedYear] = useState("1");
+  const searchParams = useSearchParams();
+  const yearParam = searchParams.get('year');
+  const [selectedYear, setSelectedYear] = useState(yearParam || "1");
   const dispatch = useDispatch();
   const { books, isLoading: isLoadingBooks } = useSelector((state) => state.books);
   const { data: subjects = [], isLoading } = useGetSubjectsQuery({
     year_id: selectedYear,
   });
+
+  // Update selected year when URL parameter changes
+  useEffect(() => {
+    if (yearParam) {
+      setSelectedYear(yearParam);
+    }
+  }, [yearParam]);
 
   useEffect(() => {
     dispatch(fetchBooks(selectedYear));
