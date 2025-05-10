@@ -8,10 +8,10 @@ export default function YearSelector({ value, onChange, className = "" }) {
 
   // Default years as fallback
   const defaultYears = [
-    { id: 1, name: "Year 1" },
-    { id: 2, name: "Year 2" },
-    { id: 3, name: "Year 3" },
-    { id: 4, name: "Year 4" },
+    { id: 5, name: "Year 1" },
+    { id: 6, name: "Year 2" },
+    { id: 7, name: "Year 3" },
+    { id: 8, name: "Year 4" },
   ];
 
   // Show loading state

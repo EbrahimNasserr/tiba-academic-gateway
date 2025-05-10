@@ -174,7 +174,7 @@ const App = () => {
               displayOverlayContent={true}
               overlayContent={
                 <p className="tilted-card-demo-text text-xl ms-3 mt-2 bg-gray-100/50 text-black rounded-md p-2">
-                  {year.id}
+                  {index + 1}
                   {index === 0
                     ? "st"
                     : index === 1
