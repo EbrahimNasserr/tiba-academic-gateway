@@ -37,5 +37,6 @@ export default function BookCard({ book }) {
         </a>
       </div>
     </div>
+    
   );
 }
