@@ -23,6 +23,7 @@ export default function AdminsManager() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingAdmin, setEditingAdmin] = useState(null);
   const [notification, setNotification] = useState(null);
+  const [loggedInAdminEmail, setLoggedInAdminEmail] = useState("");
 
   // Form states
   const [formData, setFormData] = useState({
@@ -45,6 +46,43 @@ export default function AdminsManager() {
   const [createAdmin, { isLoading: isCreating }] = useCreateAdminMutation();
   const [updateAdmin, { isLoading: isUpdating }] = useUpdateAdminMutation();
   const [deleteAdmin, { isLoading: isDeleting }] = useDeleteAdminMutation();
+
+  // Get logged in admin email from localStorage on component mount
+  useEffect(() => {
+    const email = localStorage.getItem("adminEmail");  
+    if (email) {
+      setLoggedInAdminEmail(email.trim()); // Trim any whitespace
+    } else {
+      console.warn("No admin email found in localStorage");
+    }
+  }, []);
+
+  // Function to check if admin can edit another admin
+  const canEditAdmin = (adminEmail) => {
+    if (!loggedInAdminEmail) {
+      console.warn("No logged in admin email found");
+      return false;
+    }
+    console.log("Detailed edit permission check:", {
+      loggedInEmail: loggedInAdminEmail,
+      targetEmail: adminEmail,
+      isExactMatch: loggedInAdminEmail === adminEmail,
+      isAdminExample: loggedInAdminEmail === "admin@example.com",
+      loggedInEmailType: typeof loggedInAdminEmail,
+      targetEmailType: typeof adminEmail,
+      loggedInEmailLength: loggedInAdminEmail?.length,
+      targetEmailLength: adminEmail?.length
+    });
+    return loggedInAdminEmail === "admin@example.com" || loggedInAdminEmail === adminEmail;
+  };
+
+  // Function to check if admin can delete another admin
+  const canDeleteAdmin = (adminEmail) => {
+    if (!loggedInAdminEmail) {
+      return false;
+    }
+    return loggedInAdminEmail === "admin@example.com";
+  };
 
   // Clear notifications after timeout
   useEffect(() => {
@@ -168,7 +206,15 @@ export default function AdminsManager() {
     }
   };
 
-  const handleDeleteAdmin = async (id) => {
+  const handleDeleteAdmin = async (id, email) => {
+    if (!canDeleteAdmin(email)) {
+      setNotification({
+        type: "error",
+        message: "You don't have permission to delete admin accounts",
+      });
+      return;
+    }
+
     if (window.confirm("Are you sure you want to delete this admin?")) {
       try {
         await deleteAdmin(id).unwrap();
@@ -189,6 +235,14 @@ export default function AdminsManager() {
   };
 
   const startEditing = (admin) => {
+    if (!canEditAdmin(admin.email)) {
+      setNotification({
+        type: "error",
+        message: "You don't have permission to edit this admin's account",
+      });
+      return;
+    }
+
     setFormData({
       name: admin.name,
       email: admin.email,
@@ -416,60 +470,65 @@ export default function AdminsManager() {
                     </tr>
                   </thead>
                   <tbody>
-                    {admins.map((admin, index) => (
-                      <tr
-                        key={admin.id}
-                        className="border-b dark:hover:bg-gray-50 "
-                      >
-                        <td className="py-3 px-4">
-                          <div className="flex items-center">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                              <User className="w-4 h-4 text-blue-600" />
+                    {admins.map((admin, index) => {
+                      const canEdit = loggedInAdminEmail && (loggedInAdminEmail === admin.email || loggedInAdminEmail === "admin@example.com");
+                      return (
+                        <tr
+                          key={admin.id}
+                          className="border-b dark:hover:bg-gray-50 "
+                        >
+                          <td className="py-3 px-4">
+                            <div className="flex items-center">
+                              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <User className="w-4 h-4 text-blue-600" />
+                              </div>
+                              {admin.name}
                             </div>
-                            {admin.name}
-                          </div>
-                        </td>
-                        <td className="py-3 px-4">{admin.email}</td>
-                        <td className="py-3 px-4">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs ${
-                              admin.role === "super_admin"
-                                ? "bg-purple-100 text-purple-800"
-                                : "bg-blue-100 text-blue-800"
-                            }`}
-                          >
-                            {admin.role === "super_admin"
-                              ? "Super Admin"
-                              : "Admin"}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">
-                          <div className="flex justify-end gap-2">
-                            <button
-                              onClick={() => startEditing(admin)}
-                              className="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-                              title="Edit"
+                          </td>
+                          <td className="py-3 px-4">{admin.email}</td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs ${
+                                admin.role === "super_admin"
+                                  ? "bg-purple-100 text-purple-800"
+                                  : "bg-blue-100 text-blue-800"
+                              }`}
                             >
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-                            {index !== 0 && (
-                              <button
-                                onClick={() => handleDeleteAdmin(admin.id)}
-                                className="p-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900 text-red-600 transition-colors"
-                                title="Delete"
-                                disabled={isDeleting}
-                              >
-                                {isDeleting ? (
-                                  <Loader2 className="w-4 h-4 animate-spin" />
-                                ) : (
-                                  <Trash2 className="w-4 h-4" />
-                                )}
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                              {admin.role === "super_admin"
+                                ? "Super Admin"
+                                : "Admin"}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex justify-end gap-2">
+                              {canEdit && (
+                                <button
+                                  onClick={() => startEditing(admin)}
+                                  className="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                                  title="Edit"
+                                >
+                                  <Edit2 className="w-4 h-4" />
+                                </button>
+                              )}
+                              {canDeleteAdmin(admin.email) && index !== 0 && (
+                                <button
+                                  onClick={() => handleDeleteAdmin(admin.id, admin.email)}
+                                  className="p-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900 text-red-600 transition-colors"
+                                  title="Delete"
+                                  disabled={isDeleting}
+                                >
+                                  {isDeleting ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                  ) : (
+                                    <Trash2 className="w-4 h-4" />
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

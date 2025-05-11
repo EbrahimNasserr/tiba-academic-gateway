@@ -29,14 +29,10 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   const handleLogout = async () => {
     try {
       await logout().unwrap();
-    } catch (err) {
-      console.error("Logout API failed:", err);
-    } finally {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      dispatch(clearToken());
-      router.push("/login");
+    } catch {
+      // Error is already handled at the RTK Query level
     }
+    router.push("/login");
   };
 
   // Get user name safely
@@ -157,7 +153,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <Shield className="w-5 h-5" />
               Admins
             </button>
-            <button
+            {/* <button
               onClick={() => {
                 setActiveTab("profile");
                 setIsSidebarOpen(false);
@@ -170,7 +166,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
             >
               <User className="w-5 h-5" />
               Edit Profile
-            </button>
+            </button> */}
             <button
               onClick={handleLogout}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 text-red-600"

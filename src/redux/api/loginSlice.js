@@ -34,6 +34,8 @@ export const loginSlice = createApi({
           localStorage.setItem('token', token);
           // Store user data as JSON string
           localStorage.setItem('user', JSON.stringify(data.user));
+          // Store admin email separately
+          localStorage.setItem('adminEmail', data.user.email);
         } catch (error) {
           console.error('Login failed:', error);
         }
@@ -48,11 +50,21 @@ export const loginSlice = createApi({
           Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('token') : ''}`,
         },
       }),
-      async onQueryStarted(_, { dispatch }) {
-        dispatch(clearToken());
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+      // Add error handling at the RTK Query level
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          // Silently handle the error at this level
+          console.log('Logout completed with cleanup');
+        } finally {
+          // Always perform cleanup
+          dispatch(clearToken());
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('adminEmail');
+          }
         }
       },
     }),
