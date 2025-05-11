@@ -7,7 +7,7 @@ import DeleteBookModal from "./DeleteBookModal";
 export default function UploadBooks({ setNotification }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [selectedYear, setSelectedYear] = useState("5");
+  const [selectedYear, setSelectedYear] = useState("1");
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

@@ -1,10 +1,22 @@
 "use client";
 import { useState } from "react";
-import { Book, Search } from "lucide-react";
+import Image from "next/image";
+import { Book, Clock, Search } from "lucide-react";
+import Select from "react-select";
 import Link from "next/link";
 import { useGetSubjectsQuery } from "../../../redux/api/apiSlice";
 import YearSelector from "@/components/YearSelector/YearSelector";
+const sortOptions = [
+  { value: "recent", label: "Most Recent" },
+  { value: "az", label: "A-Z" },
+];
 
+const yearOptions = [
+  { value: "1", label: "1st Year" },
+  { value: "2", label: "2nd Year" },
+  { value: "3", label: "3rd Year" },
+  { value: "4", label: "4th Year" },
+];
 
 const customStyles = {
   control: (provided, state) => ({
@@ -36,7 +48,7 @@ const ncustomStyles = {
 };
 
 const SubjectContent = () => {
-  const [selectedYear, setSelectedYear] = useState("5");
+  const [selectedYear, setSelectedYear] = useState("1");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("recent");
 
