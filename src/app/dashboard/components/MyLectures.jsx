@@ -92,7 +92,7 @@ export default function MyLectures({
               <p className="text-sm mb-4">{lecture.description}</p>
               <div className="flex items-center gap-4 text-sm mb-4">
                 <span>{getYearNameById(lecture.year_id || lecture.year)}</span>
-                <span>{lecture.subject}</span>
+                <span>{typeof lecture.subject === 'object' ? lecture.subject.name : lecture.subject}</span>
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 {lecture.video && (
