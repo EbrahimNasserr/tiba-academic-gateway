@@ -88,8 +88,7 @@ const LecturesPage = () => {
                   <div className="flex gap-2">
                     {lecture.video && (
                       <Link
-                        href={lecture.video}
-                        target="_blank"
+                        href={`/lectures/${lecture.id}`}
                         rel="noopener noreferrer"
                         className="flex-1 bg-secondary text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-secondary/80 transition-colors"
                       >
@@ -99,10 +98,11 @@ const LecturesPage = () => {
                     )}
                     {lecture.pdf && (
                       <Link
-                        href={lecture.pdf}
+                        href={`${process.env.NEXT_PUBLIC_API_APP_URL_IMAGE}${lecture.pdf}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                        download
                       >
                         <Download className="w-4 h-4" />
                       </Link>
