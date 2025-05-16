@@ -69,7 +69,8 @@ export default function Page() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full border hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="w-full border hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                transition-all duration-300 ease-in-out hover:transform hover:-translate-y-1 hover:shadow-lg"
               >
                 {isLoading ? 'Signing in...' : 'Sign in'}
               </button>
