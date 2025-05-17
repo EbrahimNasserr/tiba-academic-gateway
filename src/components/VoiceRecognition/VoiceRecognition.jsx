@@ -443,7 +443,7 @@ const VoiceRecognition = () => {
   };
 
   return (
-    <div className="fixed bottom-24 right-5 z-40 flex flex-col items-end">
+    <div className="fixed bottom-36 md:bottom-24 right-5 z-40 flex flex-col items-end">
       <button
         onClick={isListening ? stopListening : startListening}
         className={`p-3 ${
