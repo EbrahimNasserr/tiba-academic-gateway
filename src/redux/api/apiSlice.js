@@ -72,6 +72,14 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Lectures']
         }),
+        updateLecture: builder.mutation({
+            query: ({ id, ...lectureData }) => ({
+                url: `/lectures/${id}`,
+                method: 'PUT',
+                body: lectureData
+            }),
+            invalidatesTags: ['Lectures']
+        }),
         deleteLecture: builder.mutation({
             query: (id) => ({
                 url: `/lectures/${id}`,
@@ -163,6 +171,7 @@ export const {
     useGetLecturesQuery,
     useGetLectureByIdQuery,
     useCreateLectureMutation,
+    useUpdateLectureMutation,
     useDeleteLectureMutation,
 
     // Doctors hooks
