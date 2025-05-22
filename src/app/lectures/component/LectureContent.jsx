@@ -7,6 +7,7 @@ import {
   User,
   BookOpen,
   Download,
+  MonitorPlay,
   ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
@@ -84,7 +85,8 @@ export default function LectureContent() {
   const videoUrl = lecture.video ? `${API_BASE_URL}${lecture.video}` : null;
   const pdfUrl = lecture.pdf ? `${API_BASE_URL}${lecture.pdf}` : null;
   const imageUrl = lecture.image ? `${API_BASE_URL}${lecture.image}` : null;
-
+ console.log(lecture);
+ 
   // Summarize function (assuming API endpoint for extracting text from PDF)
   const handleSummarize = async () => {
     if (!pdfUrl) return alert("No lecture notes available to summarize.");
@@ -255,6 +257,17 @@ export default function LectureContent() {
                   <Download className="h-5 w-5 mr-2" />
                   Download Lecture Notes
                 </a>
+                {lecture.external_link && (
+                  <a
+                    href={lecture.external_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors mb-2"
+                  >
+                    <MonitorPlay className="h-5 w-5 mr-2" />
+                    Open related video
+                  </a>
+                )}
                 <button
                   onClick={handleSummarize}
                   disabled={summarizing || !pdfUrl}
