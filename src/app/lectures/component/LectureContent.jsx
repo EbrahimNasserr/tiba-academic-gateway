@@ -149,7 +149,7 @@ export default function LectureContent() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
-            href="/lectures"
+            href={`/subjects/${lecture.subject_id}`}
             className="inline-flex items-center hover:text-secondary mb-6"
           >
             <ChevronLeft className="h-5 w-5 mr-2" />
