@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 export default function Abouthero() {
   return (
@@ -23,19 +24,22 @@ export default function Abouthero() {
                 <div className="w-full lg:w-8/12 lg:pt-8">
                     <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 shadow-lg rounded-md">
                         <div className="p-4 pb-6 flex justify-center flex-col items-center">
-                            <img className="md:block hidden" src="https://i.ibb.co/FYTKDG6/Rectangle-118-2.png" alt="Alexa featured Img" />
-                            <img className="md:hidden block" src="https://i.ibb.co/zHjXqg4/Rectangle-118.png" alt="Alexa featured Img" />
-                            <p className="font-medium text-xl leading-5  mt-4">Alexa</p>
+                            <Image 
+                                src="/joe.JPG"
+                                width={450}
+                                height={450}
+                                alt="Yousef"
+                                className="w-38 h-38 rounded-sm"
+                            />
+                            <p className="font-medium text-xl leading-5  mt-4">Yousef</p>
                         </div>
                         <div className="p-4 pb-6 flex justify-center flex-col items-center">
-                            <img className="md:block hidden" src="https://i.ibb.co/fGmxhVy/Rectangle-119.png" alt="Olivia featured Img" />
-                            <img className="md:hidden block" src="https://i.ibb.co/NrWKJ1M/Rectangle-119.png" alt="Olivia featured Img" />
-                            <p className="font-medium text-xl leading-5  mt-4">Olivia</p>
+                            <Image className="w-38 h-38 rounded-sm" src="/3.jpg" width={450} height={450} alt="Basel" />
+                            <p className="font-medium text-xl leading-5  mt-4">Basel</p>
                         </div>
                         <div className="p-4 pb-6 flex justify-center flex-col items-center">
-                            <img className="md:block hidden" src="https://i.ibb.co/Pc6XVVC/Rectangle-120.png" alt="Liam featued Img" />
-                            <img className="md:hidden block" src="https://i.ibb.co/C5MMBcs/Rectangle-120.png" alt="Liam featued Img" />
-                            <p className="font-medium text-xl leading-5  mt-4">Liam</p>
+                            <Image className="w-38 h-38 rounded-sm" src="/4.jpg" width={450} height={450} alt="tony" />
+                            <p className="font-medium text-xl leading-5  mt-4">Antonious</p>
                         </div>
                         <div className="p-4 pb-6 flex justify-center flex-col items-center">
                             <img className="md:block hidden" src="https://i.ibb.co/7nSJPXQ/Rectangle-121.png" alt="Elijah featured img" />
