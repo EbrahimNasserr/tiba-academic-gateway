@@ -23,31 +23,25 @@ export default function LectureContent() {
   const router = useRouter();
   const { user } = useAuth();
 
-  useEffect(() => {
-    if (!user) {
-      router.push(`/auth/login?from=/lectures/${params.id}`);
-    }
-  }, [user, router, params.id]);
-
-  if (!user) {
-    return null; // Don't render anything while redirecting
-  }
-
-  // Get current lecture
+  // Get current lecture - always call the hook but skip when user is not available
   const {
     data: lecture,
     isLoading: isLectureLoading,
     isError: isLectureError,
     error: lectureError,
-  } = useGetLectureByIdQuery(params.id);
+  } = useGetLectureByIdQuery(params.id, {
+    skip: !user // Skip the query when user is not available
+  });
 
-  // Get all lectures for related lectures
+  // Get all lectures for related lectures - always call the hook but skip when user is not available
   const {
     data: AllLectures = [],
     isLoading: isAllLecturesLoading,
     isError: isAllLecturesError,
     error: allLecturesError,
-  } = useGetLecturesQuery({});
+  } = useGetLecturesQuery({}, {
+    skip: !user // Skip the query when user is not available
+  });
 
   const [comments, setComments] = useState([
     {
@@ -62,6 +56,17 @@ export default function LectureContent() {
   const [summaryText, setSummaryText] = useState("");
   const [summarizing, setSummarizing] = useState(false);
   const [extractedText, setExtractedText] = useState("");
+
+  useEffect(() => {
+    if (!user) {
+      router.push(`/auth/login?from=/lectures/${params.id}`);
+    }
+  }, [user, router, params.id]);
+
+  // Early return after all hooks have been called
+  if (!user) {
+    return null; // Don't render anything while redirecting
+  }
 
   if (isLectureLoading || isAllLecturesLoading) {
     return (

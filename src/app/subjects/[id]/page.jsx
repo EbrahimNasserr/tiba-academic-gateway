@@ -14,16 +14,7 @@ const LecturesPage = () => {
   const searchParams = useSearchParams();
   const year = searchParams.get('year') || "1";
 
-  useEffect(() => {
-    if (!user) {
-      router.push(`/auth/login?from=/subjects/${id}`);
-    }
-  }, [user, router, id]);
-
-  if (!user) {
-    return null; // Don't render anything while redirecting
-  }
-
+  // Always call the query hook, but conditionally pass skip
   const {
     data: lectures,
     isLoading,
@@ -31,7 +22,20 @@ const LecturesPage = () => {
   } = useGetLecturesQuery({
     subject_id: id,
     year_id: year,
+  }, {
+    skip: !user // Skip the query when user is not available
   });
+
+  useEffect(() => {
+    if (!user) {
+      router.push(`/auth/login?from=/subjects/${id}`);
+    }
+  }, [user, router, id]);
+
+  // Early return after all hooks have been called
+  if (!user) {
+    return null; // Don't render anything while redirecting
+  }
 
   return (
     <section className="py-12">
