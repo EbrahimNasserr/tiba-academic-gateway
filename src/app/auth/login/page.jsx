@@ -77,7 +77,7 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-3 text-black bg-white py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your email"
-              />
+              /> 
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium ">
