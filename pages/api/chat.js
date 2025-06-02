@@ -9,19 +9,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { message } = req.body;
+  const { message, history = [] } = req.body;
 
   if (!message) {
     return res.status(400).json({ error: 'No message provided' });
   }
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: `
+    // Build messages array with system prompt, conversation history, and current message
+    const messages = [
+      {
+        role: 'system',
+        content: `
 You are Tiba Helper, the virtual assistant for the Tiba Academic Gateway (https://tiba-academic-gateway.vercel.app/).
 
 Tiba Academic Gateway is a comprehensive social learning platform for university and college learners. The platform provides:
@@ -62,9 +61,14 @@ Navigation:
 If you don’t know the answer, politely offer to direct the user to the appropriate section or contact page.
 
 Remember: Your goal is to make studying and navigating Tiba Academic Gateway easy, friendly, and accessible for all learners.`
-        },
-        { role: 'user', content: message },
-      ],
+      },
+      ...history, // Include conversation history
+      { role: 'user', content: message },
+    ];
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: messages,
     });
 
     res.status(200).json({ message: response.choices[0].message.content });

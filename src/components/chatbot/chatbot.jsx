@@ -7,21 +7,33 @@ export default function Chatbot() {
   const [input, setInput] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);  // New loading state
-
   const sendMessage = async () => {
     if (!input.trim()) return;
 
     const newMessages = [...messages, { user: input }];
     setMessages(newMessages);
     setInput('');
-    setLoading(true);  // Start loading (typing)
+    setLoading(true);  // Start loading (typing)    // Build conversation history for API (limit to last 10 messages to prevent context overflow)
+    const history = messages
+      .filter(msg => msg.user || msg.bot) // Filter out any undefined messages
+      .slice(-10) // Keep only the last 10 messages
+      .map(msg => {
+        if (msg.user) {
+          return { role: 'user', content: msg.user };
+        } else {
+          return { role: 'assistant', content: msg.bot };
+        }
+      });
 
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: input }),
+      body: JSON.stringify({ 
+        message: input,
+        history: history 
+      }),
     });
 
     const data = await res.json();
