@@ -29,7 +29,7 @@ export default function Page() {
     <section className="mt-14">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
         <Link href="/" className="flex items-center mb-6 text-2xl font-semibold">
-          Tiba Academic Gateway
+          Tiba Academic Gateway Admin
         </Link>
         <div className="w-full border rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

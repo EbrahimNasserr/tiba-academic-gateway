@@ -1,7 +1,9 @@
 "use client";
 import courses from "./matrial";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   BookOpen,
   Clock,
@@ -11,21 +13,33 @@ import {
 } from "lucide-react";
 
 export default function CoursesPage() {
+  const router = useRouter();
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("recent");
 
+  useEffect(() => {
+    if (!user) {
+      router.push('/auth/login?from=/courses');
+    }
+  }, [user, router]);
+
+  if (!user) {
+    return null; // Don't render anything while redirecting
+  }
+
   const filteredCourses = courses
-  .filter(
-    (course) =>
-      (course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.instructor.toLowerCase().includes(searchQuery.toLowerCase()))
-  )
-  .sort((a, b) => {
-    if (sortBy === "recent")
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    if (sortBy === "popular") return b.enrolled - a.enrolled;
-    return a.title.localeCompare(b.title);
-  });
+    .filter(
+      (course) =>
+        (course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          course.instructor.toLowerCase().includes(searchQuery.toLowerCase()))
+    )
+    .sort((a, b) => {
+      if (sortBy === "recent")
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      if (sortBy === "popular") return b.enrolled - a.enrolled;
+      return a.title.localeCompare(b.title);
+    });
 
   return (
     <main className="min-h-screen">

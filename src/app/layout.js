@@ -10,6 +10,7 @@ import Chatbot from "@/components/chatbot/chatbot";
 import AudioDescription from "@/components/AudioDescription/AudioDescription";
 import VoiceRecognition from "@/components/VoiceRecognition/VoiceRecognition";
 import Script from "next/script";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -106,18 +107,20 @@ export default function RootLayout({ children }) {
       <body style={{ fontFamily: poppins.style.fontFamily }}>
         <ReduxProvider>
           <NextThemeProvider>
-            <Navbar />
-            <Chatbot />
-            {/* <AudioDescription /> */}
-            <VoiceRecognition />
-            <main>{children}</main>
-            <Footer />
-            <BottomNav
-              items={NavItems}
-              panelHeight={68}
-              baseItemSize={50}
-              magnification={70}
-            />
+            <AuthProvider>
+              <Navbar />
+              <Chatbot />
+              {/* <AudioDescription /> */}
+              <VoiceRecognition />
+              <main>{children}</main>
+              <Footer />
+              <BottomNav
+                items={NavItems}
+                panelHeight={68}
+                baseItemSize={50}
+                magnification={70}
+              />
+            </AuthProvider>
           </NextThemeProvider>
         </ReduxProvider>
       </body>

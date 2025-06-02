@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 import logo from "../../../public/logo.png";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const links = [
     { name: "Home", href: "/" },
@@ -79,6 +81,24 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-base">Hi, {user.email?.split('@')[0] || 'User'}</span>
+                <button
+                  onClick={logout}
+                  className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/auth/login"
+                className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
 
@@ -95,6 +115,25 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
+            {user ? (
+              <div className="px-4 py-2">
+                <p className="text-base mb-2">Hi, {user.email?.split('@')[0] || 'User'}</p>
+                <button
+                  onClick={logout}
+                  className="block w-full text-sm px-3 py-1.5 text-white bg-indigo-600 rounded hover:bg-indigo-700 transition"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/auth/login"
+                className="block w-full text-sm px-3 py-1.5 text-white bg-indigo-600 rounded hover:bg-indigo-700 transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         )}
       </div>

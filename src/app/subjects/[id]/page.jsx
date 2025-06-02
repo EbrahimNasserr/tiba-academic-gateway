@@ -1,15 +1,29 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useGetLecturesQuery } from "../../../redux/api/apiSlice";
+import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 import { Clock, Download, Play, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const LecturesPage = () => {
   const { id } = useParams();
+  const router = useRouter();
+  const { user } = useAuth();
   const searchParams = useSearchParams();
   const year = searchParams.get('year') || "1";
+
+  useEffect(() => {
+    if (!user) {
+      router.push(`/auth/login?from=/subjects/${id}`);
+    }
+  }, [user, router, id]);
+
+  if (!user) {
+    return null; // Don't render anything while redirecting
+  }
+
   const {
     data: lectures,
     isLoading,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Calendar,
   Clock,
@@ -11,7 +11,8 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   useGetLectureByIdQuery,
   useGetLecturesQuery,
@@ -19,6 +20,18 @@ import {
 
 export default function LectureContent() {
   const params = useParams();
+  const router = useRouter();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      router.push(`/auth/login?from=/lectures/${params.id}`);
+    }
+  }, [user, router, params.id]);
+
+  if (!user) {
+    return null; // Don't render anything while redirecting
+  }
 
   // Get current lecture
   const {
