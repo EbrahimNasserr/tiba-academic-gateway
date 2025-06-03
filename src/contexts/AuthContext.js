@@ -66,7 +66,7 @@ export function AuthProvider({ children }) {
             originalFetchRef.current = window.fetch;
           }
 
-          window.fetch = async function(url, options = {}) {
+          window.fetch = (url, options = {}) => {
             // Convert URL to string if it's a URL object
             const urlString = typeof url === 'string' ? url : url.toString();
             
