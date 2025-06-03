@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from "../../../public/logo.png";
 import Aurora from "@/components/Footer/Aurora/Aurora";
+import Link from "next/link";
 const Footer = () => {
   return (
     <section className="pt-10 sm:pt-16 lg:pt-24">
@@ -20,8 +21,8 @@ const Footer = () => {
               </h1>
             </div>
             <p className="text-base leading-relaxed text-gray-500 mt-7">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
+              Bridging students and educators through accessible, high-quality
+              academic resources for every stage of your college journey.
             </p>
             <ul className="flex items-center space-x-3 mt-9">
               <li>
@@ -98,36 +99,28 @@ const Footer = () => {
             </p>
             <ul className="mt-6 space-y-4">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/about"
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/courses"
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
-                  Features
-                </a>
+                  Courses
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/subjects"
                   className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
                 >
-                  Works
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
-                >
-                  Career
-                </a>
+                  Subjects
+                </Link>
               </li>
             </ul>
           </div>
@@ -160,20 +153,13 @@ const Footer = () => {
                   Terms &amp; Conditions
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex text-base text-gray-500 transition-all duration-200 hover:text-secondary focus:text-secondary"
-                >
-                  Privacy Policy
-                </a>
-              </li>
             </ul>
           </div>
         </div>
         <hr className="mt-16 mb-10 border-gray-200" />
         <p className="text-sm text-center text-gray-400">
-          © Copyright 2021, All Rights Reserved by Postcraft
+          © Copyright {new Date().getFullYear()}, All Rights Reserved by{" "}
+          <span className="font-bold">Tiba Academic Gateway</span>
         </p>
       </div>
       <Aurora

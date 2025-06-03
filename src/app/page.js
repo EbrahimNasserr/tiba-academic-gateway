@@ -56,14 +56,14 @@ export default function Home() {
         velocity={50}
         className="custom-scroll-text"
       />
-      <div className="h-[600px] relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
-        <InfiniteMenu items={items} />
-      </div>
       <Aboutsec />
       <Courses />
       <Books />
       <div className=" custom-container py-12  sm:py-16 lg:py-20">
         <TiltedCard />
+      </div>
+      <div className="h-[600px] relative max-w-[90%] mx-auto py-12  sm:py-16 lg:py-20">
+        <InfiniteMenu items={items} />
       </div>
       <Testimonial />
     </main>
