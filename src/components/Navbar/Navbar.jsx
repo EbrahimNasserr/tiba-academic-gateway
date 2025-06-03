@@ -5,12 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import logo from "../../../public/logo.png";
-
+import { usePathname } from "next/navigation";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const { user, logout } = useAuth();
   const dropdownRef = useRef(null);
+  const pathname = usePathname();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -49,7 +51,6 @@ export default function Navbar() {
               />
             </Link>
           </div>
-
           {/* Mobile toggle button */}
           <button
             type="button"
@@ -84,7 +85,8 @@ export default function Navbar() {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-          </button>          {/* Desktop Links */}
+          </button>{" "}
+          {/* Desktop Links */}
           <div className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-10">
             {links.map((link) => (
               <Link
@@ -94,57 +96,63 @@ export default function Navbar() {
               >
                 {link.name}
               </Link>
-            ))}            {/* User Dropdown */}
+            ))}{" "}
+            {/* User Dropdown */}
             <div className="relative" ref={dropdownRef}>
-              {user ? (
-                <div>
-                  <button
-                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    className="flex items-center p-2 text-sm bg-gray-800 rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
-                    aria-expanded={userDropdownOpen}
-                  >
-                    <svg
-                      className="w-6 h-6 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+              {pathname !== "/dashboard" && pathname !== "/login" &&
+                (user ? (
+                  <div>
+                    <button
+                      onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                      className="flex items-center p-2 text-sm bg-gray-800 rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                      aria-expanded={userDropdownOpen}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                  
-                  {userDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border">
-                      <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                        <p className="font-medium">Hi, {user.email?.split('@')[0] || 'User'}</p>
-                        <p className="text-xs text-gray-500">{user.email}</p>
-                      </div>
-                      <button
-                        onClick={() => {
-                          logout();
-                          setUserDropdownOpen(false);
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        Sign Out
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (                <Link
-                  href="/auth/login"
-                  className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
-                >
-                  Sign In
-                </Link>
-              )}
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+
+                    {userDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border">
+                        <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                          <p className="font-medium">
+                            Hi, {user.email?.split("@")[0] || "User"}
+                          </p>
+                          <p className="text-xs text-gray-500">{user.email}</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            logout();
+                            setUserDropdownOpen(false);
+                          }}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    href="/auth/login"
+                    className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                ))}
             </div>
           </div>
-        </div>        {/* Mobile Menu Links */}
+        </div>{" "}
+        {/* Mobile Menu Links */}
         {menuOpen && (
           <div className="mt-4 space-y-2 lg:hidden absolute right-0 bg-[#060606] w-full z-40 text-center dark:bg-white">
             {links.map((link) => (
@@ -157,7 +165,7 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            
+
             {/* Mobile User Section */}
             {user ? (
               <div className="px-4 py-2 border-t border-gray-600">
@@ -175,7 +183,9 @@ export default function Navbar() {
                     />
                   </svg>
                   <div className="text-left">
-                    <p className="text-base font-medium">Hi, {user.email?.split('@')[0] || 'User'}</p>
+                    <p className="text-base font-medium">
+                      Hi, {user.email?.split("@")[0] || "User"}
+                    </p>
                     <p className="text-xs text-gray-400">{user.email}</p>
                   </div>
                 </div>
@@ -189,7 +199,8 @@ export default function Navbar() {
                   Sign Out
                 </button>
               </div>
-            ) : (              <div className="px-4 py-2 border-t border-gray-600">
+            ) : (
+              <div className="px-4 py-2 border-t border-gray-600">
                 <Link
                   href="/auth/login"
                   className="flex items-center justify-center text-sm px-3 py-1.5 text-white bg-indigo-600 rounded hover:bg-indigo-700 transition"
