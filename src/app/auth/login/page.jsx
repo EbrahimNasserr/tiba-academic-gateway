@@ -22,13 +22,20 @@ export default function Login() {
       setError('');
       setLoading(true);
       await login(email, password);
-      // Redirect to the original requested page or home
+      
+      // Get the redirect URL
       const from = searchParams.get('from') || '/';
-      router.push(from);
+      
+      // Wait a bit for Firebase auth state to update, then redirect
+      setTimeout(() => {
+        router.push(from);
+      }, 200);
+      
     } catch (error) {
       setError('Failed to sign in: ' + error.message);
+      setLoading(false);
     }
-    setLoading(false);
+    // Remove this line - don't set loading false on success since we're redirecting
   };
 
   return (
@@ -129,4 +136,4 @@ export default function Login() {
       </div>
     </div>
   );
-} 
+}

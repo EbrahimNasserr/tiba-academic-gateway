@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -19,6 +19,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const originalFetchRef = useRef(null);
 
   // Initialize auth state from localStorage
   useEffect(() => {
@@ -35,14 +36,14 @@ export function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
         try {
           // Get the ID token
-          const token = await user.getIdToken(true);
+          const studentToken = await firebaseUser.getIdToken(true);
           
           // Store the token in a cookie
-          Cookies.set('token', token, { 
+          Cookies.set('studentToken', studentToken, { 
             expires: 7,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict'
@@ -50,18 +51,55 @@ export function AuthProvider({ children }) {
           
           // Store the user object in localStorage
           const userData = {
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            token: token
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            displayName: firebaseUser.displayName,
+            photoURL: firebaseUser.photoURL,
+            studentToken: studentToken
           };
           
           localStorage.setItem('firebaseUser', JSON.stringify(userData));
           setUser(userData);
+
+          // Set up fetch interceptor for student API calls only
+          if (!originalFetchRef.current) {
+            originalFetchRef.current = window.fetch;
+          }
+
+          window.fetch = async function(url, options = {}) {
+            // Convert URL to string if it's a URL object
+            const urlString = typeof url === 'string' ? url : url.toString();
+            
+            // Only add Firebase token to student-specific endpoints
+            const isStudentEndpoint = urlString.includes('/student/') || 
+                                    urlString.includes('/courses/') ||
+                                    urlString.includes('/lectures/') ||
+                                    urlString.includes('/subjects/') ||
+                                    (urlString.includes('/api/') && !urlString.includes('/auth/login'));
+            
+            console.log('Request URL:', urlString, 'Is Student Endpoint:', isStudentEndpoint);
+            
+            if (isStudentEndpoint && studentToken) {
+              options.headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${studentToken}`
+              };
+            }
+
+            return originalFetchRef.current(url, options);
+          };
+
         } catch (error) {
           console.error("Error getting token:", error);
         }
+      } else {
+        // Restore original fetch when no user
+        if (originalFetchRef.current) {
+          window.fetch = originalFetchRef.current;
+        }
+        setUser(null);
+        localStorage.removeItem('firebaseUser');
+        Cookies.remove('studentToken');
       }
       setLoading(false);
     });
@@ -69,34 +107,24 @@ export function AuthProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  // Add an interceptor to add the token to all requests
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem('firebaseUser');
-      if (storedUser) {
-        try {
-          const userData = JSON.parse(storedUser);
-          const token = userData.token;
-          
-          // Add the token to all fetch requests
-          const originalFetch = window.fetch;
-          window.fetch = function (...args) {
-            const [resource, config] = args;
-            const newConfig = {
-              ...config,
-              headers: {
-                ...config?.headers,
-                Authorization: `Bearer ${token}`,
-              },
-            };
-            return originalFetch(resource, newConfig);
-          };
-        } catch (error) {
-          console.error("Error setting up fetch interceptor:", error);
-        }
+  const logout = async () => {
+    try {
+      // Restore original fetch before signing out
+      if (originalFetchRef.current) {
+        window.fetch = originalFetchRef.current;
       }
+      
+      // Clear all auth data
+      setUser(null);
+      Cookies.remove('studentToken');
+      localStorage.removeItem('firebaseUser');
+      
+      // Sign out from Firebase
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out:", error);
     }
-  }, [user]);
+  };
 
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -104,18 +132,6 @@ export function AuthProvider({ children }) {
 
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const logout = async () => {
-    try {
-      await signOut(auth);
-      // Clear all auth data
-      Cookies.remove('token');
-      localStorage.removeItem('firebaseUser');
-      setUser(null);
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
   };
 
   const value = {
@@ -130,4 +146,4 @@ export function AuthProvider({ children }) {
       {!loading && children}
     </AuthContext.Provider>
   );
-} 
+}
