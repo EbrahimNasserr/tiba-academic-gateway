@@ -66,7 +66,7 @@ export function AuthProvider({ children }) {
             originalFetchRef.current = window.fetch;
           }
 
-          window.fetch = (url, options = {}) => {
+          window.fetch = function(url, options = {}) {
             // Convert URL to string if it's a URL object
             const urlString = typeof url === 'string' ? url : url.toString();
             
@@ -86,7 +86,8 @@ export function AuthProvider({ children }) {
               };
             }
 
-            return originalFetchRef.current(url, options);
+            // Use .call() to maintain proper context
+            return originalFetchRef.current.call(this, url, options);
           };
 
         } catch (error) {
