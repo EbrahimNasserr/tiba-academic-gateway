@@ -95,6 +95,7 @@ const LecturesPage = () => {
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-semibold mb-2">{lecture.name}</h3>
+                    <h3 className="text-sm text-gray-500 mb-2">{lecture.doctor.name}</h3>
                     <div className="flex items-center gap-2 mb-2">
                       <Clock className="w-4 h-4" />
                       <span>{lecture.video_duration}</span>

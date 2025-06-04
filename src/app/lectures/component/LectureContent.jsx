@@ -185,7 +185,7 @@ export default function LectureContent() {
             </div>
             <div className="flex items-center">
               <User className="h-5 w-5 mr-2" />
-              {"Dr. " + lecture.doctor_id}{" "}
+              {"Dr. " + lecture.doctor.name}{" "}
               {/* Ideally, we would have the doctor's name */}
             </div>
           </div>
